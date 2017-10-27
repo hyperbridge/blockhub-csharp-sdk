@@ -35,6 +35,13 @@ public class SaveDataManager : MonoBehaviour
       //  saver.Save(slot.ToString() + "fow", FogOfWarValues());
 
     }
+
+    public void SaveExtensionJSON(ExtensionInfo data)
+    {
+        saver = SaveData.SaveAtPath("Extensions");
+        saver.Save<ExtensionInfo>(data.name, data);
+
+    }
     IEnumerator SavePlacement(int slot)
     {
 

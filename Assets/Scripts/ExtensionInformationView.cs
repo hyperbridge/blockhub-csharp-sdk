@@ -6,7 +6,10 @@ public class ExtensionInformationView : MonoBehaviour {
 
     public Text extensionName, extensionInfo, lastUpdated, installs, tags, version, rating;
     public Image extensionImage;
-
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
     public void SetupView(ExtensionInfo data)
     {
         extensionName.text = data.name;
@@ -17,8 +20,8 @@ public class ExtensionInformationView : MonoBehaviour {
         version.text = "Version: "+ data.version.ToString();
         rating.text = "Rating: "+ data.rating.ToString();
 
+        gameObject.SetActive(true);
 
-        extensionImage.sprite = data.iconSprite;
 
     }
 	
