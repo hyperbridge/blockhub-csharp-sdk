@@ -15,7 +15,7 @@ namespace Devdog.SciFiDesign.UI
 
         public KeyCode[] nextKeyCodes = new KeyCode[0];
         public KeyCode[] prevKeyCodes = new KeyCode[0];
-
+        public Button[] buttons;
 
         private int _index;
         private UIWindow _window;
@@ -106,15 +106,25 @@ namespace Devdog.SciFiDesign.UI
             {
                 index++;
                 pages[index].Show();
+                buttons[index].Select();
             }
         }
+        public void ShowPage(int pageIndex)
+        {
+            index = pageIndex;
+            pages[index].Show();
+            buttons[index].Select();
 
+
+        }
         public void PrevPage()
         {
             if (index - 1 >= 0 || loop)
             {
                 index--;
                 pages[index].Show();
+                buttons[index].Select();
+
             }
         }
     }
