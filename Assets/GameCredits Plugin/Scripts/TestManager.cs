@@ -32,7 +32,7 @@ public class TestManager : MonoBehaviour
 		CreateTestInvoice();
 
 		// replace with an invoice id you wish to fetch details for
-		string testInvoiceId = "1";
+		//string testInvoiceId = "1";
 
 		// fetch details for an invoice
 		// GetInvoice("1");
