@@ -27,10 +27,10 @@ public class LoadData  {
             if (fileToLoad == null)
             {
                 Debug.Log(_path + data);
-                string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
+                //string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
 
                 return default(T);
-                throw new FileNotFoundException(message);
+                //throw new FileNotFoundException(message);
             }
             else
             {

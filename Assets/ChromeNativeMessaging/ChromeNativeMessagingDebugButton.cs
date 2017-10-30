@@ -83,11 +83,6 @@ public class ChromeNativeMessagingDebugButton : MonoBehaviour {
 	{
 		string msg = "{\"Command\": \"text\", \"Value\": \"" + GameObject.Find ("ChromeNativeMessagingDebugInput").GetComponent<Text>().text + "\"}";
 
-//		string json = @"{Text : ""1234""}";
-//		JObject data = JObject.Parse(json);
-
-		//var bytes = System.Text.Encoding.UTF8.GetBytes(json.ToString(Formatting.None));
-
 		byte[] msgBytes = Encoding.ASCII.GetBytes (msg);
 		byte[] bytes = new byte[4];
 
@@ -99,23 +94,6 @@ public class ChromeNativeMessagingDebugButton : MonoBehaviour {
 		Console.Error.Write(Encoding.ASCII.GetString(bytes));
 		Console.Error.Write(msg);
 		Console.Error.Flush();
-
-		//NativeMessagingHost.Program.Write (data);
-//
-//		StringWriter dummyStdErr = new StringWriter();
-//		TextWriter stdErr = System.Console.Error;
-//		System.Console.SetError(dummyStdErr);
-//
-//
-//		dummyStdErr.WriteLine("{\"Text\": \"the quick brown fox\"}");
-//		dummyStdErr.WriteLine();
-//
-//		System.Console.SetError(stdErr);
-//
-//		using (FileStream 
-//			fileStream = new FileStream (2, FileMode.Append)) {
-//
-//		}
 	}
 
 }
