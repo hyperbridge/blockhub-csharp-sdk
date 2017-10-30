@@ -25,7 +25,7 @@ public class ExtensionInfoContainer : MonoBehaviour
     public void SetupExtension(ExtensionInfo data)
     {
         myExtensionInfo = data;
-        Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
+      //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
         
 
         extensionName.text = data.name;

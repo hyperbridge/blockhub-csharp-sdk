@@ -48,19 +48,18 @@ public class ExtensionManagerView : MonoBehaviour {
         yield return new WaitForThreadedTask(() => {
            // availableExtensions = JsonUtility.FromJson<List<ExtensionInfo>>(json);
         });
-        ExtensionInfo json = loader.LoadThisData<ExtensionInfo>("Example");
+        List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
         yield return json;
-        GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
-        container.GetComponent<ExtensionInfoContainer>().extensionInfoView = extensionInfoView;
+        foreach(ExtensionInfo extension in json)
+        {
+            GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
+            container.GetComponent<ExtensionInfoContainer>().extensionInfoView = extensionInfoView;
 
-        container.GetComponent<ExtensionInfoContainer>().SetupExtension(json);
-        container.SetActive(true);
-        /* foreach (ExtensionInfo extension in availableExtensions)
-         {
-             GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
-             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
-         }*/
-
+            container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
+            container.SetActive(true);
+        }
+       
+      
 
 
         activeRoutine = null;   
