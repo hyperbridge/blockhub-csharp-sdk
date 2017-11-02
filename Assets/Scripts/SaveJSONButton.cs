@@ -39,11 +39,11 @@ public class SaveJSONButton : MonoBehaviour
 
                     break;
                 case "URLInput":
-                    dataToSave.URL = input.text;
+                    dataToSave.path = input.text;
 
                     break;
                 case "ImageURLInput":
-                    dataToSave.imageURL = input.text;
+                    dataToSave.imagePath = input.text;
                     break;
                 case "RatingInput":
                     dataToSave.rating = float.Parse(input.text);

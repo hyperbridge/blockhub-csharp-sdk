@@ -9,67 +9,103 @@ using Nethereum.RPC.Eth.Blocks;
 using System.Threading.Tasks;
 using Nethereum.RPC.TransactionManagers;
 using Nethereum.Signer;
+using UnityEngine.UI;
+using SFB;
 
 
-public class Account
-{
-
-#if !PCL
-    public static Account LoadFromKeyStoreFile(string filePath, string password)
-    {
-        var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        var key = keyStoreService.DecryptKeyStoreFromFile(password, filePath);
-        return new Account(key);
-    }
-#endif
-    public static Account LoadFromKeyStore(string json, string password)
-    {
-        var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        var key = keyStoreService.DecryptKeyStoreFromJson(password, json);
-        return new Account(key);
-    }
-
-    public Account(EthECKey key)
-    {
-        Initialise(key);
-    }
-
-    public Account(string privateKey)
-    {
-        Initialise(new EthECKey(privateKey));
-    }
-
-    public Account(byte[] privateKey)
-    {
-        Initialise(new EthECKey(privateKey, true));
-    }
-
-    private void Initialise(EthECKey key)
-    {
-        PrivateKey = key.GetPrivateKey();
-        Address = key.GetPublicAddress();
-    }
-
-    public string Address { get; protected set; }
-    public string PrivateKey { get; protected set; }
-}
 
 
 public class WalletService : MonoBehaviour
 {
+    public InputField nameField, passwordField;
+    public Text validationText;
 
-    // Use this for initialization
-    void Start()
+    string _path, keystore;
+
+    private void Start()
     {
+        _path = "";
 
     }
-
-    // Update is called once per frame
-    void Update()
+    public bool CorrectWalletInfo()
     {
-
+        if (nameField.text.Length < 1 || passwordField.text.Length < 7)
+        {
+            validationText.text = "Empty Name or Password";
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
+    public void FindKeystore()
+    {
+        _path = "";
+
+        WriteResult(StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false));
+        StreamReader reader = new StreamReader(_path);
+        keystore = reader.ReadToEnd();
+        reader.Close();
+        KeystoreValidate(keystore);
+
+
+    }
+    public void AcceptWallet()
+    {
+        if (KeystoreValidate(keystore) && CorrectWalletInfo())
+        {
+            StartCoroutine(ConfirmAccount());
+        }
+    }
+    public IEnumerator ConfirmAccount()
+    {
+        Nethereum.KeyStore.KeyStoreService keyStoreService = new Nethereum.KeyStore.KeyStoreService();
+        byte[] key = keyStoreService.DecryptKeyStoreFromJson(passwordField.text, keystore);
+
+
+
+        Account account = new Account(key);
+
+
+        Debug.Log(account.Address);
+        Debug.Log(account.PrivateKey);
+
+        WalletInfo newWallet = new WalletInfo();
+
+        newWallet.SetupWallet(nameField.text, account.Address, account.PrivateKey);
+        //  Debug.Log(newWallet.address);
+        SaveData saveWallet = SaveData.SaveAtPath("Wallets");
+
+        saveWallet.Save<WalletInfo>(newWallet.name, newWallet);
+
+        StartCoroutine(CheckWalletContents(newWallet));
+
+        yield return null;
+    }
+    public IEnumerator CheckWalletContents(WalletInfo wallet)
+    {
+        // Debug.Log(wallet.address);
+        var wait = 1;
+        bool processDone = false;
+
+        while (!processDone)
+        {
+            yield return new WaitForSeconds(wait);
+            wait = 10;
+            EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
+
+            yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
+            if (balanceRequest.Exception == null)
+            {
+                Debug.Log(balanceRequest.Result);
+                processDone = true;
+                yield return null;
+            }
+
+        }
+    }
     public IEnumerator CheckBlockNumber()
     {
         string password = "hyperbridge";
@@ -135,6 +171,34 @@ public class WalletService : MonoBehaviour
         //string password = "TREZOR";
         //var wallet = new Wallet(words, password);
         //var account = wallet.GetAccount(0);
+    }
+
+    bool KeystoreValidate(string text)
+    {
+
+        if (text.Contains("address"))
+        {
+            validationText.text = "Apparently Valid Keystore File loaded";
+            return true;
+        }
+        else
+        {
+            validationText.text = "You didn't choose a valid Keystore File";
+            return false;
+        }
+    }
+    public void WriteResult(string[] paths)
+    {
+        if (paths.Length == 0)
+        {
+            return;
+        }
+
+        _path = "";
+        foreach (var p in paths)
+        {
+            _path += p;
+        }
     }
 }
 
