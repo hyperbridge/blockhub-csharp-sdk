@@ -74,7 +74,7 @@ public class ExtensionManagerView : MonoBehaviour {
 
     public void InstallExtension(ExtensionInfo extension)
     {
-        ModManager.instance.LoadMod(extension.path);
+        AppManager.instance.modManager.LoadMod(extension.path);
         
     }
     public void UninstallExtension(ExtensionInfo extension)

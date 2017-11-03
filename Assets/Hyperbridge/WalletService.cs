@@ -12,9 +12,6 @@ using Nethereum.Signer;
 using UnityEngine.UI;
 using SFB;
 
-
-
-
 public class WalletService : MonoBehaviour
 {
     public InputField nameField, passwordField;
@@ -31,7 +28,7 @@ public class WalletService : MonoBehaviour
     {
         if (nameField.text.Length < 1 || passwordField.text.Length < 7)
         {
-            validationText.text = "Empty Name or Password";
+            validationText.text = "Empty Name or Incomplete Password";
             return false;
         }
         else
@@ -54,6 +51,8 @@ public class WalletService : MonoBehaviour
     }
     public void AcceptWallet()
     {
+       
+
         if (KeystoreValidate(keystore) && CorrectWalletInfo())
         {
             StartCoroutine(ConfirmAccount());
@@ -67,23 +66,43 @@ public class WalletService : MonoBehaviour
 
 
         Account account = new Account(key);
+        //Checking no other wallets have the same address, because we'd have a duplicate
 
+        foreach (WalletInfo wallet in AppManager.instance.walletManager.wallets)
+        {
+            if(wallet.address == account.Address)
+            {
+                validationText.text = "Another wallet with this same address exists";
+                yield break;
+            }
+        }
 
         Debug.Log(account.Address);
         Debug.Log(account.PrivateKey);
 
         WalletInfo newWallet = new WalletInfo();
+        
+        newWallet.SetupWallet(Application.dataPath + "/Resources/Wallets/" + nameField.text + ".json", nameField.text, account.Address, account.PrivateKey);
 
-        newWallet.SetupWallet(nameField.text, account.Address, account.PrivateKey);
-        //  Debug.Log(newWallet.address);
+
+
+
         SaveData saveWallet = SaveData.SaveAtPath("Wallets");
 
         saveWallet.Save<WalletInfo>(newWallet.name, newWallet);
+
+
+        validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
 
         StartCoroutine(CheckWalletContents(newWallet));
 
         yield return null;
     }
+    /// <summary>
+    /// Checks wallet's contents. Returns to debug log.
+    /// </summary>
+    /// <param name="wallet"></param>
+    /// <returns></returns>
     public IEnumerator CheckWalletContents(WalletInfo wallet)
     {
         // Debug.Log(wallet.address);
@@ -100,6 +119,36 @@ public class WalletService : MonoBehaviour
             if (balanceRequest.Exception == null)
             {
                 Debug.Log(balanceRequest.Result);
+               
+                processDone = true;
+                yield return null;
+            }
+
+        }
+    }
+    /// <summary>
+    /// Checks wallet contents, writes result on a given text.
+    /// </summary>
+    /// <param name="wallet"></param>
+    /// <param name="container"></param>
+    /// <returns></returns>
+    public IEnumerator CheckWalletContents(WalletInfo wallet, Text container)
+    {
+         Debug.Log(wallet.address);
+        var wait = 1;
+        bool processDone = false;
+
+        while (!processDone)
+        {
+            yield return new WaitForSeconds(wait);
+            wait = 3;
+            EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
+
+            yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
+            if (balanceRequest.Exception == null)
+            {
+                container.text = balanceRequest.Result.Value.ToString() ;
+
                 processDone = true;
                 yield return null;
             }

@@ -7,7 +7,6 @@ using System.IO;
 
 public class ModManager : MonoBehaviour {
 
-    public static ModManager instance;
     ModHost latestLoadedMod;
     List<ModHost> activeMods;
 
@@ -15,11 +14,7 @@ public class ModManager : MonoBehaviour {
     {
         Mod.Initialize();
         activeMods = new List<ModHost>();
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else Debug.Log("You have more than one ModManager in the scene");
+        
     }
   
 

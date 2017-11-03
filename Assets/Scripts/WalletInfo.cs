@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class WalletInfo {
 
-    public string name, address, publicKey,privateKey,secret;
+    public string _path,name, address, publicKey,privateKey,secret;
     
-    public void SetupWallet(string walletName, string walletAddress,string walletPublic, string walletPrivate, string walletSecret)
+    public void SetupWallet(string path,string walletName, string walletAddress,string walletPublic, string walletPrivate, string walletSecret)
     {
+        _path = path;
         name = walletName;
         address = walletAddress;
         publicKey = walletPublic;
@@ -15,10 +16,10 @@ public class WalletInfo {
         secret = walletSecret;
     }
 
-    public void SetupWallet(string walletName, string walletAddress, string walletPrivate)
+    public void SetupWallet(string path,string walletName, string walletAddress, string walletPrivate)
 
     {
-
+        _path = path;
         name = walletName;
         address = walletAddress;
         privateKey = walletPrivate;

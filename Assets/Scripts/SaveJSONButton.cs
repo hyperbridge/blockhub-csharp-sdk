@@ -57,7 +57,7 @@ public class SaveJSONButton : MonoBehaviour
             }
         }
 
-        SaveDataManager.instance.SaveExtensionJSON(dataToSave);
+      AppManager.instance.saveDataManager.SaveExtensionJSON(dataToSave);
 
     }
 
