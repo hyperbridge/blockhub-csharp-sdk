@@ -4,26 +4,23 @@ using UnityEngine;
 
 public class WalletInfo {
 
-    public string _path,name, address, publicKey,privateKey,secret;
+    public string _path, title, address, privateKey, secret;
     
-    public void SetupWallet(string path,string walletName, string walletAddress,string walletPublic, string walletPrivate, string walletSecret)
+    public void SetupWallet(string path, string title, string address, string privateKey, string secret)
     {
-        _path = path;
-        name = walletName;
-        address = walletAddress;
-        publicKey = walletPublic;
-        privateKey = walletPrivate;
-        secret = walletSecret;
+        this._path = path;
+        this.title = title;
+        this.address = address;
+        this.privateKey = privateKey;
+        this.secret = secret;
     }
 
-    public void SetupWallet(string path,string walletName, string walletAddress, string walletPrivate)
+    public void SetupWallet(string path, string title, string address, string privateKey)
 
     {
-        _path = path;
-        name = walletName;
-        address = walletAddress;
-        privateKey = walletPrivate;
-
-
+        this._path = path;
+        this.title = title;
+        this.address = address;
+        this.privateKey = privateKey;
     }
 }

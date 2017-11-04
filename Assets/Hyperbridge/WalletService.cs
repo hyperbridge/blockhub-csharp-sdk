@@ -24,6 +24,7 @@ public class WalletService : MonoBehaviour
         _path = "";
 
     }
+
     public bool CorrectWalletInfo()
     {
         if (nameField.text.Length < 1 || passwordField.text.Length < 7)
@@ -46,24 +47,20 @@ public class WalletService : MonoBehaviour
         keystore = reader.ReadToEnd();
         reader.Close();
         KeystoreValidate(keystore);
-
-
     }
+
     public void AcceptWallet()
     {
-       
-
         if (KeystoreValidate(keystore) && CorrectWalletInfo())
         {
             StartCoroutine(ConfirmAccount());
         }
     }
+
     public IEnumerator ConfirmAccount()
     {
         Nethereum.KeyStore.KeyStoreService keyStoreService = new Nethereum.KeyStore.KeyStoreService();
         byte[] key = keyStoreService.DecryptKeyStoreFromJson(passwordField.text, keystore);
-
-
 
         Account account = new Account(key);
         //Checking no other wallets have the same address, because we'd have a duplicate
@@ -84,12 +81,9 @@ public class WalletService : MonoBehaviour
         
         newWallet.SetupWallet(Application.dataPath + "/Resources/Wallets/" + nameField.text + ".json", nameField.text, account.Address, account.PrivateKey);
 
-
-
-
         SaveData saveWallet = SaveData.SaveAtPath("Wallets");
 
-        saveWallet.Save<WalletInfo>(newWallet.name, newWallet);
+        saveWallet.Save<WalletInfo>(newWallet.title, newWallet);
 
 
         validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
@@ -98,6 +92,7 @@ public class WalletService : MonoBehaviour
 
         yield return null;
     }
+
     /// <summary>
     /// Checks wallet's contents. Returns to debug log.
     /// </summary>
@@ -126,6 +121,7 @@ public class WalletService : MonoBehaviour
 
         }
     }
+
     /// <summary>
     /// Checks wallet contents, writes result on a given text.
     /// </summary>
@@ -155,6 +151,7 @@ public class WalletService : MonoBehaviour
 
         }
     }
+
     public IEnumerator CheckBlockNumber()
     {
         string password = "hyperbridge";
@@ -206,6 +203,7 @@ public class WalletService : MonoBehaviour
             return false;
         }
     }
+
     public void WriteResult(string[] paths)
     {
         if (paths.Length == 0)
@@ -220,4 +218,3 @@ public class WalletService : MonoBehaviour
         }
     }
 }
-

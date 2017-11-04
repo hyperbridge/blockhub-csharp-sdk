@@ -15,6 +15,7 @@ public class SaveDataManager : MonoBehaviour
     Text saveText, loadText;
     LoadData loader;
     SaveData saver;
+
     private void Awake()
     {
 
@@ -25,9 +26,11 @@ public class SaveDataManager : MonoBehaviour
     {
       
     }
+
     public void CacheValues()
     {
     }
+
     public void SaveCurrentData(int slot)
     {
         saver = SaveData.SaveAtPath("Extensions");
@@ -42,6 +45,7 @@ public class SaveDataManager : MonoBehaviour
         saver.Save<ExtensionInfo>(data.name, data);
 
     }
+
     IEnumerator SavePlacement(int slot)
     {
 
@@ -68,6 +72,7 @@ public class SaveDataManager : MonoBehaviour
         loadText.text = "No save data in slot " + slot.ToString();
         yield return new WaitForSeconds(1);
     }
+
     IEnumerator LoadExtensions(int slot)
     {
         yield return new WaitForSeconds(1);
@@ -75,6 +80,4 @@ public class SaveDataManager : MonoBehaviour
         loadText.text = "Loaded successfully from slot: "+slot.ToString();
         yield return new WaitForSeconds(2);
     }
-
-   
 }

@@ -30,7 +30,6 @@ public class ExtensionInfoContainer : MonoBehaviour
         myExtensionInfo = data;
       //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
         
-
         extensionName.text = data.name;
         extensionDate.text = data.updateDate;
        // extensionRating.text = data.rating.ToString();
@@ -44,19 +43,17 @@ public class ExtensionInfoContainer : MonoBehaviour
                 extensionManagerView = FindObjectOfType<ExtensionManagerView>();
 
             }
-            extensionManagerView.extensionInfoView.SetupView(data);
 
+            extensionManagerView.extensionInfoView.SetupView(data);
         });
 
         installButton.onClick.AddListener(() =>
         {
-
             extensionManagerView.InstallExtension(data);
         });
 
         uninstallButton.onClick.AddListener(() =>
         {
-
             extensionManagerView.UninstallExtension(data);
         });
     }

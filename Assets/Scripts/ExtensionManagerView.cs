@@ -11,28 +11,28 @@ using UMod;
 
 public class ExtensionManagerView : MonoBehaviour {
     
-    List<ExtensionInfo> availableExtensions= new   List<ExtensionInfo>();
-    public GameObject extensionInfoPrefab,extensionInfoOrganizer;
+    List<ExtensionInfo> availableExtensions = new List<ExtensionInfo>();
+    public GameObject extensionInfoPrefab, extensionInfoOrganizer;
     LoadData loader;
     SaveData saver;
     Coroutine activeRoutine;
-    public ExtensionInformationView extensionInfoView;
-	void Start () {
-      
+    public ExtensionInfoView extensionInfoView;
 
-        activeRoutine  = StartCoroutine(LoadExtensions());
+	void Start () {
+        activeRoutine = StartCoroutine(LoadExtensions());
         loader = LoadData.LoadFromPath("Extensions");
 	}
 	
 	public void UpdateExtensionList()
     {
-        if(activeRoutine!=null)  StopCoroutine(activeRoutine);
-       activeRoutine =  StartCoroutine(LoadExtensions());
+        if (activeRoutine != null) StopCoroutine(activeRoutine);
+
+        activeRoutine = StartCoroutine(LoadExtensions());
     }
 
     IEnumerator LoadExtensions()
     {
-        if(extensionInfoOrganizer.transform.childCount > 0)
+        if (extensionInfoOrganizer.transform.childCount > 0)
         {
             foreach (Transform child in extensionInfoOrganizer.transform)
             {
@@ -55,28 +55,26 @@ public class ExtensionManagerView : MonoBehaviour {
         yield return new WaitForThreadedTask(() => {
            // availableExtensions = JsonUtility.FromJson<List<ExtensionInfo>>(json);
         });
+
         List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
+
         yield return json;
-        foreach(ExtensionInfo extension in json)
+        foreach (ExtensionInfo extension in json)
         {
             GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
             container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
-
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
             container.SetActive(true);
         }
        
-      
-
-
         activeRoutine = null;   
     }
 
     public void InstallExtension(ExtensionInfo extension)
     {
         AppManager.instance.modManager.LoadMod(extension.path);
-        
     }
+
     public void UninstallExtension(ExtensionInfo extension)
     {
         

@@ -17,8 +17,6 @@ public class ModManager : MonoBehaviour {
         
     }
   
-
-
     public void LoadMod(string modPath)
     {
         DirectoryInfo newDirectory = new DirectoryInfo(modPath);
@@ -26,14 +24,12 @@ public class ModManager : MonoBehaviour {
         Debug.Log(loadFromPath.ModName);
         ModHost loadInHost = Mod.LoadMod(loadFromPath);
 
-
-
       //  loadInHost.LoadMod(loadFromPath);
         latestLoadedMod = loadInHost;
         activeMods.Add(loadInHost);
         loadInHost.OnModLoadComplete += OnModLoadComplete;
-
     }
+
     private void OnModLoadComplete(ModLoadCompleteArgs args)
     {
         if (args.IsLoaded)
@@ -52,6 +48,7 @@ public class ModManager : MonoBehaviour {
             Debug.LogError("Can't load that mod");
         }
     }
+
     public List<ModHost> modList()
     {
         return activeMods;
