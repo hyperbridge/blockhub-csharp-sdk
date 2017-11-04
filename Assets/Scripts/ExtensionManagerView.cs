@@ -6,9 +6,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;    
-public class ExtensionManagerView : MonoBehaviour {
+using System.IO;
+using UMod;
 
+public class ExtensionManagerView : MonoBehaviour {
+    
     List<ExtensionInfo> availableExtensions= new   List<ExtensionInfo>();
     public GameObject extensionInfoPrefab,extensionInfoOrganizer;
     LoadData loader;
@@ -58,7 +60,7 @@ public class ExtensionManagerView : MonoBehaviour {
         foreach(ExtensionInfo extension in json)
         {
             GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
-            container.GetComponent<ExtensionInfoContainer>().extensionInfoView = extensionInfoView;
+            container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
 
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
             container.SetActive(true);
@@ -68,5 +70,15 @@ public class ExtensionManagerView : MonoBehaviour {
 
 
         activeRoutine = null;   
+    }
+
+    public void InstallExtension(ExtensionInfo extension)
+    {
+        AppManager.instance.modManager.LoadMod(extension.path);
+        
+    }
+    public void UninstallExtension(ExtensionInfo extension)
+    {
+        
     }
 }

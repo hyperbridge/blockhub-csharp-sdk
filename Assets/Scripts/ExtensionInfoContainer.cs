@@ -13,12 +13,10 @@ public class ExtensionInfoContainer : MonoBehaviour
 
     public Image icon;
     public Text extensionName, extensionDate, extensionRating, extensionVersion;
-    public ExtensionInformationView extensionInfoView;
+    public Button installButton, uninstallButton;
+    public ExtensionManagerView extensionManagerView;
     ExtensionInfo myExtensionInfo;
-    // Use this for initialization
-    void Start()
-    {
-    }
+    
     
     /** Name
 * Description
@@ -41,13 +39,25 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            if(extensionInfoView == null)
+            if(extensionManagerView == null)
             {
-                extensionInfoView = FindObjectOfType<ExtensionManagerView>().extensionInfoView;
+                extensionManagerView = FindObjectOfType<ExtensionManagerView>();
 
             }
-            extensionInfoView.SetupView(data);
+            extensionManagerView.extensionInfoView.SetupView(data);
 
+        });
+
+        installButton.onClick.AddListener(() =>
+        {
+
+            extensionManagerView.InstallExtension(data);
+        });
+
+        uninstallButton.onClick.AddListener(() =>
+        {
+
+            extensionManagerView.UninstallExtension(data);
         });
     }
 

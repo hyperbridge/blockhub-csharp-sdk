@@ -12,19 +12,13 @@ using UnityEngine.UI;
 public class SaveDataManager : MonoBehaviour
 {
 
-    public static SaveDataManager instance;
     Text saveText, loadText;
     LoadData loader;
     SaveData saver;
     private void Awake()
     {
 
-        if (instance == null)
-        {
-            instance = this;
-
-        }
-        else Debug.LogWarning("More than one object list manager");
+      
     }
 
     private void Start()
