@@ -143,7 +143,7 @@ public class WalletService : MonoBehaviour
             yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
             if (balanceRequest.Exception == null)
             {
-                container.text = balanceRequest.Result.Value.ToString() ;
+                container.text = balanceRequest.Result.Value.ToString();
 
                 processDone = true;
                 yield return null;
