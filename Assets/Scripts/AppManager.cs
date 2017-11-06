@@ -22,6 +22,12 @@ public class AppManager : MonoBehaviour {
         walletManager = GetComponent<WalletManager>();
         modManager = GetComponent<ModManager>();
         saveDataManager = GetComponent<SaveDataManager>();
+
+        var rulers = GameObject.FindGameObjectsWithTag("Ruler");
+
+        foreach (GameObject go in rulers) {
+            GameObject.Destroy(go);
+        }
     }
 
 }
