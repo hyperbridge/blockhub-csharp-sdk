@@ -49,12 +49,12 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         installButton.onClick.AddListener(() =>
         {
-            extensionManagerView.InstallExtension(data);
+            AppManager.instance.modManager.LoadMod(data.path);
         });
 
         uninstallButton.onClick.AddListener(() =>
         {
-            extensionManagerView.UninstallExtension(data);
+           // AppManager.instance.modManager.UnloadMod(data.path);
         });
     }
 

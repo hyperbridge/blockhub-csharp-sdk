@@ -14,16 +14,16 @@ public class ExtensionManagerView : MonoBehaviour {
     List<ExtensionInfo> availableExtensions = new List<ExtensionInfo>();
     public GameObject extensionInfoPrefab, extensionInfoOrganizer;
     LoadData loader;
-    SaveData saver;
     Coroutine activeRoutine;
     public ExtensionInfoView extensionInfoView;
 
-	void Start () {
-        activeRoutine = StartCoroutine(LoadExtensions());
+	void Awake () {
         loader = LoadData.LoadFromPath("Extensions");
-	}
-	
-	public void UpdateExtensionList()
+        activeRoutine = StartCoroutine(LoadExtensions());
+
+    }
+
+    public void UpdateExtensionList()
     {
         if (activeRoutine != null) StopCoroutine(activeRoutine);
 
@@ -39,22 +39,9 @@ public class ExtensionManagerView : MonoBehaviour {
                 GameObject.Destroy(child.gameObject);
             }
         }
-        
-        /*
-        string url = RoomSettings.AbsoluteFilenamePath;
-
-        if (Application.isEditor)
-        {
-            url = "file:///" + url;
-        }
-
-        var www = new WWW(url);
-        yield return www;
-        // Do some code, when file loaded*/ //<- This is for JSON when the JSON is online
+              
         availableExtensions = null;
-        yield return new WaitForThreadedTask(() => {
-           // availableExtensions = JsonUtility.FromJson<List<ExtensionInfo>>(json);
-        });
+    
 
         List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
 
@@ -67,16 +54,21 @@ public class ExtensionManagerView : MonoBehaviour {
             container.SetActive(true);
         }
        
-        activeRoutine = null;   
+        activeRoutine = null;
+
+
+        /*<- This is for JSON when the JSON is online
+      string url = RoomSettings.AbsoluteFilenamePath;
+
+      if (Application.isEditor)
+      {
+          url = "file:///" + url;
+      }
+
+      var www = new WWW(url);
+      yield return www;
+      // Do some code, when file loaded*/ //<- This is for JSON when the JSON is online
     }
 
-    public void InstallExtension(ExtensionInfo extension)
-    {
-        AppManager.instance.modManager.LoadMod(extension.path);
-    }
-
-    public void UninstallExtension(ExtensionInfo extension)
-    {
-        
-    }
+  
 }

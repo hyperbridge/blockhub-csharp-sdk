@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WalletInfoContainer : MonoBehaviour {
+public class WalletInfoContainer : MonoBehaviour
+{
 
     public Text title, walletContents;
     public WalletInfo myWallet;
@@ -38,7 +39,9 @@ public class WalletInfoContainer : MonoBehaviour {
             AppManager.instance.walletManager.DeleteWallet(this);
         });
 
-        StartCoroutine(AppManager.instance.walletService.CheckWalletContents(wallet, walletContents));
+        // StartCoroutine(AppManager.instance.walletService.CheckWalletContents(wallet, walletContents));
+        StartCoroutine(AppManager.instance.walletService.GetAccountBalance(wallet.address, walletContents, (balance) => { }));
+
     }
 
 }

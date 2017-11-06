@@ -13,6 +13,16 @@ public class SaveData  {
         };
     }
 
+
+    public void SaveExternal<T>(string saveName, T objectToSave)
+    {
+
+        Debug.Log(_path);
+        File.WriteAllText(_path, JsonConvert.SerializeObject(objectToSave));
+
+        Debug.Log(saveName + " Saved at: " + _path);
+    }
+
     public void Save<T>(string saveName,T objectToSave)
     {
         if(!Directory.Exists(Application.dataPath + "/Resources/" + _path))

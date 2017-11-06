@@ -11,11 +11,11 @@ using Nethereum.RPC.TransactionManagers;
 using Nethereum.Signer;
 using UnityEngine.UI;
 using SFB;
+using System.Text.RegularExpressions;
 
 public class WalletService : MonoBehaviour
 {
     public InputField nameField, passwordField;
-    public Text validationText;
 
     string _path, keystore;
 
@@ -25,7 +25,7 @@ public class WalletService : MonoBehaviour
 
     }
 
-    public bool CorrectWalletInfo()
+    public bool CorrectWalletInfo(Text validationText)
     {
         if (nameField.text.Length < 1 || passwordField.text.Length < 7)
         {
@@ -38,7 +38,7 @@ public class WalletService : MonoBehaviour
         }
     }
 
-    public void FindKeystore()
+    public void FindKeystore(Text validationText)
     {
         _path = "";
 
@@ -46,30 +46,34 @@ public class WalletService : MonoBehaviour
         StreamReader reader = new StreamReader(_path);
         keystore = reader.ReadToEnd();
         reader.Close();
-        KeystoreValidate(keystore);
+        KeystoreValidate(keystore,validationText);
     }
 
-    public void AcceptWallet()
+    public void AcceptWallet(Text validationText)
     {
-        if (KeystoreValidate(keystore) && CorrectWalletInfo())
+        if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText))
         {
-            StartCoroutine(ConfirmAccount());
+            StartCoroutine(ConfirmAccount(keystore,validationText,passwordField.text,nameField.text));
         }
     }
 
-    public IEnumerator ConfirmAccount()
+    public IEnumerator ConfirmAccount(string accountKeystore, Text validationText, string password, string walletName)
     {
+
+
         Nethereum.KeyStore.KeyStoreService keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        byte[] key = keyStoreService.DecryptKeyStoreFromJson(passwordField.text, keystore);
+        byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, accountKeystore);
 
         Account account = new Account(key);
         //Checking no other wallets have the same address, because we'd have a duplicate
 
         foreach (WalletInfo wallet in AppManager.instance.walletManager.wallets)
         {
-            if(wallet.address == account.Address)
+            if (wallet.address == account.Address)
             {
-                validationText.text = "Another wallet with this same address exists";
+                validationText.text = "This wallet address already exists.";
+
+
                 yield break;
             }
         }
@@ -78,12 +82,12 @@ public class WalletService : MonoBehaviour
         Debug.Log(account.PrivateKey);
 
         WalletInfo newWallet = new WalletInfo();
-        
-        newWallet.SetupWallet(Application.dataPath + "/Resources/Wallets/" + nameField.text + ".json", nameField.text, account.Address, account.PrivateKey);
+
+        newWallet.SetupWallet(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey);
 
         SaveData saveWallet = SaveData.SaveAtPath("Wallets");
 
-        saveWallet.Save<WalletInfo>(newWallet.title, newWallet);
+        saveWallet.Save<WalletInfo>(walletName, newWallet);
 
 
         validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
@@ -114,14 +118,43 @@ public class WalletService : MonoBehaviour
             if (balanceRequest.Exception == null)
             {
                 Debug.Log(balanceRequest.Result);
-               
+
                 processDone = true;
                 yield return null;
             }
 
         }
     }
+    // We create the function which will check the balance of the address and return a callback with a decimal variable
+    public IEnumerator GetAccountBalance(string address, Text container, System.Action<decimal> callback)
+    {
+        // Now we define a new EthGetBalanceUnityRequest and send it the testnet url where we are going to
+        // check the address, in this case "https://kovan.infura.io".
+        // (we get EthGetBalanceUnityRequest from the Netherum lib imported at the start)
+        var getBalanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
+        // Then we call the method SendRequest() from the getBalanceRequest we created
+        // with the address and the newest created block.
+        yield return getBalanceRequest.SendRequest(address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
 
+        // Now we check if the request has an exception
+        if (getBalanceRequest.Exception == null)
+        {
+            // We define balance and assign the value that the getBalanceRequest gave us.
+            var balance = getBalanceRequest.Result.Value;
+            container.text = Nethereum.Util.UnitConversion.Convert.FromWei(balance, 18).ToString();
+
+            // Finally we execute the callback and we use the Netherum.Util.UnitConversion
+            // to convert the balance from WEI to ETHER (that has 18 decimal places)
+            callback(Nethereum.Util.UnitConversion.Convert.FromWei(balance, 18));
+
+        }
+        else
+        {
+            // If there was an error we just throw an exception.
+            throw new System.InvalidOperationException("Get balance request failed");
+        }
+
+    }
     /// <summary>
     /// Checks wallet contents, writes result on a given text.
     /// </summary>
@@ -130,7 +163,7 @@ public class WalletService : MonoBehaviour
     /// <returns></returns>
     public IEnumerator CheckWalletContents(WalletInfo wallet, Text container)
     {
-         Debug.Log(wallet.address);
+        Debug.Log(wallet.address);
         var wait = 1;
         bool processDone = false;
 
@@ -189,7 +222,39 @@ public class WalletService : MonoBehaviour
         this.StartCoroutine(this.CheckBlockNumber());
     }
 
-    bool KeystoreValidate(string text)
+
+
+    // This function will just execute a callback after it creates and encrypt a new account
+    public void CreateAccount(string password, System.Action<string, string> callback)
+    {
+        // We use the Nethereum.Signer to generate a new secret key
+        var ecKey = Nethereum.Signer.EthECKey.GenerateKey();
+
+        // After creating the secret key, we can get the public address and the private key with
+        // ecKey.GetPublicAddress() and ecKey.GetPrivateKeyAsBytes()
+        // (so it return it as bytes to be encrypted)
+        var address = ecKey.GetPublicAddress();
+        var privateKey = ecKey.GetPrivateKeyAsBytes();
+
+        // Then we define a new KeyStore service
+        var keystoreservice = new Nethereum.KeyStore.KeyStoreService();
+
+        // And we can proceed to define encryptedJson with EncryptAndGenerateDefaultKeyStoreAsJson(),
+        // and send it the password, the private key and the address to be encrypted.
+        var encryptedJson = keystoreservice.EncryptAndGenerateDefaultKeyStoreAsJson(password, privateKey, address);
+        // Finally we execute the callback and return our public address and the encrypted json.
+        // (you will only be able to decrypt the json with the password used to encrypt it)
+        callback(address, encryptedJson);
+    }
+
+
+
+
+
+
+
+
+    bool KeystoreValidate(string text, Text validationText)
     {
 
         if (text.Contains("address"))

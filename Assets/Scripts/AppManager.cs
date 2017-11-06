@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AppManager : MonoBehaviour {
+public class AppManager : MonoBehaviour
+{
 
     public static AppManager instance;
     public WalletManager walletManager;
@@ -25,9 +26,10 @@ public class AppManager : MonoBehaviour {
 
         var rulers = GameObject.FindGameObjectsWithTag("Ruler");
 
-        foreach (GameObject go in rulers) {
+        foreach (GameObject go in rulers)
+        {
             GameObject.Destroy(go);
         }
     }
-
+  
 }
