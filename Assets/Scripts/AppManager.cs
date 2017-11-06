@@ -9,18 +9,19 @@ public class AppManager : MonoBehaviour {
     public ModManager modManager;
     public SaveDataManager saveDataManager;
     public WalletService walletService;
+    public GameObject screen;
+    public GameObject defaultView;
 
     private void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
-        else Debug.LogError("More than one AppManager");
+        else
+            Debug.LogError("More than one AppManager");
+
         walletManager = GetComponent<WalletManager>();
         modManager = GetComponent<ModManager>();
         saveDataManager = GetComponent<SaveDataManager>();
-
     }
 
 }
