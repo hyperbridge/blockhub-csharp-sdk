@@ -100,7 +100,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BUTTON
+  m_Text: Extension
 --- !u!114 &114165671119501526
 MonoBehaviour:
   m_ObjectHideFlags: 1

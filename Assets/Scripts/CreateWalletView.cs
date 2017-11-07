@@ -17,25 +17,24 @@ public class CreateWalletView : MonoBehaviour
 
 
     void Start()
-    {
+    {//TODO: WALLET ANIMATION CREATION. THREADING.
         createWalletButton.onClick.AddListener(() =>
         {
             validationText.text = "Please be patient. Your key is being created.  ERIC WE NEED A LOADING ANIMATION HERE?";
 
-            if (walletPasswordInputField.text.Length >= 8 && walletNameInputField.text.Length !=0)
+            if (walletPasswordInputField.text.Length >= 8 && walletNameInputField.text.Length != 0)
             {
                 AppManager.instance.walletService.CreateAccount(walletPasswordInputField.text, (address, encryptedJson) =>
                 {
                     // We just print the address and the encrypted json we just created
                     Debug.Log(address);
                     Debug.Log(encryptedJson);
-                    string editedJson = Regex.Replace(encryptedJson, @"^""|""$|\n?", "");
 
                     string newPath = StandaloneFileBrowser.SaveFilePanel("Save Keystore JSON", "", walletNameInputField.text, "json");
                     SaveData saver = SaveData.SaveAtPath(newPath);
-                    
-                    saver.SaveExternal<string>(walletNameInputField.text, editedJson);
-                    StartCoroutine(AppManager.instance.walletService.ConfirmAccount(editedJson, validationText,walletPasswordInputField.text,walletNameInputField.text));
+
+                    saver.SaveExternal<string>(walletNameInputField.text, encryptedJson);
+                    StartCoroutine(AppManager.instance.walletService.ConfirmAccount(encryptedJson, validationText, walletPasswordInputField.text, walletNameInputField.text));
 
                 });
 
@@ -43,12 +42,13 @@ public class CreateWalletView : MonoBehaviour
             else if (walletPasswordInputField.text.Length < 8)
             {
                 validationText.text = "Your password MUST BE at least 8 characters long";
-            }else if(walletNameInputField.text.Length == 0)
+            }
+            else if (walletNameInputField.text.Length == 0)
             {
                 validationText.text = "Your wallet's name cannot be empty";
             }
-            
-           
+
+
         });
 
     }

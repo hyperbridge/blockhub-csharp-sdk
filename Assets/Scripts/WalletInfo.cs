@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalletInfo {
+public class WalletInfo
+{
 
     public string _path, title, info, address, privateKey, secret;
 
-    // Doesnt seem to be used anywhere
+    // Doesnt seem to be used anywhere 
     public void SetupWallet(string path, string title, string address, string privateKey, string secret)
     {
         this._path = path;

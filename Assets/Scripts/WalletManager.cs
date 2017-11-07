@@ -10,7 +10,7 @@ public class WalletManager : MonoBehaviour
     public GameObject walletDisplayPrefab;
     public RectTransform walletListDisplay;
     List<Transform> currentWalletDisplays = new List<Transform>();
-
+    public WalletManagerView walletManagerView;
     public void RefreshWalletList()
     {
         StartCoroutine(ReadWalletList());
@@ -42,10 +42,13 @@ public class WalletManager : MonoBehaviour
         }
 
         wallets.Remove(targetWallet);
-       // Debug.Log(targetWallet._path);
-       // Debug.Log(File.Exists(targetWallet._path));
+        // Debug.Log(targetWallet._path);
+        //Debug.Log(File.Exists(targetWallet._path));
         File.Delete(targetWallet._path);
         Destroy(wallet.gameObject);
+
+        StartCoroutine(ReadWalletList());
+
     }
 
     public IEnumerator ReadWalletList()
@@ -53,7 +56,7 @@ public class WalletManager : MonoBehaviour
         walletListDisplay.DetachChildren();
         foreach (Transform t in currentWalletDisplays)
         {
-            if(t != null)
+            if (t != null)
             {
                 Destroy(t.gameObject);
             }

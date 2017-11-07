@@ -46,23 +46,39 @@ public class WalletService : MonoBehaviour
         StreamReader reader = new StreamReader(_path);
         keystore = reader.ReadToEnd();
         reader.Close();
-        KeystoreValidate(keystore,validationText);
+        KeystoreValidate(keystore, validationText);
     }
 
     public void AcceptWallet(Text validationText)
     {
         if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText))
         {
-            StartCoroutine(ConfirmAccount(keystore,validationText,passwordField.text,nameField.text));
+            StartCoroutine(ConfirmAccount(keystore, validationText, passwordField.text, nameField.text));
         }
     }
 
     public IEnumerator ConfirmAccount(string accountKeystore, Text validationText, string password, string walletName)
     {
-
-
+        // Debug.Log(accountKeystore);
+        //Making sure the keystore is in an acceptable format for the account parser.
+        string editedJson = Regex.Replace(accountKeystore, @"^""|""$|\n?", ""); //This one may be overkill......
+        editedJson = Regex.Unescape(editedJson);  //I think this one is very required, though
+                                                  // Debug.Log(editedJson);
         Nethereum.KeyStore.KeyStoreService keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, accountKeystore);
+        byte[] key = null;
+        try
+        {
+             key = keyStoreService.DecryptKeyStoreFromJson(password, editedJson);
+
+           
+        }
+        catch
+        {
+            validationText.text = "Password is wrong or keystore is corrupted.";
+            yield break;    
+        }
+
+//        byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, editedJson);
 
         Account account = new Account(key);
         //Checking no other wallets have the same address, because we'd have a duplicate

@@ -9,18 +9,20 @@ using UnityEngine;
 using System.IO;
 using UMod;
 
-public class ExtensionManagerView : MonoBehaviour {
-    
+public class ExtensionManagerView : MonoBehaviour
+{
+
     List<ExtensionInfo> availableExtensions = new List<ExtensionInfo>();
     public GameObject extensionInfoPrefab, extensionInfoOrganizer;
     LoadData loader;
     Coroutine activeRoutine;
     public ExtensionInfoView extensionInfoView;
 
-	void Awake () {
+    void Awake()
+    {
         loader = LoadData.LoadFromPath("Extensions");
         activeRoutine = StartCoroutine(LoadExtensions());
-
+        extensionInfoView.gameObject.SetActive(true);
     }
 
     public void UpdateExtensionList()
@@ -39,9 +41,9 @@ public class ExtensionManagerView : MonoBehaviour {
                 GameObject.Destroy(child.gameObject);
             }
         }
-              
+
         availableExtensions = null;
-    
+
 
         List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
 
@@ -53,7 +55,7 @@ public class ExtensionManagerView : MonoBehaviour {
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
             container.SetActive(true);
         }
-       
+
         activeRoutine = null;
 
 
@@ -70,5 +72,5 @@ public class ExtensionManagerView : MonoBehaviour {
       // Do some code, when file loaded*/ //<- This is for JSON when the JSON is online
     }
 
-  
+
 }

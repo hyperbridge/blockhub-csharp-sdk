@@ -14,6 +14,7 @@ public class WalletInfoContainer : MonoBehaviour
 
     private void Start()
     {
+        walletManagerView = AppManager.instance.walletManager.walletManagerView;
     }
 
     public void SetupContainer(WalletInfo wallet)
@@ -21,8 +22,15 @@ public class WalletInfoContainer : MonoBehaviour
         myWallet = wallet;
 
         this.title.text = wallet.title;
+        GetComponent<Button>().onClick.AddListener(() => {
+            if (walletManagerView == null)
+            {
+                walletManagerView = AppManager.instance.walletManager.walletManagerView;
+            }
 
-        this.editWalletButton.onClick.AddListener(() =>
+            walletManagerView.infoView.SetupView(this);
+        });
+       /* TODO: Wallet Editing this.editWalletButton.onClick.AddListener(() =>
         {
             if (walletManagerView == null)
             {
@@ -32,7 +40,7 @@ public class WalletInfoContainer : MonoBehaviour
             walletManagerView.infoView.SetupView(wallet);
 
             //walletManagerView.EditWallet(data);
-        });
+        });*/
 
         this.deleteWalletButton.onClick.AddListener(() =>
         {

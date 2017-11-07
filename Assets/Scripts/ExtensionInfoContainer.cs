@@ -1,12 +1,8 @@
-﻿#pragma warning disable 0168 // variable declared but not used.
-#pragma warning disable 0219 // variable assigned but not used.
-#pragma warning disable 0414 // private field assigned but not used.
-
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Devdog.General.UI;
 
 public class ExtensionInfoContainer : MonoBehaviour
 {
@@ -16,8 +12,8 @@ public class ExtensionInfoContainer : MonoBehaviour
     public Button installButton, uninstallButton;
     public ExtensionManagerView extensionManagerView;
     ExtensionInfo myExtensionInfo;
-    
-    
+
+
     /** Name
 * Description
 * Version
@@ -28,23 +24,19 @@ public class ExtensionInfoContainer : MonoBehaviour
     public void SetupExtension(ExtensionInfo data)
     {
         myExtensionInfo = data;
-      //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
-        
+        //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
+
         extensionName.text = data.name;
         extensionDate.text = data.updateDate;
-       // extensionRating.text = data.rating.ToString();
-       // extensionVersion.text = data.version.ToString();
+        // extensionRating.text = data.rating.ToString();
+        // extensionVersion.text = data.version.ToString();
 
 
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            if(extensionManagerView == null)
-            {
-                extensionManagerView = FindObjectOfType<ExtensionManagerView>();
 
-            }
 
-            extensionManagerView.extensionInfoView.SetupView(data);
+            StartCoroutine(extensionManagerView.extensionInfoView.SetupView(data));
         });
 
         installButton.onClick.AddListener(() =>
@@ -54,7 +46,7 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         uninstallButton.onClick.AddListener(() =>
         {
-           // AppManager.instance.modManager.UnloadMod(data.path);
+            // AppManager.instance.modManager.UnloadMod(data.path);
         });
     }
 

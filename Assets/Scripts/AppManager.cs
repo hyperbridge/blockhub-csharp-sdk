@@ -31,5 +31,5 @@ public class AppManager : MonoBehaviour
             GameObject.Destroy(go);
         }
     }
-  
+
 }

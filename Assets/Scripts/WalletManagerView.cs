@@ -11,14 +11,8 @@ using UnityEngine.UI;
 public class WalletManagerView : MonoBehaviour
 {
 
-    public Image icon;
-    public Text title, info;
-    public Button deleteButton;
     public WalletInfoView infoView;
 
-    public void DeleteWallet(WalletInfoContainer extension)
-    {
 
-    }
 
 }
