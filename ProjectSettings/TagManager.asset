@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ruler
+  - Debug
   layers:
   - Default
   - TransparentFX

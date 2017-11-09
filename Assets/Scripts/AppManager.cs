@@ -24,9 +24,9 @@ public class AppManager : MonoBehaviour
         modManager = GetComponent<ModManager>();
         saveDataManager = GetComponent<SaveDataManager>();
 
-        var rulers = GameObject.FindGameObjectsWithTag("Ruler");
+        var debugObjects = GameObject.FindGameObjectsWithTag("Debug");
 
-        foreach (GameObject go in rulers)
+        foreach (GameObject go in debugObjects)
         {
             GameObject.Destroy(go);
         }
