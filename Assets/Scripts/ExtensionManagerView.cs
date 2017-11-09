@@ -50,10 +50,18 @@ public class ExtensionManagerView : MonoBehaviour
         yield return json;
         foreach (ExtensionInfo extension in json)
         {
-            GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
-            container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
-            container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
-            container.SetActive(true);
+            if (Directory.Exists(Application.dataPath + "/Resources/Extensions/" + extension.name))
+            {
+                //If the mod is already in our files, we don't load anything
+            }
+            else
+            {
+                GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
+                container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+                container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
+                container.SetActive(true);
+            }
+          
         }
 
         activeRoutine = null;
