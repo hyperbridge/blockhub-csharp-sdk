@@ -19,7 +19,7 @@ public class WalletInfoView : MonoBehaviour
         address.text = data.myWallet.address;
         privateKey.text = data.myWallet.privateKey;
 
-        GetComponent<UIWindowPage>().Show();
+       // GetComponent<UIWindowPage>().Show();
 
         deleteWalletButton.onClick.AddListener(() =>
         {

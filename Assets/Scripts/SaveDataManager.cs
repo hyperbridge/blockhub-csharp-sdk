@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class SaveDataManager : MonoBehaviour
 {
@@ -31,11 +32,9 @@ public class SaveDataManager : MonoBehaviour
     {
     }
 
-    public void SaveCurrentData(int slot)
+    public void SaveCurrentExtensionData()
     {
         saver = SaveData.SaveAtPath("Extensions");
-        StartCoroutine(SavePlacement(slot));
-      //  saver.Save(slot.ToString() + "fow", FogOfWarValues());
 
     }
 
@@ -46,17 +45,20 @@ public class SaveDataManager : MonoBehaviour
 
     }
 
-    IEnumerator SavePlacement(int slot)
+    public void DeleteSpecificSave(string saveName, string saveFolder)
     {
+        if(File.Exists(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json"))
+        {
+            File.Delete(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json");
 
-
-        yield return new WaitForSeconds(1);
-        saveText.text = "Saved successfully in slot: " +slot.ToString();
-        yield return new WaitForSeconds(2);
+        }
+        else
+        {
+            throw new FileNotFoundException();
+        }
 
 
     }
-  
     public void LoadSavedData()
     {
 
@@ -67,17 +69,6 @@ public class SaveDataManager : MonoBehaviour
         
     }
   
-    IEnumerator NoSaveData(int slot)
-    {
-        loadText.text = "No save data in slot " + slot.ToString();
-        yield return new WaitForSeconds(1);
-    }
+ 
 
-    IEnumerator LoadExtensions(int slot)
-    {
-        yield return new WaitForSeconds(1);
-        
-        loadText.text = "Loaded successfully from slot: "+slot.ToString();
-        yield return new WaitForSeconds(2);
-    }
 }

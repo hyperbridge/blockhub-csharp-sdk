@@ -10,6 +10,7 @@ public class AppManager : MonoBehaviour
     public ModManager modManager;
     public SaveDataManager saveDataManager;
     public WalletService walletService;
+    public ProfileManager profileManager;
     public GameObject screen;
     public GameObject defaultView;
 
@@ -23,12 +24,14 @@ public class AppManager : MonoBehaviour
         walletManager = GetComponent<WalletManager>();
         modManager = GetComponent<ModManager>();
         saveDataManager = GetComponent<SaveDataManager>();
+        profileManager = GetComponent<ProfileManager>();
 
+        //Wicked Smart.
         var debugObjects = GameObject.FindGameObjectsWithTag("Debug");
 
         foreach (GameObject go in debugObjects)
         {
-            GameObject.Destroy(go);
+            Destroy(go);
         }
     }
 
