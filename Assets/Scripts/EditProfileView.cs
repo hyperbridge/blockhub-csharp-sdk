@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EditProfileView : MonoBehaviour
 {
 
-    public int currentlyEditingProfile;
     public Button saveEditButton;
     public InputField nameInput;
     public Toggle makeDefault;
@@ -18,7 +17,7 @@ public class EditProfileView : MonoBehaviour
         saveEditButton.onClick.AddListener(() =>
         {
 
-            AppManager.instance.profileManager.EditProfileData(null, nameInput.text, makeDefault.isOn, currentlyEditingProfile);
+            StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, nameInput.text, makeDefault.isOn));
 
 
 
@@ -27,14 +26,13 @@ public class EditProfileView : MonoBehaviour
     }
 
 
-    public void StartEditingProfile(int index)
+    public void StartEditingProfile(ProfileData data)
     {
+        AppManager.instance.profileManager.currentlyEditingProfile = data;
 
-        currentlyEditingProfile = index;
+        nameInput.text = data.profileName;
 
-        nameInput.text = AppManager.instance.profileManager.GetProfileDataByIndex(index).profileName;
-
-        makeDefault.isOn = AppManager.instance.profileManager.GetProfileDataByIndex(index).defaultProfile;
+        makeDefault.isOn = data.defaultProfile;
 
 
     }

@@ -38,7 +38,8 @@ namespace Devdog.SciFiDesign.UI
 
             if (_textTimeHour != null)
             {
-                _textTimeHour.text = n.Hour < 10 ? "0" + n.Hour : n.Hour.ToString();
+
+                _textTimeHour.text = n.Hour < 10 ? "0" + n.Hour : n.Hour < 12 ? n.Hour.ToString() : (n.Hour - 12).ToString();
             }
 
             if (_textTimeHour != null)
@@ -48,7 +49,7 @@ namespace Devdog.SciFiDesign.UI
 
             if (_textDay != null)
             {
-                _textDay.text = n.DayOfWeek.ToString().ToUpper();
+                _textDay.text = n.Hour > 12 ? "PM " + n.DayOfWeek.ToString().ToUpper() : "AM " + n.DayOfWeek.ToString().ToUpper();
             }
         }
 

@@ -11,6 +11,7 @@ public class ProfileContainer : MonoBehaviour
     public Text myText;
     int myIndex;
     Button myButton;
+    ProfileData myData;
     private void Start()
     {
         
@@ -21,7 +22,7 @@ public class ProfileContainer : MonoBehaviour
         myButton.onClick.AddListener(() =>
         {
 
-           AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(myIndex);
+        AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(myData);
 
         });
     }
@@ -31,8 +32,9 @@ public class ProfileContainer : MonoBehaviour
 
     }
 
-    public void SetupProfile(Sprite image, string name, int index)
+    public void SetupProfile(Sprite image, string name, int index, ProfileData data)
     {
+        myData = data;
         if (image != null) myImage.sprite = image;
 
         myText.text = name;

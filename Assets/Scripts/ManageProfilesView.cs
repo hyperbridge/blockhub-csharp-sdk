@@ -19,7 +19,7 @@ public class ManageProfilesView : MonoBehaviour
     {
         _profileManager = AppManager.instance.profileManager;
         AppManager.instance.profileManager._manageProfilesView = this;
-        StartCoroutine(ResetListView());
+        StartCoroutine(SetupListView());
 
     }
     void OnEnable()
@@ -29,10 +29,10 @@ public class ManageProfilesView : MonoBehaviour
     }
 
 
-    public void ShowEditProfileView(int profileID)
+    public void ShowEditProfileView(ProfileData dataToEdit)
     {
         editProfileView.Show();
-        editProfileView.GetComponent<EditProfileView>().StartEditingProfile(profileID);
+        editProfileView.GetComponent<EditProfileView>().StartEditingProfile(dataToEdit);
     }
 
 
@@ -42,27 +42,38 @@ public class ManageProfilesView : MonoBehaviour
     }
 
     //This is required for UI OnShow to access the coroutine.
-    public void ResetList()
+    public void StartSetupList()
     {
-        StartCoroutine(ResetListView());
+        StartCoroutine(SetupListView());
     }
-    public IEnumerator ResetListView()
+    public void ResetListItem()
+    {
+        myLoopList.SetListItemCount(0, true);
+       
+
+        StartCoroutine(SetupListView());
+        
+
+    }
+    public IEnumerator SetupListView()
     {
         yield return _profileManager.LoadExistingProfiles();
         Debug.Log(_profileManager.LoadExistingProfiles().Count);
         yield return new WaitForEndOfFrame();
         myLoopList.InitListView(_profileManager.existingProfiles.Count, OnGetItemByIndex);
 
-
-
     }
-
+    public IEnumerator ResetListView()
+    {
+        myLoopList.RefreshAllShownItem();
+        yield return null;
+    }
     LoopListViewItem2 OnGetItemByIndex(LoopListView2 listView, int index)
     {
         //Steps: We need to know the total amount of items we're spawning. 
         //Then the data for each item.
         // Then, we need to assign data to the items. This data is: Username, User picture and a Json file maybe with the config?
-       // int ID = 0;
+        // int ID = 0;
         if (index < 0 || index >= _profileManager.existingProfiles.Count)
         {
             return null;
@@ -75,13 +86,13 @@ public class ManageProfilesView : MonoBehaviour
         }
         LoopListViewItem2 item = listView.NewListViewItem("ProfileContainer");
         ProfileContainer profileContainerController = item.GetComponent<ProfileContainer>();
+        
 
 
-        {
-            profileContainerController.SetupProfile(null, profileData.profileName, index);
+        profileContainerController.SetupProfile(null, profileData.profileName, index,profileData);
 
 
-            return item;
-        }
+        return item;
+
     }
 }

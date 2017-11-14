@@ -11,7 +11,7 @@ public class ProfileManager : MonoBehaviour
     LoadData loader;
     public ManageProfilesView _manageProfilesView;
     public Text profileNameDisplay, profileNameDisplayBase;
-
+    public ProfileData currentlyEditingProfile;
     void Awake()
     {
 
@@ -32,7 +32,7 @@ public class ProfileManager : MonoBehaviour
         UpdateProfileNameDisplay();
 
         return existingProfiles[index];
-      
+
         /*foreach (ProfileData data in existingProfiles)
         {
             if (data.ID == index)
@@ -59,38 +59,52 @@ public class ProfileManager : MonoBehaviour
 
 
 
-    public void EditProfileData(string imageLocation, string profileName, bool makeDefault, int ID)
+    public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
     {
-        DeleteProfileData(ID);
+        DeleteProfileData(currentlyEditingProfile);
         ProfileData editedData = new ProfileData();
-        editedData.SetupProfileData(profileName, makeDefault, imageLocation, ID);
+        editedData.SetupProfileData(profileName, makeDefault, imageLocation, currentlyEditingProfile.ID);
         saver.Save<ProfileData>(editedData.profileName, editedData);
-        UpdateProfileNameDisplay();
+        yield return new WaitForSeconds(0.25f);
+        existingProfiles.Add(editedData);
+        UpdateProfileNameDisplay(editedData);
 
     }
 
-    public void DeleteProfileData(int ID)
+    public void DeleteProfileData(ProfileData dataToDelete)
     {
+        AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.profileName, "Profiles");
+
+
+        existingProfiles.Remove(dataToDelete);
+        _manageProfilesView.myLoopList.SetListItemCount(existingProfiles.Count, true);
+
+
+    }
+    public void DeleteEditingProfileData()
+    {
+        AppManager.instance.saveDataManager.DeleteSpecificSave(currentlyEditingProfile.profileName, "Profiles");
+
+
+        existingProfiles.Remove(currentlyEditingProfile);
+        _manageProfilesView.myLoopList.SetListItemCount(existingProfiles.Count, true);
+
+    }
+    public void UpdateProfileNameDisplay(ProfileData newDefault)
+    {
+        profileNameDisplay.text = newDefault.profileName;
+        profileNameDisplayBase.text = newDefault.profileName;
         foreach (ProfileData data in existingProfiles)
         {
-            if (data.ID == ID)
+            if (data.defaultProfile && data != newDefault)
             {
-
-                existingProfiles.Remove(data);
-               _manageProfilesView.myLoopList.SetListItemCount(existingProfiles.Count, true);
-
-                AppManager.instance.saveDataManager.DeleteSpecificSave(data.profileName, "Profiles");
-
+                data.defaultProfile = false;
             }
         }
-
-
-
     }
-
     public void UpdateProfileNameDisplay()
     {
-        foreach(ProfileData data in existingProfiles)
+        foreach (ProfileData data in existingProfiles)
         {
             if (data.defaultProfile)
             {

@@ -47,10 +47,11 @@ public class SaveDataManager : MonoBehaviour
 
     public void DeleteSpecificSave(string saveName, string saveFolder)
     {
+        Debug.Log(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json");
         if(File.Exists(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json"))
         {
             File.Delete(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json");
-
+            Debug.Log("wtf");
         }
         else
         {

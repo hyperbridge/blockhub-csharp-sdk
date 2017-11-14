@@ -11,6 +11,10 @@ public class WalletManager : MonoBehaviour
     public RectTransform walletListDisplay;
     List<Transform> currentWalletDisplays = new List<Transform>();
     public WalletManagerView walletManagerView;
+    private void Awake()
+    {
+        RefreshWalletList();
+    }
     public void RefreshWalletList()
     {
         StartCoroutine(ReadWalletList());
@@ -53,6 +57,13 @@ public class WalletManager : MonoBehaviour
 
     public IEnumerator ReadWalletList()
     {
+        LoadData loader = LoadData.LoadFromPath("Wallets");
+        List<WalletInfo> loadedData = new List<WalletInfo>();
+        wallets = loader.LoadAllFromFolder<WalletInfo>();
+        yield return loader.LoadAllFromFolder<WalletInfo>();
+    }
+   /* public IEnumerator ReadAndFillWalletList()
+    {
         walletListDisplay.DetachChildren();
         foreach (Transform t in currentWalletDisplays)
         {
@@ -64,12 +75,13 @@ public class WalletManager : MonoBehaviour
 
         currentWalletDisplays.Clear();
         wallets.Clear();
-
         LoadData loader = LoadData.LoadFromPath("Wallets");
         List<WalletInfo> loadedData = new List<WalletInfo>();
         wallets = loader.LoadAllFromFolder<WalletInfo>();
         yield return loader.LoadAllFromFolder<WalletInfo>();
 
+
         FillWalletList();
-    }
+        yield return null;
+    }*/
 }

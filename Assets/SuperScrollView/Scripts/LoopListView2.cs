@@ -974,7 +974,7 @@ namespace SuperScrollView
                 string prefabName = data.mItemPrefab.name;
                 if (mItemPoolDict.ContainsKey(prefabName))
                 {
-                    Debug.LogError("A item prefab with name " + prefabName + " has existed!");
+                    Debug.Log("A item prefab with name " + prefabName + " has existed!" + "This used to be an error");
                     continue;
                 }
                 RectTransform rtf = data.mItemPrefab.GetComponent<RectTransform>();
