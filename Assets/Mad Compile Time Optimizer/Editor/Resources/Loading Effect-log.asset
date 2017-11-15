@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 342976093, guid: 5eb872180e6624b46b2fa8b2229cc7ac, type: 3}
+  m_Name: Loading Effect-log
+  m_EditorClassIdentifier: 
+  ruleName: Loading Effect
+  rootDirectoryGUID: e326e5862c4a7482197aaeb31e5eeefc
+  rules:
+  - sourcePath: Assets/Loading Effect/Content/Scripts/Core/bl_LoadingEffect.cs
+    sourceGUID: 7b65d469683d4024f83cb79134491d08
+    targetPath: Assets/Standard Assets/Loading Effect/Content/Scripts/Core/bl_LoadingEffect.cs
+  - sourcePath: Assets/Loading Effect/Content/Scripts/Core/Editor/bl_LoadingEffectEditor.cs
+    sourceGUID: a5516070ab9a035458600e9183c299da
+    targetPath: Assets/Standard Assets/Editor/Loading Effect/Content/Scripts/Core/Editor/bl_LoadingEffectEditor.cs
+  - sourcePath: Assets/Loading Effect/Content/Scripts/Internal/Enum/LoadingType.cs
+    sourceGUID: a0654a0d47b3a0a4e8dc6d186c6cbc54
+    targetPath: Assets/Standard Assets/Loading Effect/Content/Scripts/Internal/Enum/LoadingType.cs
+  - sourcePath: Assets/Loading Effect/Content/Scripts/Internal/Structure/LoadingUIInfo.cs
+    sourceGUID: 31345762c9f75d34ebf5b03805c143df
+    targetPath: Assets/Standard Assets/Loading Effect/Content/Scripts/Internal/Structure/LoadingUIInfo.cs
+  - sourcePath: Assets/Loading Effect/Content/Scripts/Internal/Utils/bl_LoadingUtils.cs
+    sourceGUID: ee8a7322b14e2e14da158b5fafecc8ea
+    targetPath: Assets/Standard Assets/Loading Effect/Content/Scripts/Internal/Utils/bl_LoadingUtils.cs
+  - sourcePath: Assets/Loading Effect/Example/Scripts/bl_LEExampleManager.cs
+    sourceGUID: d4e55ce5533496d48a16e95a2a4f9c2a
+    targetPath: Assets/Standard Assets/Loading Effect/Example/Scripts/bl_LEExampleManager.cs
+  - sourcePath: Assets/Loading Effect/Example/Scripts/bl_LEExampleUsage.cs
+    sourceGUID: 8d880f77089a31143aa7c018d0513013
+    targetPath: Assets/Standard Assets/Loading Effect/Example/Scripts/bl_LEExampleUsage.cs
+  forRemoval: 0
+  forRemovalDeleteEmptyDirs: 0
+  persistent: 1

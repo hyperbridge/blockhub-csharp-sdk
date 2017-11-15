@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 342976093, guid: 5eb872180e6624b46b2fa8b2229cc7ac, type: 3}
+  m_Name: SuperScrollView-log
+  m_EditorClassIdentifier: 
+  ruleName: SuperScrollView
+  rootDirectoryGUID: fb519500d2e284edf913375cae3fb769
+  rules:
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/BottomToTopDemoScript.cs
+    sourceGUID: 4cd2cf87c54d3cd43849adc1709969ad
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/BottomToTopDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ChangeItemHeightDemoScript.cs
+    sourceGUID: c7f0cbff070ebee41bf2d3e48691600d
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ChangeItemHeightDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ChatMsgDataSourceMgr.cs
+    sourceGUID: 944450e2aafceac4ab7b3d2d964710e6
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ChatMsgDataSourceMgr.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ChatMsgListViewDemoScript.cs
+    sourceGUID: 9a5b505e8533030409de4a19ad3f96bb
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ChatMsgListViewDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ClickAndLoadMoreDemoScript.cs
+    sourceGUID: e61380ac292dae3419e070e5441a5141
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ClickAndLoadMoreDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/DataSourceMgr.cs
+    sourceGUID: 31b2627b7aecbfc42b288826e000a022
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/DataSourceMgr.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/DeleteItemDemoScript.cs
+    sourceGUID: b2643d8d205c4384cb22366f3354e56b
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/DeleteItemDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/DragChangSizeScript.cs
+    sourceGUID: 8b6ed2bc89dd5d740ab35c6ba081f723
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/DragChangSizeScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/FPSDisplay.cs
+    sourceGUID: 0c8c387c194f1a84da2f8f95293795f1
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/FPSDisplay.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/GridViewDeleteItemDemoScript.cs
+    sourceGUID: b21dcf701a2c218498c476ab660af2f9
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/GridViewDeleteItemDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/GridViewDemoScript.cs
+    sourceGUID: af0d4e6ad648b05409275262207058ee
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/GridViewDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/HorizontalGalleryDemoScript.cs
+    sourceGUID: 2a01eb6a09d31df44a148bd50ba22d39
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/HorizontalGalleryDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/LeftToRightDemoScript.cs
+    sourceGUID: a5da15fb8cb39c74a8e4d77d7b711b81
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/LeftToRightDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem0.cs
+    sourceGUID: 3a2dfb3d0cea9f34686dc4c68181e8aa
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem0.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem1.cs
+    sourceGUID: 6d0426b3a74a9a8408298331591cbf9b
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem1.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem10.cs
+    sourceGUID: 97985d127b977ba408412f35bd446170
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem10.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem11.cs
+    sourceGUID: f4f3e76937ade6e4387c32f760909c5f
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem11.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem12.cs
+    sourceGUID: 11a462dfee0b7d2449512e91160abe29
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem12.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem13.cs
+    sourceGUID: 179b4f2b41e28ad48917aa6fce6bdfe5
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem13.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem2.cs
+    sourceGUID: 106913316592ef540a632e726fd8cb5f
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem2.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem3.cs
+    sourceGUID: 3b967bf56203c7d479bf035b74cf3186
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem3.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem4.cs
+    sourceGUID: c17a47a7992cde542babb1a1b95c5fcb
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem4.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem5.cs
+    sourceGUID: f5384a9f482960a48b0939478c0c6cb4
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem5.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem6.cs
+    sourceGUID: ab338bf79045a9040b9ca9379be8fb4e
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem6.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem7.cs
+    sourceGUID: db62b2f5fef1ae645854cb333157367d
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem7.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem8.cs
+    sourceGUID: 0c01ff1430eac144e980324c75505bfc
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem8.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ListItem9.cs
+    sourceGUID: 15d791fe8109f8d47836c44df2648fea
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ListItem9.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/MenuSceneScript.cs
+    sourceGUID: 32b9ae3dde9a9af4fbcb8f61882142e0
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/MenuSceneScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/PullToLoadMoreDemoScript.cs
+    sourceGUID: c6a93f5b61dc29d4a87150bc2870b6cb
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/PullToLoadMoreDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/PullToRefreshDemoScript.cs
+    sourceGUID: 7ed2f7f8213dba94883636a69d21169f
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/PullToRefreshDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ResManager.cs
+    sourceGUID: c13e6fbbe5363084fa3ad999a8d07c2d
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ResManager.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/ResponsiveGridViewDemoScript.cs
+    sourceGUID: 3e63d030cc2c7e24e8560554c4e1785f
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/ResponsiveGridViewDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/RightToLeftDemoScript.cs
+    sourceGUID: ddaa186eca1717141bb5fd42e10d24a5
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/RightToLeftDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/RotateScript.cs
+    sourceGUID: baf8d7f948c888c45af61fc5a21551c7
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/RotateScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/SpinDatePickerDemoScript.cs
+    sourceGUID: 0ba3e614c8ee94e47964089a97af6e48
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/SpinDatePickerDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/TopToBottomDemoScript.cs
+    sourceGUID: 4f14c15a7669f8c47bd35c191620f52d
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/TopToBottomDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/TreeViewDataSourceMgr.cs
+    sourceGUID: f43ee094849563b4997d57173bfc8bff
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/TreeViewDataSourceMgr.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/TreeViewDemoScript.cs
+    sourceGUID: 54050f27bbda8c942b29d405df5ad392
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/TreeViewDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/TreeViewItemCountMgr.cs
+    sourceGUID: bbd687b717088de4d9176a8d17e08fbe
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/TreeViewItemCountMgr.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/TreeViewWithStickyHeadDemoScript.cs
+    sourceGUID: 3a8a37614741ad14db6dc18da7c8b6bf
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/TreeViewWithStickyHeadDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Demo/Scripts/VerticalGalleryDemoScript.cs
+    sourceGUID: 0a42fc7de90bcaf46b83e30bda6eadf8
+    targetPath: Assets/Standard Assets/SuperScrollView/Demo/Scripts/VerticalGalleryDemoScript.cs
+  - sourcePath: Assets/SuperScrollView/Editor/LoopListViewEditor2.cs
+    sourceGUID: 918dd6718813ec644a1322c8233e034d
+    targetPath: Assets/Standard Assets/Editor/SuperScrollView/Editor/LoopListViewEditor2.cs
+  - sourcePath: Assets/SuperScrollView/Scripts/ClickEventListener.cs
+    sourceGUID: 859322fb19b805d43999d30f2fd9c4f9
+    targetPath: Assets/Standard Assets/SuperScrollView/Scripts/ClickEventListener.cs
+  - sourcePath: Assets/SuperScrollView/Scripts/ItemPosMgr.cs
+    sourceGUID: dc664ca6019e86d458368a7d2fe9ef71
+    targetPath: Assets/Standard Assets/SuperScrollView/Scripts/ItemPosMgr.cs
+  - sourcePath: Assets/SuperScrollView/Scripts/LoopListView2.cs
+    sourceGUID: e190d043ef387ee4fad4acea6146931e
+    targetPath: Assets/Standard Assets/SuperScrollView/Scripts/LoopListView2.cs
+  - sourcePath: Assets/SuperScrollView/Scripts/LoopListViewItem2.cs
+    sourceGUID: bbcbd7952202d4d44a555aea5af2a351
+    targetPath: Assets/Standard Assets/SuperScrollView/Scripts/LoopListViewItem2.cs
+  forRemoval: 0
+  forRemovalDeleteEmptyDirs: 0
+  persistent: 1

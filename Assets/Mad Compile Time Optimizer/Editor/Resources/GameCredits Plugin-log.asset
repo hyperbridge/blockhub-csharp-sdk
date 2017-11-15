@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 342976093, guid: 5eb872180e6624b46b2fa8b2229cc7ac, type: 3}
+  m_Name: GameCredits Plugin-log
+  m_EditorClassIdentifier: 
+  ruleName: GameCredits Plugin
+  rootDirectoryGUID: 089dc84e14d0b4210a1cb575c81d5e84
+  rules:
+  - sourcePath: Assets/GameCredits Plugin/Scripts/GameCreditsAPI.cs
+    sourceGUID: a1cee2be97288f0429244a125072627a
+    targetPath: Assets/Standard Assets/GameCredits Plugin/Scripts/GameCreditsAPI.cs
+  - sourcePath: Assets/GameCredits Plugin/Scripts/TestManager.cs
+    sourceGUID: 9f99c2df41c61b0428c8b0da1b9e413e
+    targetPath: Assets/Standard Assets/GameCredits Plugin/Scripts/TestManager.cs
+  forRemoval: 0
+  forRemovalDeleteEmptyDirs: 0
+  persistent: 1

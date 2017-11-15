@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 342976093, guid: 5eb872180e6624b46b2fa8b2229cc7ac, type: 3}
+  m_Name: StockMarketRates-log
+  m_EditorClassIdentifier: 
+  ruleName: StockMarketRates
+  rootDirectoryGUID: de4e87ea9e29e4155a566efd3ab328fe
+  rules:
+  - sourcePath: Assets/StockMarketRates/FinanceCharter.cs
+    sourceGUID: 9a36f070a01f8a44ca478bbd391a1683
+    targetPath: Assets/Standard Assets/StockMarketRates/FinanceCharter.cs
+  - sourcePath: Assets/StockMarketRates/FinanceFinder.cs
+    sourceGUID: 3c5de03d53851754f9528db42fc670f2
+    targetPath: Assets/Standard Assets/StockMarketRates/FinanceFinder.cs
+  - sourcePath: Assets/StockMarketRates/FinanceQuoter.cs
+    sourceGUID: bbd0d219c9b7f564482a2a484852cd3e
+    targetPath: Assets/Standard Assets/StockMarketRates/FinanceQuoter.cs
+  - sourcePath: Assets/StockMarketRates/UIInputControl.cs
+    sourceGUID: c5da07cc6a267a24d8cbc83a1026f79b
+    targetPath: Assets/Standard Assets/StockMarketRates/UIInputControl.cs
+  forRemoval: 0
+  forRemovalDeleteEmptyDirs: 0
+  persistent: 1

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 342976093, guid: 5eb872180e6624b46b2fa8b2229cc7ac, type: 3}
+  m_Name: Runt-log
+  m_EditorClassIdentifier: 
+  ruleName: Runt
+  rootDirectoryGUID: 84cfe6b2cf78c484e98e59dbc56fc232
+  rules:
+  - sourcePath: Assets/Runt/Data/DataFile.cs
+    sourceGUID: 84ab56a7bbfd4434b99758ee9605802c
+    targetPath: Assets/Standard Assets/Runt/Data/DataFile.cs
+  - sourcePath: Assets/Runt/Data/JsonFile.cs
+    sourceGUID: 4d6f97edab472424ba799a3413d3c6bc
+    targetPath: Assets/Standard Assets/Runt/Data/JsonFile.cs
+  - sourcePath: Assets/Runt/Editor/JsonEditor/Scripts/JsonEditor.cs
+    sourceGUID: b346bb3586c95fc4e8613657030bad4e
+    targetPath: Assets/Standard Assets/Editor/Runt/Editor/JsonEditor/Scripts/JsonEditor.cs
+  - sourcePath: Assets/Runt/Editor/JsonEditor/Scripts/Worksheet.cs
+    sourceGUID: a575056c23f4d484b9780ff26d97d4d6
+    targetPath: Assets/Standard Assets/Editor/Runt/Editor/JsonEditor/Scripts/Worksheet.cs
+  - sourcePath: Assets/Runt/Input/EditorMouseInput.cs
+    sourceGUID: 27f40097bd299486b85bf2d988e43b57
+    targetPath: Assets/Standard Assets/Runt/Input/EditorMouseInput.cs
+  - sourcePath: Assets/Runt/Input/IHasMouseInput.cs
+    sourceGUID: 70e469987a56e42c6b1aaa80f1df9114
+    targetPath: Assets/Standard Assets/Runt/Input/IHasMouseInput.cs
+  - sourcePath: Assets/Runt/Utilities/Utility.cs
+    sourceGUID: f28a376caf0b4a7449f603a422301f6e
+    targetPath: Assets/Standard Assets/Runt/Utilities/Utility.cs
+  forRemoval: 0
+  forRemovalDeleteEmptyDirs: 0
+  persistent: 1
