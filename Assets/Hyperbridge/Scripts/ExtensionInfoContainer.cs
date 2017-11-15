@@ -11,7 +11,7 @@ public class ExtensionInfoContainer : MonoBehaviour
     public Text extensionName, extensionDate, extensionRating, extensionVersion;
     public Button installButton, uninstallButton;
     public ExtensionManagerView extensionManagerView;
-    ExtensionInfo myExtensionInfo;
+    ExtensionInfo data;
 
 
     /** Name
@@ -23,7 +23,7 @@ public class ExtensionInfoContainer : MonoBehaviour
 * Number of installs*/
     public void SetupExtension(ExtensionInfo data)
     {
-        myExtensionInfo = data;
+        this.data = data;
         //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
         extensionName.text = data.name;
         extensionDate.text = data.updateDate;
@@ -38,12 +38,12 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         installButton.onClick.AddListener(() =>
         {
-            AppManager.instance.modManager.InstallMod(data.path, data.name);
+            StartCoroutine(AppManager.instance.modManager.InstallMod(data.path, data.name));
         });
 
         uninstallButton.onClick.AddListener(() =>
         {
-            // AppManager.instance.modManager.m(data.path);
+            //AppManager.instance.modManager.DeleteMod(data);
         });
     }
 

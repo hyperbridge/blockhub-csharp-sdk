@@ -36,7 +36,7 @@ public class ProfileManager : MonoBehaviour
 
     public List<ProfileData> LoadProfiles()
     {
-        this.profiles = this.loader.LoadAllFromFolder<ProfileData>();
+        this.profiles = this.loader.LoadAllFilesFromFolder<ProfileData>();
         this.UpdateProfileNameDisplay();
 
         this.DispatchUpdateEvent();

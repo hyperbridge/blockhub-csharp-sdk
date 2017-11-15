@@ -11,7 +11,7 @@ public class ExtensionChecker
     {
         List<ExtensionInfo> externalExtensions = new List<ExtensionInfo>();
         LoadData loader = LoadData.LoadFromPath("/Hyperbridge/Resources/TemporaryExtensionSource/");
-        externalExtensions =  loader.LoadAllFromFolder<ExtensionInfo>();
+        externalExtensions =  loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
 
         yield return externalExtensions;
 
@@ -25,7 +25,7 @@ public class ExtensionChecker
     {
         List<ExtensionInfo> localExtensions = new List<ExtensionInfo>();
         LoadData loader = LoadData.LoadFromPath("Extensions");
-        localExtensions = loader.LoadAllFromFolder<ExtensionInfo>();
+        localExtensions = loader.LoadAllFilesFromFolder<ExtensionInfo>();
 
         yield return localExtensions;
 

@@ -11,7 +11,7 @@ public class ModManager : MonoBehaviour
 {
     ModHost latestLoadedMod;
     List<ModHost> activeMods;
-
+    
     private void Awake()
     {
         Mod.Initialize();
@@ -59,25 +59,34 @@ public class ModManager : MonoBehaviour
         loadInHost.OnModLoadComplete += OnModLoadComplete;
     }
 
-    public void InstallMod(string modPath, string modName)
+    public IEnumerator InstallMod(string modPath, string modName)
     {
         // File Transfer
         string ID = GUID.Generate().ToString();
-        // Directory.CreateDirectory(Application.dataPath + "/Resources/Extensions/" + ID + "/");
-        FileUtil.CopyFileOrDirectory(modPath, Application.dataPath + "/Resources/Extensions/" + ID + "/" + modName);
+
+        Directory.CreateDirectory(Application.dataPath + "/Resources/Extensions/" + ID + "/");
+
+        
+        FileUtil.CopyFileOrDirectory(modPath+"/"+modName+"/", Application.dataPath + "/Resources/Extensions/" + ID + "/" + modName+"/");
+        yield return new WaitForEndOfFrame();
         //We're not ready for mod loading yet   LoadMod(Application.dataPath + "/Resources/Extensions/" + modName);
         LoadData loader = LoadData.LoadFromPath("/Resources/Extensions/" + ID + "/" + modName);
+
         UnityEditor.AssetDatabase.Refresh();
 
         ExtensionInfo extensionToEdit = loader.LoadThisData<ExtensionInfo>(modName);
         extensionToEdit.installed = true;
         extensionToEdit.active = true;
+        extensionToEdit.path = Application.dataPath + "/Resources/Extensions/" + ID + "/";
         AppManager.instance.saveDataManager.SaveExtensionJSON(ID, extensionToEdit);
 
 
 
     }
-
+    public void DeleteMod(ExtensionInfo data)
+    {
+        Directory.Delete(data.path);
+    }
     private void OnModLoadComplete(ModLoadCompleteArgs args)
     {
         if (args.IsLoaded)

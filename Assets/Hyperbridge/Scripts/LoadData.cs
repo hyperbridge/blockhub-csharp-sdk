@@ -26,7 +26,7 @@ public class LoadData
 
             if (fileToLoad == null)
             {
-                Debug.Log(_path + data);
+              //  Debug.Log(_path + data);
                 //string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
 
                 //throw new FileNotFoundException(message);
@@ -44,9 +44,10 @@ public class LoadData
         return default(T);
     }
 
-    public List<T> LoadAllFromFolder<T>()
+    public List<T> LoadAllFilesFromFolder<T>()
     {
         DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+        DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
         FileInfo[] info = dirInfo.GetFiles("*.json");
         List<T> returnList = new List<T>();
 
@@ -72,6 +73,47 @@ public class LoadData
                     returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
                 }
             }
+        }
+
+        return returnList;
+    }
+
+
+    public List<T> LoadAllFilesFromSubFolder<T>()
+    {
+        DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+        DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+        List<T> returnList = new List<T>();
+
+        if (subDirectories.Length > 0)
+        {
+            foreach(DirectoryInfo subDir in subDirectories)
+            {
+                FileInfo[] info = subDir.GetFiles("*.json");
+
+                if (info.Length > 0)
+                {
+                    foreach (FileInfo file in info)
+                    {
+                        string fileToLoad = file.OpenText().ReadToEnd();
+
+                        if (fileToLoad == null)
+                        {
+                            string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+
+                            Debug.Log(message);
+
+                            return returnList;
+                        }
+                        else
+                        {
+                            returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                        }
+                    }
+                }
+            }
+         
+
         }
 
         return returnList;
