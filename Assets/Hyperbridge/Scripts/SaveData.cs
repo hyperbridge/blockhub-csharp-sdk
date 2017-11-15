@@ -24,11 +24,11 @@ public class SaveData
 
     public void Save<T>(string saveName,T objectToSave)
     {
-        if (!Directory.Exists(Application.dataPath + "/Resources/" + _path)) {
-            Directory.CreateDirectory(Application.dataPath + "/Resources/" + _path);
+        if (!Directory.Exists(Application.dataPath  + _path)) {
+            Directory.CreateDirectory(Application.dataPath  + _path);
         }
 
-        File.WriteAllText(Application.dataPath + "/Resources/" + _path + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
+        File.WriteAllText(Application.dataPath  + _path + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
 
         Debug.Log(saveName + " Saved at: " + _path);
     }

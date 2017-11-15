@@ -6,7 +6,7 @@ using Devdog.General.UI;
 public class WalletInfoView : MonoBehaviour
 {
     public Text title, info, address, privateKey;
-    public InputField walletNameForEditing;
+    public InputField walletNameForEditing, walletNameForCopying;
     public Image walletImage;
     public Button deleteWalletButton;
 
@@ -17,7 +17,8 @@ public class WalletInfoView : MonoBehaviour
         this.address.text = wallet.address;
         this.privateKey.text = wallet.privateKey;
         this.walletNameForEditing.text = wallet.title;
-
+        this.walletNameForCopying.text = this.address.text;
+      
         this.GetComponent<UIWindowPage>().Show();
 
         this.deleteWalletButton.onClick.AddListener(() => {

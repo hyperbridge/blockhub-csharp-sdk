@@ -25,9 +25,11 @@ public class ModManager : MonoBehaviour
 
     void CheckMods()
     {
-        foreach (string mod in InstalledExtensionPaths()) {
+        //TODO: This is deactivated because Umod isn't real (we're not using it until they update)
+        /*foreach (string mod in InstalledExtensionPaths())
+        {
             LoadMod(mod);
-        }
+        }*/
     }
     /* public IEnumerator LoadMod(string modPath)
       {
@@ -42,7 +44,7 @@ public class ModManager : MonoBehaviour
 
           Debug.Log("Loaded " + request.WasLoadSuccessful);
       }*/
-    
+
     public void LoadMod(string modPath)
     {
         Debug.Log(modPath);
@@ -59,19 +61,27 @@ public class ModManager : MonoBehaviour
 
     public void InstallMod(string modPath, string modName)
     {
+        // File Transfer
+        string ID = GUID.Generate().ToString();
+        // Directory.CreateDirectory(Application.dataPath + "/Resources/Extensions/" + ID + "/");
+        FileUtil.CopyFileOrDirectory(modPath, Application.dataPath + "/Resources/Extensions/" + ID + "/" + modName);
+        //We're not ready for mod loading yet   LoadMod(Application.dataPath + "/Resources/Extensions/" + modName);
+        LoadData loader = LoadData.LoadFromPath("/Resources/Extensions/" + ID + "/" + modName);
+        UnityEditor.AssetDatabase.Refresh();
 
-        if (Directory.Exists(Application.dataPath + "/Resources/Extensions/" + modName)) {
-            // If the mod is already in our files, we don't load anything
-        }
-        else { // Simulating a download
-            FileUtil.CopyFileOrDirectory(modPath, Application.dataPath + "/Resources/Extensions/" + modName);
-            LoadMod(Application.dataPath + "/Resources/Extensions/" + modName);
-        }
+        ExtensionInfo extensionToEdit = loader.LoadThisData<ExtensionInfo>(modName);
+        extensionToEdit.installed = true;
+        extensionToEdit.active = true;
+        AppManager.instance.saveDataManager.SaveExtensionJSON(ID, extensionToEdit);
+
+
+
     }
 
     private void OnModLoadComplete(ModLoadCompleteArgs args)
     {
-        if (args.IsLoaded) {
+        if (args.IsLoaded)
+        {
             Debug.Log("Mod loaded");
             /* if (latestLoadedMod.Assets.Exists("UIPrefab1"))
              {
@@ -82,7 +92,8 @@ public class ModManager : MonoBehaviour
              */
 
         }
-        else if (!args.IsLoaded) {
+        else if (!args.IsLoaded)
+        {
             Debug.LogError("Can't load that mod");
         }
     }
@@ -103,7 +114,8 @@ public class ModManager : MonoBehaviour
     public string[] InstalledExtensionPaths()
     {
         string[] directories = Directory.GetDirectories(Application.dataPath + "/Resources/Extensions");
-        for (int i = 0; i < directories.Length; i++) {
+        for (int i = 0; i < directories.Length; i++)
+        {
             directories[i] = directories[i].Replace(@"\", @"/");
         }
 

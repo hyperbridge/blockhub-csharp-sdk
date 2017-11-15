@@ -16,8 +16,8 @@ public class ProfileManager : MonoBehaviour
 
     private void Awake()
     {
-        this.saver = SaveData.SaveAtPath("Profiles");
-        this.loader = LoadData.LoadFromPath("Profiles");
+        this.saver = SaveData.SaveAtPath("/Resources/Profiles");
+        this.loader = LoadData.LoadFromPath("/Resources/Profiles");
 
         CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
     }

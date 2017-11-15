@@ -34,7 +34,7 @@ public class WalletManager : MonoBehaviour
 
     public IEnumerator LoadWallets()
     {
-        LoadData loader = LoadData.LoadFromPath("Wallets");
+        LoadData loader = LoadData.LoadFromPath("/Resources/Wallets");
         var loadedData = new List<WalletInfo>();
 
         this.wallets = loader.LoadAllFromFolder<WalletInfo>();

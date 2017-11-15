@@ -25,18 +25,17 @@ public class SaveDataManager : MonoBehaviour
         this.saver = SaveData.SaveAtPath("Extensions");
     }
 
-    public void SaveExtensionJSON(ExtensionInfo data)
+    public void SaveExtensionJSON(string ID,ExtensionInfo data)
     {
-        this.saver = SaveData.SaveAtPath("Extensions");
+        this.saver = SaveData.SaveAtPath("/Resources/Extensions/"+ID+"/"+data.name);
         this.saver.Save<ExtensionInfo>(data.name, data);
     }
 
-    public void DeleteSpecificSave(string saveName, string saveFolder)
+    public void DeleteSpecificSave(string saveName, string path)
     {
-        Debug.Log(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json");
-        if (File.Exists(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json")) {
-            File.Delete(Application.dataPath + "/Resources/" + saveFolder + "/" + saveName + ".json");
-            Debug.Log("wtf");
+        Debug.Log(Application.dataPath + path + "/" + saveName + ".json");
+        if (File.Exists(Application.dataPath  + path + "/" + saveName + ".json")) {
+            File.Delete(Application.dataPath  + path + "/" + saveName + ".json");
         }
         else {
             throw new FileNotFoundException();

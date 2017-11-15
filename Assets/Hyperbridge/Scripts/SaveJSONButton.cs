@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class SaveJSONButton : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class SaveJSONButton : MonoBehaviour
                     break;
             }
         }
-
-        AppManager.instance.saveDataManager.SaveExtensionJSON(dataToSave);
+        string ID = GUID.Generate().ToString();
+        AppManager.instance.saveDataManager.SaveExtensionJSON(ID,dataToSave);
     }
 }
