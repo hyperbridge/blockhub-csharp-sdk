@@ -7,7 +7,7 @@ using SuperScrollView;
 public class WalletGridView : MonoBehaviour
 {
 
-    public LoopListView2 loopList;
+    //public LoopListView2 loopList;
     int walletCountPerRow, totalWalletCount;
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class WalletGridView : MonoBehaviour
 
         totalWalletCount = AppManager.instance.walletManager.wallets.Count;
 
-        loopList.InitListView(ObjectCount(totalWalletCount, walletCountPerRow), OnGetItemByIndex);
+        //loopList.InitListView(ObjectCount(totalWalletCount, walletCountPerRow), OnGetItemByIndex);
 
 
     }
@@ -39,35 +39,35 @@ public class WalletGridView : MonoBehaviour
 
 
 
-    LoopListViewItem2 OnGetItemByIndex(LoopListView2 listView, int index)
-    {
-        if (index < 0)
-        {
-            return null;
-        }
-        LoopListViewItem2 item = listView.NewListViewItem("WalletContainerDoubleGridItem");
-        WalletContainerDoubleGridItemController controller = item.GetComponent<WalletContainerDoubleGridItemController>();
+    //LoopListViewItem2 OnGetItemByIndex(LoopListView2 listView, int index)
+    //{
+    //    if (index < 0)
+    //    {
+    //        return null;
+    //    }
+    //    LoopListViewItem2 item = listView.NewListViewItem("WalletContainerDoubleGridItem");
+    //    WalletContainerDoubleGridItemController controller = item.GetComponent<WalletContainerDoubleGridItemController>();
       
-        for (int i = 0; i < walletCountPerRow; ++i)
-        {
-            int itemIndex = index * walletCountPerRow + i;
-            if (itemIndex >= totalWalletCount)
-            {
-                controller.walletInfoContainerList[i].gameObject.SetActive(false);
-                continue;
-            }
+    //    for (int i = 0; i < walletCountPerRow; ++i)
+    //    {
+    //        int itemIndex = index * walletCountPerRow + i;
+    //        if (itemIndex >= totalWalletCount)
+    //        {
+    //            controller.walletInfoContainerList[i].gameObject.SetActive(false);
+    //            continue;
+    //        }
 
-            WalletInfo walletData = AppManager.instance.walletManager.wallets[itemIndex];
-            if (walletData != null)
-            {
-                controller.walletInfoContainerList[i].gameObject.SetActive(true);
-                controller.walletInfoContainerList[i].SetupContainer(walletData);
-            }
-            else
-            {
-                controller.walletInfoContainerList[i].gameObject.SetActive(false);
-            }
-        }
-        return item;
-    }
+    //        WalletInfo walletData = AppManager.instance.walletManager.wallets[itemIndex];
+    //        if (walletData != null)
+    //        {
+    //            controller.walletInfoContainerList[i].gameObject.SetActive(true);
+    //            controller.walletInfoContainerList[i].SetupContainer(walletData);
+    //        }
+    //        else
+    //        {
+    //            controller.walletInfoContainerList[i].gameObject.SetActive(false);
+    //        }
+    //    }
+    //    return item;
+    //}
 }

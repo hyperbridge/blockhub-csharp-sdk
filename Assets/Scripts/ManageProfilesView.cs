@@ -7,27 +7,48 @@ using Devdog.General.UI;
 
 public class ManageProfilesView : MonoBehaviour
 {
-
-    public LoopListView2 myLoopList;
-    ProfileManager _profileManager;
     public UIWindowPage editProfileView, deleteProfileConfirmationView;
+    public GameObject profileDisplayPrefab, listView;
+
+    private ProfileManager _profileManager;
+
     private void Awake()
     {
-
+        CodeControl.Message.AddListener<UpdateProfilesEvent>(UpdateProfiles);
     }
+
     private void Start()
     {
         _profileManager = AppManager.instance.profileManager;
-        AppManager.instance.profileManager._manageProfilesView = this;
-        StartCoroutine(SetupListView());
-
+        AppManager.instance.profileManager._manageProfilesView = this; // TODO: remove this
     }
+
+    public void UpdateProfiles(UpdateProfilesEvent e) {
+        var profiles = e.profiles;
+
+        foreach (Transform child in listView.transform) {
+            Destroy(child.gameObject);
+        }
+
+        foreach (ProfileData profileData in profiles) {
+            Debug.Log(profileData.name);
+
+            GameObject go = Instantiate(profileDisplayPrefab);
+
+            ProfileContainer profileContainerController = go.GetComponent<ProfileContainer>();
+            profileContainerController.SetupProfile(null, profileData.name, profileData.uuid, profileData);
+
+            go.transform.SetParent(listView.transform);
+            go.transform.localScale = new Vector3(1, 1, 1);
+            go.SetActive(true);
+        }
+    }
+
     void OnEnable()
     {
 
 
     }
-
 
     public void ShowEditProfileView(ProfileData dataToEdit)
     {
@@ -35,64 +56,8 @@ public class ManageProfilesView : MonoBehaviour
         editProfileView.GetComponent<EditProfileView>().StartEditingProfile(dataToEdit);
     }
 
-
     public void ShowDeleteProfileConfirmationView()
     {
         deleteProfileConfirmationView.Show();
-    }
-
-    //This is required for UI OnShow to access the coroutine.
-    public void StartSetupList()
-    {
-        StartCoroutine(SetupListView());
-    }
-    public void ResetListItem()
-    {
-        myLoopList.SetListItemCount(0, true);
-       
-
-        StartCoroutine(SetupListView());
-        
-
-    }
-    public IEnumerator SetupListView()
-    {
-        yield return _profileManager.LoadExistingProfiles();
-        Debug.Log(_profileManager.LoadExistingProfiles().Count);
-        yield return new WaitForEndOfFrame();
-        myLoopList.InitListView(_profileManager.existingProfiles.Count, OnGetItemByIndex);
-
-    }
-    public IEnumerator ResetListView()
-    {
-        myLoopList.RefreshAllShownItem();
-        yield return null;
-    }
-    LoopListViewItem2 OnGetItemByIndex(LoopListView2 listView, int index)
-    {
-        //Steps: We need to know the total amount of items we're spawning. 
-        //Then the data for each item.
-        // Then, we need to assign data to the items. This data is: Username, User picture and a Json file maybe with the config?
-        // int ID = 0;
-        if (index < 0 || index >= _profileManager.existingProfiles.Count)
-        {
-            return null;
-        }
-
-        ProfileData profileData = _profileManager.GetProfileDataByIndex(index);
-        if (profileData == null)
-        {
-            return null;
-        }
-        LoopListViewItem2 item = listView.NewListViewItem("ProfileContainer");
-        ProfileContainer profileContainerController = item.GetComponent<ProfileContainer>();
-        
-
-
-        profileContainerController.SetupProfile(null, profileData.profileName, index,profileData);
-
-
-        return item;
-
     }
 }

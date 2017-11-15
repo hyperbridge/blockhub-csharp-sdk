@@ -7,6 +7,7 @@ public class ParentView : MonoBehaviour
 {
 
     List<UIWindowPage> allPages = new List<UIWindowPage>();
+
     // Use this for initialization
     void Start()
     {

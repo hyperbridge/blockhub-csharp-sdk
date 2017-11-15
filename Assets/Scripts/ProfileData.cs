@@ -1,20 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class ProfileData  {
-
-    public string profileName;
-    public bool defaultProfile;
+public class ProfileData
+{
+    public string name;
+    public bool isDefault;
     public string imageLocation;
-    public int ID;
+    public string uuid;
 
-    public void SetupProfileData(string name, bool isDefault,string imageAddress, int index)
+    public void SetupProfileData(string name, bool isDefault, string imageLocation, string uuid)
     {
-        profileName = name;
-        defaultProfile = isDefault;
-        imageLocation = imageAddress;
-        ID = index;
+        this.name = name;
+        this.isDefault = isDefault;
+        this.imageLocation = imageLocation;
+        this.uuid = uuid;
     }
-
-
 }

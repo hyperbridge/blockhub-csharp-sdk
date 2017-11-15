@@ -6,40 +6,40 @@ using UnityEngine.UI;
 
 public class ProfileContainer : MonoBehaviour
 {
+    public Image image;
+    public Text text;
 
-    public Image myImage;
-    public Text myText;
-    int myIndex;
-    Button myButton;
-    ProfileData myData;
+    private Button button;
+    private ProfileData data;
+    private string uuid;
+
     private void Start()
     {
         
     }
-    void InitializeContainer()
+
+    private void Update()
     {
-        myButton = GetComponent<Button>();
-        myButton.onClick.AddListener(() =>
-        {
 
-        AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(myData);
+    }
 
+    private void InitializeContainer()
+    {
+        this.button = GetComponent<Button>();
+        this.button.onClick.AddListener(() => {
+            AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(this.data); // TODO: please no
         });
     }
 
-    void Update()
+    public void SetupProfile(Sprite sprite, string name, string uuid, ProfileData data)
     {
+        this.data = data;
+        this.uuid = uuid;
+        this.text.text = name;
 
-    }
-
-    public void SetupProfile(Sprite image, string name, int index, ProfileData data)
-    {
-        myData = data;
-        if (image != null) myImage.sprite = image;
-
-        myText.text = name;
-        myIndex = index;
+        if (sprite != null)
+            this.image.sprite = sprite;
+        
         InitializeContainer();
     }
-
 }

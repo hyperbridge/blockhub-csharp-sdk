@@ -7,11 +7,13 @@ public class ProfileManager : MonoBehaviour
 {
 
     public List<ProfileData> existingProfiles = new List<ProfileData>();
-    SaveData saver;
-    LoadData loader;
     public ManageProfilesView _manageProfilesView;
     public Text profileNameDisplay, profileNameDisplayBase;
     public ProfileData currentlyEditingProfile;
+
+    private SaveData saver;
+    private LoadData loader;
+
     void Awake()
     {
 
@@ -19,98 +21,90 @@ public class ProfileManager : MonoBehaviour
         loader = LoadData.LoadFromPath("Profiles");
 
         LoadExistingProfiles();
+
+        UpdateProfilesEvent message = new UpdateProfilesEvent();
+        message.profiles = existingProfiles;
+        CodeControl.Message.Send<UpdateProfilesEvent>(message);
     }
 
     public List<ProfileData> LoadExistingProfiles()
     {
         existingProfiles = loader.LoadAllFromFolder<ProfileData>();
         UpdateProfileNameDisplay();
+
         return existingProfiles;
     }
-    public ProfileData GetProfileDataByIndex(int index)
-    {
-        UpdateProfileNameDisplay();
 
-        return existingProfiles[index];
-
-        /*foreach (ProfileData data in existingProfiles)
-        {
-            if (data.ID == index)
-            {
-                return data;
-
-            }
-        }*/
-    }
-    /// <summary>
-    /// Creates a new profile data
-    /// </summary>
-    /// <param name="imageLocation"></param>
-    /// <param name="profileName"></param>
-    /// <param name="makeDefault"></param>
     public void SaveNewProfileData(string imageLocation, string profileName, bool makeDefault)
     {
         ProfileData newData = new ProfileData();
 
-        newData.SetupProfileData(profileName, makeDefault, imageLocation, existingProfiles.Count);
+        newData.SetupProfileData(profileName, makeDefault, imageLocation, existingProfiles.Count.ToString());
         existingProfiles.Add(newData);
-        saver.Save<ProfileData>(newData.profileName, newData);
+        saver.Save<ProfileData>(newData.name, newData);
+
+        UnityEditor.AssetDatabase.Refresh();
+
+        UpdateProfilesEvent message = new UpdateProfilesEvent();
+        message.profiles = existingProfiles;
+        CodeControl.Message.Send<UpdateProfilesEvent>(message);
     }
-
-
 
     public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
     {
         DeleteProfileData(currentlyEditingProfile);
+
         ProfileData editedData = new ProfileData();
-        editedData.SetupProfileData(profileName, makeDefault, imageLocation, currentlyEditingProfile.ID);
-        saver.Save<ProfileData>(editedData.profileName, editedData);
+        editedData.SetupProfileData(profileName, makeDefault, imageLocation, currentlyEditingProfile.uuid);
+        saver.Save<ProfileData>(editedData.name, editedData);
+
         yield return new WaitForSeconds(0.25f);
+
         existingProfiles.Add(editedData);
         UpdateProfileNameDisplay(editedData);
 
+        UpdateProfilesEvent message = new UpdateProfilesEvent();
+        message.profiles = existingProfiles;
+        CodeControl.Message.Send<UpdateProfilesEvent>(message);
     }
 
     public void DeleteProfileData(ProfileData dataToDelete)
     {
-        AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.profileName, "Profiles");
-
+        AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "Profiles");
 
         existingProfiles.Remove(dataToDelete);
-        _manageProfilesView.myLoopList.SetListItemCount(existingProfiles.Count, true);
 
+        UnityEditor.AssetDatabase.Refresh();
 
+        UpdateProfilesEvent message = new UpdateProfilesEvent();
+        message.profiles = existingProfiles;
+        CodeControl.Message.Send<UpdateProfilesEvent>(message);
     }
+
+    // TODO: How does this happen? Seems like it should just use above
     public void DeleteEditingProfileData()
     {
-        AppManager.instance.saveDataManager.DeleteSpecificSave(currentlyEditingProfile.profileName, "Profiles");
-
-
-        existingProfiles.Remove(currentlyEditingProfile);
-        _manageProfilesView.myLoopList.SetListItemCount(existingProfiles.Count, true);
-
+        this.DeleteProfileData(currentlyEditingProfile);
     }
-    public void UpdateProfileNameDisplay(ProfileData newDefault)
+
+    public void UpdateProfileNameDisplay(ProfileData newDefault = null)
     {
-        profileNameDisplay.text = newDefault.profileName;
-        profileNameDisplayBase.text = newDefault.profileName;
-        foreach (ProfileData data in existingProfiles)
-        {
-            if (data.defaultProfile && data != newDefault)
-            {
-                data.defaultProfile = false;
+        foreach (ProfileData data in existingProfiles) {
+            if (newDefault != null && newDefault == data) {
+                profileNameDisplay.text = data.name;
+                profileNameDisplayBase.text = data.name;
+            }
+            else if (newDefault == null && data.isDefault) {
+                profileNameDisplay.text = data.name;
+                profileNameDisplayBase.text = data.name;
+            }
+            else {
+                data.isDefault = false;
             }
         }
     }
+
     public void UpdateProfileNameDisplay()
     {
-        foreach (ProfileData data in existingProfiles)
-        {
-            if (data.defaultProfile)
-            {
-                profileNameDisplay.text = data.profileName;
-                profileNameDisplayBase.text = data.profileName;
-            }
-        }
     }
 }
