@@ -13,25 +13,7 @@ public class ProfileContainer : MonoBehaviour
     private ProfileData data;
     private string uuid;
 
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-
-    }
-
-    private void InitializeContainer()
-    {
-        this.button = GetComponent<Button>();
-        this.button.onClick.AddListener(() => {
-            AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(this.data); // TODO: please no
-        });
-    }
-
-    public void SetupProfile(Sprite sprite, string name, string uuid, ProfileData data)
+    public void SetupContainer(Sprite sprite, string name, string uuid, ProfileData data)
     {
         this.data = data;
         this.uuid = uuid;
@@ -39,7 +21,10 @@ public class ProfileContainer : MonoBehaviour
 
         if (sprite != null)
             this.image.sprite = sprite;
-        
-        InitializeContainer();
+
+        this.button = GetComponent<Button>();
+        this.button.onClick.AddListener(() => {
+            AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(this.data); // TODO: please no
+        });
     }
 }

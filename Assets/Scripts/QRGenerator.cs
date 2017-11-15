@@ -4,29 +4,27 @@ using ZXing.QrCode;
 
 public class QRGenerator
 {
-
     public Texture2D generateQR(string text)
     {
         var encoded = new Texture2D(256, 256);
         var color32 = Encode(text, encoded.width, encoded.height);
+
         encoded.SetPixels32(color32);
         encoded.Apply();
+
         return encoded;
     }
 
-
-    private static Color32[] Encode(string textForEncoding,
-  int width, int height)
+    private static Color32[] Encode(string textForEncoding, int width, int height)
     {
-        var writer = new BarcodeWriter
-        {
+        var writer = new BarcodeWriter {
             Format = BarcodeFormat.QR_CODE,
-            Options = new QrCodeEncodingOptions
-            {
+            Options = new QrCodeEncodingOptions {
                 Height = height,
                 Width = width
             }
         };
+
         return writer.Write(textForEncoding);
     }
 }

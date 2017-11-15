@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class WalletInfo
 {
+    public string _path, title, info, address, privateKey, secret, uuid;
 
-    public string _path, title, info, address, privateKey, secret;
-
-    // Doesnt seem to be used anywhere 
-    public void SetupWallet(string path, string title, string address, string privateKey, string secret)
+    // TODO: Remove. Doesnt seem to be used anywhere.
+    public void Setup(string path, string title, string address, string privateKey, string secret)
     {
-        this._path = path;
-        this.title = title;
-        this.info = "Test";
-        this.address = address;
-        this.privateKey = privateKey;
         this.secret = secret;
+        this.Setup(path, title, address, privateKey);
     }
 
-    public void SetupWallet(string path, string title, string address, string privateKey)
+    public void Setup(string path, string title, string address, string privateKey)
     {
         this._path = path;
         this.title = title;

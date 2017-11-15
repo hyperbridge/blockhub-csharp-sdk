@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ProfileManager : MonoBehaviour
 {
 
-    public List<ProfileData> existingProfiles = new List<ProfileData>();
+    public List<ProfileData> profiles = new List<ProfileData>();
     public ManageProfilesView _manageProfilesView;
     public Text profileNameDisplay, profileNameDisplayBase;
     public ProfileData currentlyEditingProfile;
@@ -14,71 +14,74 @@ public class ProfileManager : MonoBehaviour
     private SaveData saver;
     private LoadData loader;
 
-    void Awake()
+    private void Awake()
     {
+        this.saver = SaveData.SaveAtPath("Profiles");
+        this.loader = LoadData.LoadFromPath("Profiles");
 
-        saver = SaveData.SaveAtPath("Profiles");
-        loader = LoadData.LoadFromPath("Profiles");
+        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+    }
 
-        LoadExistingProfiles();
-
-        UpdateProfilesEvent message = new UpdateProfilesEvent();
-        message.profiles = existingProfiles;
+    public void DispatchUpdateEvent()
+    {
+        var message = new UpdateProfilesEvent();
+        message.profiles = this.profiles;
         CodeControl.Message.Send<UpdateProfilesEvent>(message);
     }
 
-    public List<ProfileData> LoadExistingProfiles()
+    public void OnAppInitialized(AppInitializedEvent e)
     {
-        existingProfiles = loader.LoadAllFromFolder<ProfileData>();
-        UpdateProfileNameDisplay();
+        this.LoadProfiles();
+    }
 
-        return existingProfiles;
+    public List<ProfileData> LoadProfiles()
+    {
+        this.profiles = this.loader.LoadAllFromFolder<ProfileData>();
+        this.UpdateProfileNameDisplay();
+
+        this.DispatchUpdateEvent();
+
+        return this.profiles;
     }
 
     public void SaveNewProfileData(string imageLocation, string profileName, bool makeDefault)
     {
-        ProfileData newData = new ProfileData();
+        var newData = new ProfileData();
+        newData.SetupProfileData(profileName, makeDefault, imageLocation, this.profiles.Count.ToString());
 
-        newData.SetupProfileData(profileName, makeDefault, imageLocation, existingProfiles.Count.ToString());
-        existingProfiles.Add(newData);
-        saver.Save<ProfileData>(newData.name, newData);
+        this.profiles.Add(newData);
+        this.saver.Save<ProfileData>(newData.name, newData);
 
         UnityEditor.AssetDatabase.Refresh();
 
-        UpdateProfilesEvent message = new UpdateProfilesEvent();
-        message.profiles = existingProfiles;
-        CodeControl.Message.Send<UpdateProfilesEvent>(message);
+        this.DispatchUpdateEvent();
     }
 
     public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
     {
-        DeleteProfileData(currentlyEditingProfile);
+        DeleteProfileData(this.currentlyEditingProfile);
 
-        ProfileData editedData = new ProfileData();
-        editedData.SetupProfileData(profileName, makeDefault, imageLocation, currentlyEditingProfile.uuid);
+        var editedData = new ProfileData();
+        editedData.SetupProfileData(profileName, makeDefault, imageLocation, this.currentlyEditingProfile.uuid);
         saver.Save<ProfileData>(editedData.name, editedData);
 
         yield return new WaitForSeconds(0.25f);
 
-        existingProfiles.Add(editedData);
-        UpdateProfileNameDisplay(editedData);
+        this.profiles.Add(editedData);
+        this.UpdateProfileNameDisplay(editedData);
 
-        UpdateProfilesEvent message = new UpdateProfilesEvent();
-        message.profiles = existingProfiles;
-        CodeControl.Message.Send<UpdateProfilesEvent>(message);
+        this.DispatchUpdateEvent();
     }
 
     public void DeleteProfileData(ProfileData dataToDelete)
     {
         AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "Profiles");
 
-        existingProfiles.Remove(dataToDelete);
+        this.profiles.Remove(dataToDelete);
 
         UnityEditor.AssetDatabase.Refresh();
 
-        UpdateProfilesEvent message = new UpdateProfilesEvent();
-        message.profiles = existingProfiles;
-        CodeControl.Message.Send<UpdateProfilesEvent>(message);
+        this.DispatchUpdateEvent();
     }
 
     // TODO: How does this happen? Seems like it should just use above
@@ -89,7 +92,7 @@ public class ProfileManager : MonoBehaviour
 
     public void UpdateProfileNameDisplay(ProfileData newDefault = null)
     {
-        foreach (ProfileData data in existingProfiles) {
+        foreach (ProfileData data in this.profiles) {
             if (newDefault != null && newDefault == data) {
                 profileNameDisplay.text = data.name;
                 profileNameDisplayBase.text = data.name;
@@ -102,9 +105,5 @@ public class ProfileManager : MonoBehaviour
                 data.isDefault = false;
             }
         }
-    }
-
-    public void UpdateProfileNameDisplay()
-    {
     }
 }

@@ -9,25 +9,20 @@ public class WalletInfoView : MonoBehaviour
     public InputField walletNameForEditing;
     public Image walletImage;
     public Button deleteWalletButton;
-    private void Start()
-    {
-    }
 
-    public void SetupView(WalletInfoContainer data)
+    public void SetupView(WalletInfo wallet)
     {
-        title.text = data.myWallet.title;
-        info.text = "More Info: \n" + data.myWallet.info;
-        address.text = data.myWallet.address;
-        privateKey.text = data.myWallet.privateKey;
-        walletNameForEditing.text = data.myWallet.title;
-        GetComponent<UIWindowPage>().Show();
+        this.title.text = wallet.title;
+        this.info.text = "More Info: \n" + wallet.info;
+        this.address.text = wallet.address;
+        this.privateKey.text = wallet.privateKey;
+        this.walletNameForEditing.text = wallet.title;
 
-        deleteWalletButton.onClick.AddListener(() =>
-        {
-            AppManager.instance.walletManager.DeleteWallet(data);
-            GetComponent<UIWindowPage>().Hide();
+        this.GetComponent<UIWindowPage>().Show();
+
+        this.deleteWalletButton.onClick.AddListener(() => {
+            AppManager.instance.walletManager.DeleteWallet(wallet);
+            this.GetComponent<UIWindowPage>().Hide();
         });
     }
-
-
 }

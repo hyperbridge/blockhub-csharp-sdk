@@ -5,83 +5,44 @@ using System.IO;
 
 public class WalletManager : MonoBehaviour
 {
-
     public List<WalletInfo> wallets = new List<WalletInfo>();
-    public GameObject walletDisplayPrefab;
-    public RectTransform walletListDisplay;
-    List<Transform> currentWalletDisplays = new List<Transform>();
-    public WalletManagerView walletManagerView;
+    public WalletManagerView managerView;
+    public WalletInfoView infoView;
+
     private void Awake()
     {
-        RefreshWalletList();
+        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
     }
+
+    public void OnAppInitialized(AppInitializedEvent e) {
+        this.RefreshWalletList();
+    }
+
     public void RefreshWalletList()
     {
-        StartCoroutine(ReadWalletList());
+        this.StartCoroutine(this.LoadWallets());
     }
 
-    public void FillWalletList()
+    public void DeleteWallet(WalletInfo wallet)
     {
-        foreach (WalletInfo wallet in wallets)
-        {
-            GameObject newWallet = Instantiate(walletDisplayPrefab, walletListDisplay);
-            newWallet.GetComponent<WalletInfoContainer>().SetupContainer(wallet);
-            currentWalletDisplays.Add(newWallet.transform);
-        }
+        this.wallets.Remove(wallet);
+
+        File.Delete(wallet._path);
+
+        this.StartCoroutine(this.LoadWallets());
     }
 
-    public void DeleteWallet(WalletInfoContainer wallet)
-    {
-        WalletInfo targetWallet = null;
-
-        foreach (WalletInfo walletInfo in wallets)
-        {
-
-            if (walletInfo.address == wallet.myWallet.address)
-            {
-                targetWallet = walletInfo;
-
-            }
-
-        }
-
-        wallets.Remove(targetWallet);
-        // Debug.Log(targetWallet._path);
-        //Debug.Log(File.Exists(targetWallet._path));
-        File.Delete(targetWallet._path);
-        Destroy(wallet.gameObject);
-
-        StartCoroutine(ReadWalletList());
-
-    }
-
-    public IEnumerator ReadWalletList()
+    public IEnumerator LoadWallets()
     {
         LoadData loader = LoadData.LoadFromPath("Wallets");
-        List<WalletInfo> loadedData = new List<WalletInfo>();
-        wallets = loader.LoadAllFromFolder<WalletInfo>();
-        yield return loader.LoadAllFromFolder<WalletInfo>();
+        var loadedData = new List<WalletInfo>();
+
+        this.wallets = loader.LoadAllFromFolder<WalletInfo>();
+
+        var message = new UpdateWalletsEvent();
+        message.wallets = wallets;
+        CodeControl.Message.Send<UpdateWalletsEvent>(message);
+
+        yield return wallets;
     }
-   /* public IEnumerator ReadAndFillWalletList()
-    {
-        walletListDisplay.DetachChildren();
-        foreach (Transform t in currentWalletDisplays)
-        {
-            if (t != null)
-            {
-                Destroy(t.gameObject);
-            }
-        }
-
-        currentWalletDisplays.Clear();
-        wallets.Clear();
-        LoadData loader = LoadData.LoadFromPath("Wallets");
-        List<WalletInfo> loadedData = new List<WalletInfo>();
-        wallets = loader.LoadAllFromFolder<WalletInfo>();
-        yield return loader.LoadAllFromFolder<WalletInfo>();
-
-
-        FillWalletList();
-        yield return null;
-    }*/
 }

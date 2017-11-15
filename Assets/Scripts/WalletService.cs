@@ -22,18 +22,15 @@ public class WalletService : MonoBehaviour
     private void Start()
     {
         _path = "";
-
     }
 
     public bool CorrectWalletInfo(Text validationText)
     {
-        if (nameField.text.Length < 1 || passwordField.text.Length < 7)
-        {
+        if (nameField.text.Length < 1 || passwordField.text.Length < 7) {
             validationText.text = "Empty Name or Incomplete Password";
             return false;
         }
-        else
-        {
+        else {
             return true;
         }
     }
@@ -51,12 +48,12 @@ public class WalletService : MonoBehaviour
 
     public void AcceptWallet(Text validationText)
     {
-        if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText))
-        {
+        if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText)) {
             StartCoroutine(ConfirmAccount(keystore, validationText, passwordField.text, nameField.text));
         }
     }
 
+    // TODO: Services should not be touching unity components
     public IEnumerator ConfirmAccount(string accountKeystore, Text validationText, string password, string walletName)
     {
         // Debug.Log(accountKeystore);
@@ -66,14 +63,11 @@ public class WalletService : MonoBehaviour
                                                   // Debug.Log(editedJson);
         Nethereum.KeyStore.KeyStoreService keyStoreService = new Nethereum.KeyStore.KeyStoreService();
         byte[] key = null;
-        try
-        {
+        try {
              key = keyStoreService.DecryptKeyStoreFromJson(password, editedJson);
-
-           
         }
-        catch
-        {
+        catch {
+            // TODO: ew
             validationText.text = "Password is wrong or keystore is corrupted.";
             yield break;    
         }
@@ -83,12 +77,9 @@ public class WalletService : MonoBehaviour
         Account account = new Account(key);
         //Checking no other wallets have the same address, because we'd have a duplicate
 
-        foreach (WalletInfo wallet in AppManager.instance.walletManager.wallets)
-        {
-            if (wallet.address == account.Address)
-            {
+        foreach (WalletInfo wallet in AppManager.instance.walletManager.wallets) {
+            if (wallet.address == account.Address) {
                 validationText.text = "This wallet address already exists.";
-
 
                 yield break;
             }
@@ -97,9 +88,9 @@ public class WalletService : MonoBehaviour
         Debug.Log(account.Address);
         Debug.Log(account.PrivateKey);
 
-        WalletInfo newWallet = new WalletInfo();
+        var newWallet = new WalletInfo();
 
-        newWallet.SetupWallet(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey);
+        newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey);
 
         SaveData saveWallet = SaveData.SaveAtPath("Wallets");
 
@@ -113,11 +104,6 @@ public class WalletService : MonoBehaviour
         yield return null;
     }
 
-    /// <summary>
-    /// Checks wallet's contents. Returns to debug log.
-    /// </summary>
-    /// <param name="wallet"></param>
-    /// <returns></returns>
     public IEnumerator CheckWalletContents(WalletInfo wallet)
     {
         // Debug.Log(wallet.address);
@@ -141,6 +127,7 @@ public class WalletService : MonoBehaviour
 
         }
     }
+
     // We create the function which will check the balance of the address and return a callback with a decimal variable
     public IEnumerator GetAccountBalance(string address, Text container, System.Action<decimal> callback)
     {
@@ -153,8 +140,7 @@ public class WalletService : MonoBehaviour
         yield return getBalanceRequest.SendRequest(address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
 
         // Now we check if the request has an exception
-        if (getBalanceRequest.Exception == null)
-        {
+        if (getBalanceRequest.Exception == null) {
             // We define balance and assign the value that the getBalanceRequest gave us.
             var balance = getBalanceRequest.Result.Value;
             container.text = Nethereum.Util.UnitConversion.Convert.FromWei(balance, 18).ToString();
@@ -164,34 +150,27 @@ public class WalletService : MonoBehaviour
             callback(Nethereum.Util.UnitConversion.Convert.FromWei(balance, 18));
 
         }
-        else
-        {
+        else {
             // If there was an error we just throw an exception.
             throw new System.InvalidOperationException("Get balance request failed");
         }
 
     }
-    /// <summary>
-    /// Checks wallet contents, writes result on a given text.
-    /// </summary>
-    /// <param name="wallet"></param>
-    /// <param name="container"></param>
-    /// <returns></returns>
+
     public IEnumerator CheckWalletContents(WalletInfo wallet, Text container)
     {
         Debug.Log(wallet.address);
+
         var wait = 1;
         bool processDone = false;
 
-        while (!processDone)
-        {
+        while (!processDone) {
             yield return new WaitForSeconds(wait);
             wait = 3;
             EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
 
             yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
-            if (balanceRequest.Exception == null)
-            {
+            if (balanceRequest.Exception == null) {
                 container.text = balanceRequest.Result.Value.ToString();
 
                 processDone = true;
@@ -219,15 +198,18 @@ public class WalletService : MonoBehaviour
         Debug.Log(account.PrivateKey);
 
         var wait = 1;
-        while (true)
-        {
+        while (true) {
             yield return new WaitForSeconds(wait);
+
             wait = 10;
+
             var blockNumberRequest = new EthBlockNumberUnityRequest("https://mainnet.infura.io");
+
             yield return blockNumberRequest.SendRequest();
-            if (blockNumberRequest.Exception == null)
-            {
+
+            if (blockNumberRequest.Exception == null) {
                 var blockNumber = blockNumberRequest.Result.Value;
+
                 Debug.Log("Block: " + blockNumber.ToString());
             }
         }
@@ -238,11 +220,11 @@ public class WalletService : MonoBehaviour
         this.StartCoroutine(this.CheckBlockNumber());
     }
 
-
-
     // This function will just execute a callback after it creates and encrypt a new account
     public void CreateAccount(string password, System.Action<string, string> callback)
     {
+        Debug.Log("[WalletService] Creating account...");
+
         // We use the Nethereum.Signer to generate a new secret key
         var ecKey = Nethereum.Signer.EthECKey.GenerateKey();
 
@@ -265,21 +247,14 @@ public class WalletService : MonoBehaviour
 
 
 
-
-
-
-
-
     bool KeystoreValidate(string text, Text validationText)
     {
 
-        if (text.Contains("address"))
-        {
+        if (text.Contains("address")) {
             validationText.text = "Apparently Valid Keystore File loaded";
             return true;
         }
-        else
-        {
+        else {
             validationText.text = "You didn't choose a valid Keystore File";
             return false;
         }
@@ -287,14 +262,12 @@ public class WalletService : MonoBehaviour
 
     public void WriteResult(string[] paths)
     {
-        if (paths.Length == 0)
-        {
+        if (paths.Length == 0) {
             return;
         }
 
         _path = "";
-        foreach (var p in paths)
-        {
+        foreach (var p in paths) {
             _path += p;
         }
     }

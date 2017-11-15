@@ -10,12 +10,34 @@ using UnityEngine.UI;
 
 public class WalletManagerView : MonoBehaviour
 {
-
+    public GameObject displayPrefab, listView;
     public WalletInfoView infoView;
 
     private void Awake()
     {
+        CodeControl.Message.AddListener<UpdateWalletsEvent>(UpdateList);
     }
 
+    public void UpdateList(UpdateWalletsEvent e)
+    {
+        var wallets = e.wallets;
+
+        foreach (Transform child in listView.transform) {
+            Destroy(child.gameObject);
+        }
+
+        foreach (WalletInfo info in wallets) {
+            Debug.Log(info.title);
+
+            GameObject go = Instantiate(displayPrefab);
+
+            var container = go.GetComponent<WalletInfoContainer>();
+            container.SetupContainer(info);
+
+            go.transform.SetParent(listView.transform);
+            go.transform.localScale = new Vector3(1, 1, 1);
+            go.SetActive(true);
+        }
+    }
     
 }

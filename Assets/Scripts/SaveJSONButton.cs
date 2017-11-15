@@ -5,21 +5,13 @@ using UnityEngine.UI;
 
 public class SaveJSONButton : MonoBehaviour
 {
-
     public InputField[] inputs;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     public void SaveJSON()
     {
         ExtensionInfo dataToSave = new ExtensionInfo();
-        foreach (InputField input in inputs)
-        {
-            switch (input.name)
-            {
+        foreach (InputField input in inputs) {
+            switch (input.name) {
                 case "NameInput":
                     dataToSave.name = input.text;
                     break;
@@ -53,11 +45,9 @@ public class SaveJSONButton : MonoBehaviour
                     dataToSave.tags = input.text;
 
                     break;
-
             }
         }
 
         AppManager.instance.saveDataManager.SaveExtensionJSON(dataToSave);
-
     }
 }

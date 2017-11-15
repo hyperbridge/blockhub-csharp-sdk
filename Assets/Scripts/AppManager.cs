@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AppManager : MonoBehaviour
 {
-
     public static AppManager instance;
+
     public WalletManager walletManager;
     public ModManager modManager;
     public SaveDataManager saveDataManager;
@@ -21,18 +21,21 @@ public class AppManager : MonoBehaviour
         else
             Debug.LogError("More than one AppManager");
 
-        walletManager = GetComponent<WalletManager>();
-        modManager = GetComponent<ModManager>();
-        saveDataManager = GetComponent<SaveDataManager>();
-        profileManager = GetComponent<ProfileManager>();
+        this.walletManager = this.GetComponent<WalletManager>();
+        this.modManager = this.GetComponent<ModManager>();
+        this.saveDataManager = this.GetComponent<SaveDataManager>();
+        this.profileManager = this.GetComponent<ProfileManager>();
 
-        //Wicked Smart.
         var debugObjects = GameObject.FindGameObjectsWithTag("Debug");
 
-        foreach (GameObject go in debugObjects)
-        {
-            Destroy(go);
+        foreach (GameObject go in debugObjects) {
+            GameObject.Destroy(go);
         }
+    }
+
+    private void Start() {
+        var message = new AppInitializedEvent();
+        CodeControl.Message.Send<AppInitializedEvent>(message);
     }
 
 }

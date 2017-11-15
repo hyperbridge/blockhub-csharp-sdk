@@ -351,17 +351,15 @@ GameObject:
   m_Component:
   - component: {fileID: 224742958210912762}
   - component: {fileID: 222948464073670668}
-  - component: {fileID: 114280384933799710}
   - component: {fileID: 114390171719614474}
   - component: {fileID: 114567369510021156}
-  - component: {fileID: 114965701161512772}
   m_Layer: 5
   m_Name: WalletContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &95058561597046950
 Animator:
   serializedVersion: 3
@@ -808,33 +806,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114280384933799710
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1961535301886966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.05882353}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!114 &114299987051836790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -846,8 +817,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b231ec867090c4264ba396333e72dd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayPrefab: {fileID: 0}
+  listView: {fileID: 0}
   infoView: {fileID: 114897691167332822}
-  loopList: {fileID: 0}
 --- !u!114 &114303211663443630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1031,7 +1003,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 114280384933799710}
+  m_TargetGraphic: {fileID: 114638464653850768}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1308,7 +1280,6 @@ MonoBehaviour:
   walletContents: {fileID: 114196841405625568}
   editWalletButton: {fileID: 114067374462173968}
   deleteWalletButton: {fileID: 114420376878768078}
-  walletManagerView: {fileID: 0}
 --- !u!114 &114583945002187820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1603,6 +1574,7 @@ MonoBehaviour:
   info: {fileID: 114158824596915492}
   address: {fileID: 114511308095878068}
   privateKey: {fileID: 114309660515116476}
+  walletNameForEditing: {fileID: 0}
   walletImage: {fileID: 114032600456864022}
   deleteWalletButton: {fileID: 0}
 --- !u!114 &114931118939389382
@@ -1653,17 +1625,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114965701161512772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1961535301886966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbcbd7952202d4d44a555aea5af2a351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222039573897946336
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1815,7 +1776,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1725104385028874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 762.8701, y: -200.00002, z: -1.0700006}
+  m_LocalPosition: {x: 756.2201, y: -295.7, z: -1.0700006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224832531470880694}
@@ -1824,7 +1785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 956.2201, y: -55.700012}
+  m_AnchoredPosition: {x: 949.57007, y: -151.40001}
   m_SizeDelta: {x: 118.68, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224169695074899346
@@ -2039,7 +2000,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1648382141754430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 863.30005, y: -200.69998, z: -1.0700006}
+  m_LocalPosition: {x: 856.65, y: -296.39996, z: -1.0700006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224447186958543984}
@@ -2048,7 +2009,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1056.65, y: -56.39998}
+  m_AnchoredPosition: {x: 1050, y: -152.09995}
   m_SizeDelta: {x: 82.235, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224707573153402958
@@ -2058,7 +2019,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308764494503232}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 661.63745, y: 187.92479, z: 0}
+  m_LocalPosition: {x: 654.9874, y: 92.22479, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224685346119858602}
@@ -2068,7 +2029,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 854.9874, y: 332.2248}
+  m_AnchoredPosition: {x: 848.3374, y: 236.5248}
   m_SizeDelta: {x: 575.1, y: 144.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224742958210912762
@@ -2078,8 +2039,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961535301886966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3001, y: -162.99998, z: 91.5}
-  m_LocalScale: {x: 1.1249999, y: 1.1249999, z: 1.1249999}
+  m_LocalPosition: {x: 3001, y: -162.99998, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224165090855780904}
   - {fileID: 224694103803704348}
