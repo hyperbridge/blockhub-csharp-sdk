@@ -54,6 +54,8 @@ public class LoadData
                 if (fileToLoad == null) {
                     string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
 
+                    Debug.Log(message);
+
                     return returnList;
                     //throw new FileNotFoundException(message);
                 }

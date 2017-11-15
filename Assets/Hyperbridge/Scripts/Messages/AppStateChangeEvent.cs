@@ -1,17 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class NewMonoBehaviour : MonoBehaviour
+public class AppStateChangeEvent : CodeControl.Message
 {
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
+    public AppState state;
 }

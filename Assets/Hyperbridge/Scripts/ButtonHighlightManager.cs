@@ -10,15 +10,15 @@ public class ButtonHighlightManager : MonoBehaviour {
     private Color32 semiTransparentGrayColor;
 
     private void Start () {
-        this.semiTransparentGrayColor = new Color32(1, 1, 1, 136 / 255);
+        //this.semiTransparentGrayColor = new Color32(1, 1, 1, 136 / 255);
 	}
 	
     public void AppearSelectedDeselectOthers(Button button)
     {
-        foreach (Button b in buttons) {
-            if (b != button) {
-                b.GetComponentInChildren<Text>().color = this.semiTransparentGrayColor;
-            }
-        }
+        //foreach (Button b in buttons) {
+        //    if (b != button) {
+        //        b.GetComponentInChildren<Text>().color = this.semiTransparentGrayColor;
+        //    }
+        //}
     }
 }
