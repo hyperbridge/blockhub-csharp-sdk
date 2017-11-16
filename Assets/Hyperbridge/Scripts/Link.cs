@@ -18,9 +18,7 @@ public class Link : MonoBehaviour
     }
 
     public void OnButtonClick() {
-        var message = new NavigateEvent();
-        message.path = this.path;
-        CodeControl.Message.Send<NavigateEvent>(message);
+        CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = this.path });
     }
 
     public void OnAppStateChange(AppStateChangeEvent e)
