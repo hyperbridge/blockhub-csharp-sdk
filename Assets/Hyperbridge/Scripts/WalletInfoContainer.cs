@@ -15,11 +15,13 @@ public class WalletInfoContainer : MonoBehaviour
         this.wallet = wallet;
         this.title.text = wallet.title;
 
-        this.GetComponent<Button>().onClick.AddListener(() => {
+        this.GetComponent<Button>().onClick.AddListener(() =>
+        {
             AppManager.instance.walletManager.infoView.SetupView(this.wallet);
         });
 
-        this.deleteWalletButton.onClick.AddListener(() => {
+        this.deleteWalletButton.onClick.AddListener(() =>
+        {
             AppManager.instance.walletManager.DeleteWallet(this.wallet);
         });
 

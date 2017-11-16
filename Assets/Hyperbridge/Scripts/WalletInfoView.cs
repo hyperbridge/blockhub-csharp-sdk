@@ -18,10 +18,11 @@ public class WalletInfoView : MonoBehaviour
         this.privateKey.text = wallet.privateKey;
         this.walletNameForEditing.text = wallet.title;
         this.walletNameForCopying.text = this.address.text;
-      
+
         this.GetComponent<UIWindowPage>().Show();
 
-        this.deleteWalletButton.onClick.AddListener(() => {
+        this.deleteWalletButton.onClick.AddListener(() =>
+        {
             AppManager.instance.walletManager.DeleteWallet(wallet);
             this.GetComponent<UIWindowPage>().Hide();
         });

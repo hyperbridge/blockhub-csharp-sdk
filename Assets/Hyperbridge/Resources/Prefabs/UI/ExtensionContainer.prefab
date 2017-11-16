@@ -806,7 +806,7 @@ MonoBehaviour:
   extensionRating: {fileID: 0}
   extensionVersion: {fileID: 0}
   installButton: {fileID: 114741315382587090}
-  uninstallButton: {fileID: 114542293150586018}
+  disableButton: {fileID: 114542293150586018}
   extensionManagerView: {fileID: 0}
 --- !u!114 &114797983295583056
 MonoBehaviour:

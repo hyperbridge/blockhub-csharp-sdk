@@ -8,7 +8,8 @@ public class SaveData
 
     public static SaveData SaveAtPath(string path)
     {
-        return new SaveData {
+        return new SaveData
+        {
             _path = path
         };
     }
@@ -22,13 +23,14 @@ public class SaveData
         Debug.Log(saveName + " Saved at: " + _path);
     }
 
-    public void Save<T>(string saveName,T objectToSave)
+    public void Save<T>(string saveName, T objectToSave)
     {
-        if (!Directory.Exists(Application.dataPath  + _path)) {
-            Directory.CreateDirectory(Application.dataPath  + _path);
+        if (!Directory.Exists(Application.dataPath + _path))
+        {
+            Directory.CreateDirectory(Application.dataPath + _path);
         }
 
-        File.WriteAllText(Application.dataPath  + _path + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
+        File.WriteAllText(Application.dataPath + _path + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
 
         Debug.Log(saveName + " Saved at: " + _path);
     }

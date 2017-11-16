@@ -24,7 +24,7 @@ public class SaveJSONButton : MonoBehaviour
 
                     break;
                 case "VersionInput":
-                    dataToSave.version = float.Parse(input.text);
+                    dataToSave.version = input.text;
 
                     break;
                 case "UpdateDateInput":

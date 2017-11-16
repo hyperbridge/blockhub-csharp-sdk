@@ -9,9 +9,10 @@ public class ExtensionInfoContainer : MonoBehaviour
 
     public Image icon;
     public Text extensionName, extensionDate, extensionRating, extensionVersion;
-    public Button installButton, uninstallButton;
+    public Button installButton, disableButton;
     public ExtensionManagerView extensionManagerView;
     ExtensionInfo data;
+    bool installed;
 
 
     /** Name
@@ -21,9 +22,10 @@ public class ExtensionInfoContainer : MonoBehaviour
 * Rating
 * Last Updated Date
 * Number of installs*/
-    public void SetupExtension(ExtensionInfo data)
+    public void SetupExtension(ExtensionInfo data, bool installed)
     {
         this.data = data;
+        this.installed = installed;
         //  Debug.Log(data.name + data.descriptionText + data.updateDate + data.version+data.rating+data.installs+data.URL+data.imageURL    );
         extensionName.text = data.name;
         extensionDate.text = data.updateDate;
@@ -35,16 +37,64 @@ public class ExtensionInfoContainer : MonoBehaviour
         {
             StartCoroutine(extensionManagerView.extensionInfoView.SetupView(data));
         });
-
-        installButton.onClick.AddListener(() =>
+        if (installed)
         {
-            StartCoroutine(AppManager.instance.modManager.InstallMod(data.path, data.name));
-        });
+            disableButton.interactable = true;
 
-        uninstallButton.onClick.AddListener(() =>
+            installButton.GetComponentInChildren<Text>().text = "Uninstall";
+            installButton.onClick.AddListener(() =>
+            {
+                StartCoroutine(AppManager.instance.modManager.UninstallMod(data));
+                SetupExtension(this.data, false);
+            });
+
+        }
+        else
         {
-            //AppManager.instance.modManager.DeleteMod(data);
-        });
+            disableButton.interactable = false;
+            disableButton.GetComponentInChildren<Text>().text = "Not Installed";
+
+
+            installButton.GetComponentInChildren<Text>().text = "Install";
+
+            installButton.onClick.AddListener(() =>
+            {
+                StartCoroutine(AppManager.instance.modManager.InstallMod(data));
+                SetupExtension(this.data, true);
+
+            });
+
+        }
+
+        if (data.enabled)
+        {
+            disableButton.GetComponentInChildren<Text>().text = "Disable";
+
+            disableButton.onClick.AddListener(() =>
+            {
+                disableButton.GetComponentInChildren<Text>().text = "Enable";
+
+                AppManager.instance.modManager.DisableMod(data);
+                SetupExtension(this.data, this.installed);
+            });
+
+
+        }
+        else
+        {
+
+            disableButton.onClick.AddListener(() =>
+            {
+                disableButton.GetComponentInChildren<Text>().text = "Disable";
+
+                AppManager.instance.modManager.EnableMod(data);
+                SetupExtension(this.data, this.installed);
+
+            });
+
+        }
+
     }
+
 
 }
