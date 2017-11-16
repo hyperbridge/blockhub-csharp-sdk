@@ -26,16 +26,25 @@ public class Link : MonoBehaviour
     public void OnAppStateChange(AppStateChangeEvent e)
     {
         var state = e.state;
+
         var animator = this.view.GetComponent<Animator>();
         var button = this.view.GetComponent<Button>();
 
-        if (state.uri.StartsWith(this.path))
+        if (state.uri.StartsWith(this.path, System.StringComparison.CurrentCultureIgnoreCase))
         {
-            animator.SetTrigger(button.animationTriggers.highlightedTrigger);
+            if (!animator.GetBool(button.animationTriggers.highlightedTrigger))
+            {
+                animator.ResetTrigger(button.animationTriggers.normalTrigger);
+                animator.SetTrigger(button.animationTriggers.highlightedTrigger);
+            }
         }
         else
         {
-            animator.SetTrigger(button.animationTriggers.normalTrigger);
+            if (!animator.GetBool(button.animationTriggers.normalTrigger))
+            {
+                animator.ResetTrigger(button.animationTriggers.highlightedTrigger);
+                animator.SetTrigger(button.animationTriggers.normalTrigger);
+            }
         }
     }
 }

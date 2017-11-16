@@ -1,8 +1,13 @@
 fileFormatVersion: 2
-guid: 9f16654b7e7e14bff91d84891bc03795
+guid: 86f819948f0663746947372d564f0668
+labels:
+- uMod2.0
+- Modding
+- ModSupport
+- Mod
 folderAsset: yes
-timeCreated: 1510815627
-licenseType: Pro
+timeCreated: 1456747887
+licenseType: Store
 DefaultImporter:
   externalObjects: {}
   userData: 

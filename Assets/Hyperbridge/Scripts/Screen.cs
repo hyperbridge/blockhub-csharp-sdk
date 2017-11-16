@@ -18,7 +18,7 @@ public class Screen : MonoBehaviour
         var state = e.state;
         var window = this.view.GetComponent<Devdog.General.UI.UIWindow>();
 
-        if (state.uri.StartsWith(this.path))
+        if (state.uri.StartsWith(this.path, System.StringComparison.CurrentCultureIgnoreCase))
         {
             window.Show();
         }
