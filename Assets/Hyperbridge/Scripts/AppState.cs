@@ -3,5 +3,6 @@ using System.Collections;
 
 public class AppState
 {
-    public string uri;
+    public string uri = "/main";
+    public bool menuVisible = false;
 }

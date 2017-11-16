@@ -55,9 +55,8 @@ public class AppManager : MonoBehaviour
 
         this.state.uri = path;
 
-        var message = new AppStateChangeEvent();
-        message.state = this.state;
-        CodeControl.Message.Send<AppStateChangeEvent>(message);
+        CodeControl.Message.Send<AppStateChangeEvent>(new AppStateChangeEvent { state = this.state });
+        CodeControl.Message.Send<MenuEvent>(new MenuEvent { visible = false });
     }
 
 }

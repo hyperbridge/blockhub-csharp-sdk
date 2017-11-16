@@ -2684,6 +2684,19 @@ Prefab:
       propertyPath: m_Transition
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1643118347767790, guid: b842b3c8aea451f4a931252691695e7c, type: 2}
+      propertyPath: m_Name
+      value: LandingView
+      objectReference: {fileID: 0}
+    - target: {fileID: 114837201113858838, guid: b842b3c8aea451f4a931252691695e7c,
+        type: 2}
+      propertyPath: windowName
+      value: LandingView
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925500240257834, guid: b842b3c8aea451f4a931252691695e7c, type: 2}
+      propertyPath: m_Name
+      value: MainMenu
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114445285205711376, guid: b842b3c8aea451f4a931252691695e7c, type: 2}
     - {fileID: 114971426238387090, guid: b842b3c8aea451f4a931252691695e7c, type: 2}
@@ -3089,6 +3102,22 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1167511841}
+--- !u!1 &1338417738 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1925500240257834, guid: b842b3c8aea451f4a931252691695e7c,
+    type: 2}
+  m_PrefabInternal: {fileID: 485887645}
+--- !u!114 &1338417744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1338417738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b840a13cb93354aa3d3cac55035339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1377093655 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114466195516478062, guid: b842b3c8aea451f4a931252691695e7c,
