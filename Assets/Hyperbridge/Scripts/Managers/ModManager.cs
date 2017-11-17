@@ -12,6 +12,7 @@ public class ModManager : MonoBehaviour
     ModHost latestLoadedMod;
     List<ModHost> activeMods;
     public ExtensionListManager extensionList;
+    public ExtensionManagerView extensionManagerView;
     private void Awake()
     {
         Mod.Initialize();
@@ -80,18 +81,18 @@ public class ModManager : MonoBehaviour
          extensionToEdit.enabled = true;
          extensionToEdit.path = Application.dataPath + "/Resources/Extensions/" + ID + "/";
          AppManager.instance.saveDataManager.SaveExtensionJSON(ID, extensionToEdit);*/
-        for (int i = 0; i < extensionList.communityExtensions.Count; i++)
+       /* for (int i = 0; i < extensionList.communityExtensions.Count; i++)
         {
             if (extensionList.communityExtensions[i].uuid == extension.uuid)
             {
                 extensionList.communityExtensions.Remove(extensionList.communityExtensions[i]);
             }
-        }
+        }*/
         extension.enabled = true;
         if (extensionList.installedExtensions.Contains(extension)) { yield break; }
         extensionList.installedExtensions.Add(extension);
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-
+        this.extensionManagerView.GenerateInstalledCommunityExtensionContainers();
         yield return new WaitForSeconds(0.5f);
     }
     public IEnumerator UninstallMod(ExtensionInfo extension)
@@ -109,10 +110,10 @@ public class ModManager : MonoBehaviour
             }
         }
         extension.enabled = false;
-        if (extensionList.communityExtensions.Contains(extension)) { yield break; }
 
-        extensionList.communityExtensions.Add(extension);
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
+        this.extensionManagerView.GenerateInstalledCommunityExtensionContainers();
+
         yield return new WaitForSeconds(0.5f);
     }
     public void DisableMod(ExtensionInfo extension)

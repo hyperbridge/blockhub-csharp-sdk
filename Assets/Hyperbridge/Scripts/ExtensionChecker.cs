@@ -36,51 +36,26 @@ public class ExtensionChecker
         {
             yield return installedExtensions = loader.LoadThisData<List<ExtensionInfo>>("extensions");
         }
-
         List<ExtensionInfo> externalExtensions = loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
-
-        yield return new WaitForSeconds(0.1f);
-
+        yield return externalExtensions;
         foreach (ExtensionInfo extension in externalExtensions)
         {
-            if (installedExtensions.Count > 0)
+           
+            if (commExtensions.Count > 0)
             {
-                foreach (ExtensionInfo ext in installedExtensions)
-                {
-                    if (ext.uuid == extension.uuid)
-                    {
-                        commExtensions.Remove(extension);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < commExtensions.Count; i++)
-                        {
-                            if (commExtensions[i].uuid == extension.uuid)
-                            {
-
-                            }
-                            else
-                            {
-                                commExtensions.Add(extension);
-                            }
-                        }
-
-                    }
-
-                }
-            }
-            else if (commExtensions.Count > 0)
-            {
+                bool found = false;
                 for (int i = 0; i < commExtensions.Count; i++)
                 {
                     if (commExtensions[i].uuid == extension.uuid)
                     {
+                        found = true;
+                    }
+                 
+                }
+                if (!found)
+                {
+                    commExtensions.Add(extension);
 
-                    }
-                    else
-                    {
-                        commExtensions.Add(extension);
-                    }
                 }
             }
             else
@@ -93,15 +68,6 @@ public class ExtensionChecker
         localExtensions(installedExtensions);
     }
 
-    public IEnumerator CheckLocalExtensions(Action<List<ExtensionInfo>> callback)
-    {
-        List<ExtensionInfo> localExtensions = new List<ExtensionInfo>();
-        LoadData loader = LoadData.LoadFromPath("Extensions");
-        localExtensions = loader.LoadAllFilesFromFolder<ExtensionInfo>();
 
-        yield return localExtensions;
-
-        callback(localExtensions);
-    }
 }
 

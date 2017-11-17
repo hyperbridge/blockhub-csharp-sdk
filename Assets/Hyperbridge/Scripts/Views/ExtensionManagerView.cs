@@ -11,7 +11,7 @@ using UMod;
 
 public class ExtensionManagerView : MonoBehaviour
 {
-    public GameObject extensionInfoPrefab, extensionInfoOrganizer;
+    public GameObject extensionInfoPrefab, extensionInfoOrganizer, installedExtensionsHeading, communityExtensionsHeading;
     public ExtensionInfoView extensionInfoView;
 
     private LoadData loader;
@@ -42,8 +42,9 @@ public class ExtensionManagerView : MonoBehaviour
         {
             foreach (Transform child in this.extensionInfoOrganizer.transform)
             {
-                if (child.gameObject.GetComponent<ExtensionInfoContainer>() != null) {
-                    GameObject.Destroy(child.gameObject);
+                if (child.gameObject.GetComponent<ExtensionInfoContainer>() != null)
+                {
+                    Destroy(child.gameObject);
                 }
             }
         }
@@ -51,48 +52,16 @@ public class ExtensionManagerView : MonoBehaviour
         yield return StartCoroutine(this.extensionChecker.CheckExtensions(communityExtensions =>
         {
             AppManager.instance.modManager.extensionList.communityExtensions = communityExtensions;
-            this.GenerateExtensionContainers(communityExtensions, false);
-        }, installedExtensions => {
+        }, installedExtensions =>
+        {
             AppManager.instance.modManager.extensionList.installedExtensions = installedExtensions;
-            this.GenerateExtensionContainers(installedExtensions, true);
         }));
 
+        GenerateInstalledCommunityExtensionContainers();
         this.StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
         this.activeRoutine = null;
 
-        /*  List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
-
-        yield return json;
-        foreach (ExtensionInfo extension in json)
-        {
-            if (Directory.Exists(Application.dataPath + "/Resources/Extensions/" + extension.name))
-            {
-                //If the mod is already in our files, we don't load anything
-            }
-            else
-            {
-                GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
-                container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
-                container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension);
-                container.SetActive(true);
-            }
-
-        }
-
-        activeRoutine = null;
-        */
-
-        /*<- This is for JSON when the JSON is online
-        string url = RoomSettings.AbsoluteFilenamePath;
-
-        if (Application.isEditor)
-        {
-        url = "file:///" + url;
-        }
-
-        var www = new WWW(url);
-        yield return www;
-        // Do some code, when file loaded*/ //<- This is for JSON when the JSON is online
+       
     }
 
 
@@ -101,10 +70,59 @@ public class ExtensionManagerView : MonoBehaviour
         foreach (ExtensionInfo extension in extensions)
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
+
             container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
             container.SetActive(true);
         }
     }
+    public void GenerateInstalledCommunityExtensionContainers()
+    {
+        foreach (Transform child in this.extensionInfoOrganizer.transform)
+        {
+            if (child.name.Contains("Container"))
+            {
+                Destroy(child.gameObject);
 
+            }
+        }
+
+        foreach (ExtensionInfo extension in AppManager.instance.modManager.extensionList.installedExtensions)
+        {
+            GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
+
+            container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+            container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, true);
+            container.SetActive(true);
+        }
+
+        communityExtensionsHeading.transform.SetSiblingIndex(transform.parent.childCount - 1);
+
+        foreach (ExtensionInfo extension in AppManager.instance.modManager.extensionList.communityExtensions)
+        {
+            bool found = false;
+            foreach (ExtensionInfo ext in AppManager.instance.modManager.extensionList.installedExtensions)
+            {
+                if (ext.uuid == extension.uuid)
+                {
+                    found = true;
+                }
+                else
+                {
+
+                }
+            }
+            if (!found)
+            {
+                GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
+
+                container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+                container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, false);
+                container.SetActive(true);
+
+            }
+
+        }
+
+    }
 }

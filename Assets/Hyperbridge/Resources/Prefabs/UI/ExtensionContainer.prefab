@@ -1193,6 +1193,7 @@ MonoBehaviour:
   extensionDate: {fileID: 114436315799249406}
   extensionRating: {fileID: 114222203623726050}
   extensionVersion: {fileID: 114140727027211964}
+  descriptionText: {fileID: 114821605241986210}
   settingsButton: {fileID: 114741315382587090}
   installButton: {fileID: 114539021498595318}
   disableButton: {fileID: 114542293150586018}
@@ -1229,7 +1230,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading...
+  m_Text: 'Loading...
+
+    Loading...'
 --- !u!114 &114890906622186198
 MonoBehaviour:
   m_ObjectHideFlags: 1

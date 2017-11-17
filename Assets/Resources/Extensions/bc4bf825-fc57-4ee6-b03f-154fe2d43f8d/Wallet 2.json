@@ -1,0 +1,13 @@
+{
+  "uuid": "bc4bf825-fc57-4ee6-b03f-154fe2d43f8d",
+  "descriptionText": "This is an actual perfectly awesome mod for a wallet. What does it do, you ask? Yes exactly.",
+  "tags": "Test, Different tags!",
+  "name": "Wallet 2",
+  "updateDate": "2017-11-02",
+  "path": "",
+  "imagePath": "null",
+  "installs": 100,
+  "version": 1.1,
+  "rating": 2.5,
+  "enabled": false
+}
