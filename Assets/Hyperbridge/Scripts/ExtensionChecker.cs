@@ -30,17 +30,17 @@ public class ExtensionChecker
         if (File.Exists(Application.dataPath + "/Resources/Extensions/community-extensions.json"))
         {
             yield return commExtensions = loader.LoadThisData<List<ExtensionInfo>>("community-extensions");
-
         }
 
         if (File.Exists(Application.dataPath + "/Resources/Extensions/extensions.json"))
         {
             yield return installedExtensions = loader.LoadThisData<List<ExtensionInfo>>("extensions");
-
         }
 
         List<ExtensionInfo> externalExtensions = loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
+
         yield return new WaitForSeconds(0.1f);
+
         foreach (ExtensionInfo extension in externalExtensions)
         {
             if (installedExtensions.Count > 0)
@@ -82,20 +82,16 @@ public class ExtensionChecker
                         commExtensions.Add(extension);
                     }
                 }
-
             }
             else
             {
                 commExtensions.Add(extension);
             }
-
-
         }
 
         communityExtensions(commExtensions);
         localExtensions(installedExtensions);
     }
-
 
     public IEnumerator CheckLocalExtensions(Action<List<ExtensionInfo>> callback)
     {
@@ -106,10 +102,6 @@ public class ExtensionChecker
         yield return localExtensions;
 
         callback(localExtensions);
-
     }
-
-
-
 }
 

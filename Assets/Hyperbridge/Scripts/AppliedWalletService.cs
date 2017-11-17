@@ -13,19 +13,6 @@ using Nethereum.Signer;
 
 public class AppliedWalletService : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public IEnumerator CheckBlockNumber()
     {
         string password = "hyperbridge";
