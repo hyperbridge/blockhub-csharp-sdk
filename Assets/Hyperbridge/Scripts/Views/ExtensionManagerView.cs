@@ -13,13 +13,14 @@ public class ExtensionManagerView : MonoBehaviour
 {
 
     public GameObject extensionInfoPrefab, extensionInfoOrganizer;
-    LoadData loader;
-    SaveData saver;
-    Coroutine activeRoutine;
     public ExtensionInfoView extensionInfoView;
-    ExtensionChecker extensionChecker;
 
-    void Awake()
+    private LoadData loader;
+    private SaveData saver;
+    private Coroutine activeRoutine;
+    private ExtensionChecker extensionChecker;
+
+    private void Awake()
     {
         loader = LoadData.LoadFromPath("/Resources/Extensions");
         saver = SaveData.SaveAtPath("/Resources/Extensions");
@@ -35,29 +36,30 @@ public class ExtensionManagerView : MonoBehaviour
         activeRoutine = StartCoroutine(InitLoadExtensions());
     }
 
-    IEnumerator InitLoadExtensions()
+    private IEnumerator InitLoadExtensions()
     {
         if (extensionInfoOrganizer.transform.childCount > 0)
         {
             foreach (Transform child in extensionInfoOrganizer.transform)
             {
-                GameObject.Destroy(child.gameObject);
+                if (child.gameObject.GetComponent<ExtensionInfoContainer>() != null) {
+                    GameObject.Destroy(child.gameObject);
+                }
             }
         }
-
 
         yield return StartCoroutine(extensionChecker.CheckExtensions(communityExtensions =>
         {
             AppManager.instance.modManager.extensionList.communityExtensions = communityExtensions;
             GenerateExtensionContainers(communityExtensions, false);
-        }, installedExtensions =>
-        {
+        }, installedExtensions => {
             AppManager.instance.modManager.extensionList.installedExtensions = installedExtensions;
             GenerateExtensionContainers(installedExtensions, true);
-
         }));
+
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
         activeRoutine = null;
+
         /*  List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
 
         yield return json;
@@ -94,18 +96,14 @@ public class ExtensionManagerView : MonoBehaviour
     }
 
 
-
-    void GenerateExtensionContainers(List<ExtensionInfo> extensions, bool installed)
+    private void GenerateExtensionContainers(List<ExtensionInfo> extensions, bool installed)
     {
         foreach (ExtensionInfo extension in extensions)
         {
-
             GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
             container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
             container.SetActive(true);
-
-
         }
     }
 
