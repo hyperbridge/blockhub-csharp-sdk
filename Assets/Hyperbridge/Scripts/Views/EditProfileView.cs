@@ -13,8 +13,8 @@ public class EditProfileView : MonoBehaviour
 
     void Start()
     {
-        saveEditButton.onClick.AddListener(() => {
-            StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, nameInput.text, makeDefault.isOn));
+        this.saveEditButton.onClick.AddListener(() => {
+            this.StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, this.nameInput.text, this.makeDefault.isOn));
         });
     }
 
@@ -22,7 +22,7 @@ public class EditProfileView : MonoBehaviour
     {
         AppManager.instance.profileManager.currentlyEditingProfile = data;
 
-        nameInput.text = data.name;
-        makeDefault.isOn = data.isDefault;
+        this.nameInput.text = data.name;
+        this.makeDefault.isOn = data.isDefault;
     }
 }

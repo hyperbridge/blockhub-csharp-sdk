@@ -22,7 +22,7 @@ public class WalletManagerView : MonoBehaviour
     {
         var wallets = e.wallets;
 
-        foreach (Transform child in listView.transform) {
+        foreach (Transform child in this.listView.transform) {
             Destroy(child.gameObject);
         }
 
@@ -34,7 +34,7 @@ public class WalletManagerView : MonoBehaviour
             var container = go.GetComponent<WalletInfoContainer>();
             container.SetupContainer(info);
 
-            go.transform.SetParent(listView.transform);
+            go.transform.SetParent(this.listView.transform);
             go.transform.localScale = new Vector3(1, 1, 1);
             go.SetActive(true);
         }

@@ -11,8 +11,6 @@ using Nethereum.RPC.TransactionManagers;
 using Nethereum.Signer;
 
 
-
-
 public class AppliedWalletService : MonoBehaviour
 {
 

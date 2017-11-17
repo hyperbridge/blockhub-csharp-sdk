@@ -7,22 +7,11 @@ public  class CopyToSystemClipboard
 {
     public void CopyStringToSystemClipboard(string args)
     {
-
-
         EditorGUIUtility.systemCopyBuffer = args;
-
-
     }
+
     public void CopyImageToSystemClipboard(Sprite img)
     {
 
-
-
-
     }
-
-
-
-
-
 }

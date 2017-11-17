@@ -11,7 +11,6 @@ using UMod;
 
 public class ExtensionManagerView : MonoBehaviour
 {
-
     public GameObject extensionInfoPrefab, extensionInfoOrganizer;
     public ExtensionInfoView extensionInfoView;
 
@@ -22,25 +21,26 @@ public class ExtensionManagerView : MonoBehaviour
 
     private void Awake()
     {
-        loader = LoadData.LoadFromPath("/Resources/Extensions");
-        saver = SaveData.SaveAtPath("/Resources/Extensions");
-        extensionChecker = new ExtensionChecker();
-        activeRoutine = StartCoroutine(InitLoadExtensions());
-        extensionInfoView.gameObject.SetActive(true);
+        this.loader = LoadData.LoadFromPath("/Resources/Extensions");
+        this.saver = SaveData.SaveAtPath("/Resources/Extensions");
+        this.extensionChecker = new ExtensionChecker();
+        this.activeRoutine = StartCoroutine(this.InitLoadExtensions());
+        this.extensionInfoView.gameObject.SetActive(true);
     }
 
     public void UpdateExtensionList()
     {
-        if (activeRoutine != null) StopCoroutine(activeRoutine);
+        if (this.activeRoutine != null)
+            this.StopCoroutine(this.activeRoutine);
 
-        activeRoutine = StartCoroutine(InitLoadExtensions());
+        this.activeRoutine = this.StartCoroutine(this.InitLoadExtensions());
     }
 
     private IEnumerator InitLoadExtensions()
     {
-        if (extensionInfoOrganizer.transform.childCount > 0)
+        if (this.extensionInfoOrganizer.transform.childCount > 0)
         {
-            foreach (Transform child in extensionInfoOrganizer.transform)
+            foreach (Transform child in this.extensionInfoOrganizer.transform)
             {
                 if (child.gameObject.GetComponent<ExtensionInfoContainer>() != null) {
                     GameObject.Destroy(child.gameObject);
@@ -48,17 +48,17 @@ public class ExtensionManagerView : MonoBehaviour
             }
         }
 
-        yield return StartCoroutine(extensionChecker.CheckExtensions(communityExtensions =>
+        yield return StartCoroutine(this.extensionChecker.CheckExtensions(communityExtensions =>
         {
             AppManager.instance.modManager.extensionList.communityExtensions = communityExtensions;
-            GenerateExtensionContainers(communityExtensions, false);
+            this.GenerateExtensionContainers(communityExtensions, false);
         }, installedExtensions => {
             AppManager.instance.modManager.extensionList.installedExtensions = installedExtensions;
-            GenerateExtensionContainers(installedExtensions, true);
+            this.GenerateExtensionContainers(installedExtensions, true);
         }));
 
-        StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-        activeRoutine = null;
+        this.StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
+        this.activeRoutine = null;
 
         /*  List<ExtensionInfo> json = loader.LoadAllFromFolder<ExtensionInfo>();
 
@@ -100,7 +100,7 @@ public class ExtensionManagerView : MonoBehaviour
     {
         foreach (ExtensionInfo extension in extensions)
         {
-            GameObject container = Instantiate(extensionInfoPrefab, extensionInfoOrganizer.transform);
+            GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
             container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
             container.SetActive(true);
