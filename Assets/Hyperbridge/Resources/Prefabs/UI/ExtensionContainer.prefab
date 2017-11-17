@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.05882353}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.372}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   icon: {fileID: 114047239334093162}
   extensionName: {fileID: 114473955979763422}
   extensionDate: {fileID: 114436315799249406}
-  extensionRating: {fileID: 0}
+  extensionRating: {fileID: 114222203623726050}
   extensionVersion: {fileID: 114140727027211964}
   settingsButton: {fileID: 114741315382587090}
   installButton: {fileID: 114539021498595318}
