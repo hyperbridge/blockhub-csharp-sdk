@@ -49,12 +49,12 @@ public class WalletService : MonoBehaviour
     public void AcceptWallet(Text validationText)
     {
         if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText)) {
-            StartCoroutine(ConfirmAccount(keystore, validationText, passwordField.text, nameField.text));
+            ConfirmAccount(keystore, validationText, passwordField.text, nameField.text);
         }
     }
 
     // TODO: Services should not be touching unity components
-    public IEnumerator ConfirmAccount(string accountKeystore, Text validationText, string password, string walletName)
+    public Account ConfirmAccount(string accountKeystore, Text validationText, string password, string walletName)
     {
         // Debug.Log(accountKeystore);
         //Making sure the keystore is in an acceptable format for the account parser.
@@ -69,10 +69,11 @@ public class WalletService : MonoBehaviour
         catch {
             // TODO: ew
             validationText.text = "Password is wrong or keystore is corrupted.";
-            yield break;    
+            return null;
+
         }
 
-//        byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, editedJson);
+        //        byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, editedJson);
 
         Account account = new Account(key);
         //Checking no other wallets have the same address, because we'd have a duplicate
@@ -81,18 +82,22 @@ public class WalletService : MonoBehaviour
             if (wallet.address == account.Address) {
                 validationText.text = "This wallet address already exists.";
 
-                yield break;
             }
         }
 
         Debug.Log(account.Address);
         Debug.Log(account.PrivateKey);
 
+        return account;
+    }
+    public void InternalWalletSetup(Account account, string walletName, Text validationText, string coin)
+    {
+
         var newWallet = new WalletInfo();
+        string uuid = Guid.NewGuid().ToString();
+        newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey,uuid,coin);
 
-        newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey);
-
-        SaveData saveWallet = SaveData.SaveAtPath("Wallets");
+        SaveData saveWallet = SaveData.SaveAtPath("/Resources/Wallets/"+uuid);
 
         saveWallet.Save<WalletInfo>(walletName, newWallet);
 
@@ -100,10 +105,7 @@ public class WalletService : MonoBehaviour
         validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
 
         StartCoroutine(CheckWalletContents(newWallet));
-
-        yield return null;
     }
-
     public IEnumerator CheckWalletContents(WalletInfo wallet)
     {
         // Debug.Log(wallet.address);

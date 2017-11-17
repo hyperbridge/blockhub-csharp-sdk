@@ -110,7 +110,6 @@ public class LoadData
                 }
             }
         }
-        Debug.Log(returnList.Count);
         return returnList;
 
     }

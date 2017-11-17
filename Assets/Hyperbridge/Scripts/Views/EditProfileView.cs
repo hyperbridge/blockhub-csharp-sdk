@@ -14,7 +14,7 @@ public class EditProfileView : MonoBehaviour
     void Start()
     {
         this.saveEditButton.onClick.AddListener(() => {
-            this.StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, this.nameInput.text, this.makeDefault.isOn));
+            StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, this.nameInput.text, this.makeDefault.isOn));
         });
     }
 

@@ -27,7 +27,6 @@ public class WalletManagerView : MonoBehaviour
         }
 
         foreach (WalletInfo info in wallets) {
-           // Debug.Log(info.title);
 
             GameObject go = Instantiate(displayPrefab);
 

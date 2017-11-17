@@ -11,6 +11,7 @@ public class CreateWalletView : MonoBehaviour
     public InputField walletNameInputField, walletPasswordInputField;
     public Button createWalletButton;
     public GameObject loadingModal;
+    public Toggle ethereumToggle, bitcoinToggle;
 
     void Start() // TODO: WALLET ANIMATION CREATION. THREADING.
     {
@@ -38,7 +39,7 @@ public class CreateWalletView : MonoBehaviour
     public IEnumerator CreateWallet()
     {
         yield return new WaitForSeconds(0.2f);
-        string tempAddress = "" , tempJson = "" ;
+        string tempAddress = "", tempJson = "";
         yield return new WaitForThreadedTask(() =>
         {
             AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address, encryptedJson) =>
@@ -58,12 +59,21 @@ public class CreateWalletView : MonoBehaviour
 
         UnityEditor.AssetDatabase.Refresh();
 
-       
-        yield return new WaitForThreadedTask(() => 
+        Account tempAccount = null;
+        yield return new WaitForThreadedTask(() =>
         {
-            StartCoroutine(AppManager.instance.walletService.ConfirmAccount(tempJson, this.validationText, this.walletPasswordInputField.text, this.walletNameInputField.text));
+            tempAccount = AppManager.instance.walletService.ConfirmAccount(tempJson, this.validationText, this.walletPasswordInputField.text, this.walletNameInputField.text);
         });
+        if (ethereumToggle.isOn)
+        {
+            AppManager.instance.walletService.InternalWalletSetup(tempAccount, this.walletNameInputField.text, validationText, "Ethereum");
 
+        }
+        else if (bitcoinToggle.isOn)
+        {
+            AppManager.instance.walletService.InternalWalletSetup(tempAccount, this.walletNameInputField.text, validationText, "Bitcoin");
+
+        }
         this.loadingModal.SetActive(false);
 
         this.gameObject.GetComponent<Devdog.General.UI.UIWindowPage>().Hide();
