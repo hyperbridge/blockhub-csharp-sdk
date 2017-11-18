@@ -6,7 +6,7 @@ using System.IO;
 public class WalletManager : MonoBehaviour
 {
     public List<WalletInfo> wallets = new List<WalletInfo>();
-    public WalletManagerView managerView;
+    public WalletsView managerView;
     public WalletInfoView infoView;
 
     private void Awake()

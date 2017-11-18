@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WalletManagerView : MonoBehaviour
+public class WalletsView : MonoBehaviour
 {
     public GameObject displayPrefab, listView;
     public WalletInfoView infoView;
