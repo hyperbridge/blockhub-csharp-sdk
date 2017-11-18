@@ -12,7 +12,7 @@ public class ModManager : MonoBehaviour
     ModHost latestLoadedMod;
     List<ModHost> activeMods;
     public ExtensionListManager extensionList;
-    public ExtensionManagerView extensionManagerView;
+    public ExtensionsView ExtensionsView;
     private void Awake()
     {
         Mod.Initialize();
@@ -92,7 +92,7 @@ public class ModManager : MonoBehaviour
         if (extensionList.installedExtensions.Contains(extension)) { yield break; }
         extensionList.installedExtensions.Add(extension);
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-        this.extensionManagerView.GenerateInstalledCommunityExtensionContainers();
+        this.ExtensionsView.GenerateInstalledCommunityExtensionContainers();
         yield return new WaitForSeconds(0.5f);
     }
     public IEnumerator UninstallMod(ExtensionInfo extension)
@@ -112,7 +112,7 @@ public class ModManager : MonoBehaviour
         extension.enabled = false;
 
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-        this.extensionManagerView.GenerateInstalledCommunityExtensionContainers();
+        this.ExtensionsView.GenerateInstalledCommunityExtensionContainers();
 
         yield return new WaitForSeconds(0.5f);
     }
@@ -139,7 +139,7 @@ public class ModManager : MonoBehaviour
              {
                  GameObject gO = latestLoadedMod.Assets.Load("UIPrefab1") as GameObject;
 
-                 Instantiate(gO, FindObjectOfType<ExtensionManagerView>().transform);
+                 Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
              }
              */
 

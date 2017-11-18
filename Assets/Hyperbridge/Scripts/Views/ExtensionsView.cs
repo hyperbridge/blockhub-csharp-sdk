@@ -9,7 +9,7 @@ using UnityEngine;
 using System.IO;
 using UMod;
 
-public class ExtensionManagerView : MonoBehaviour
+public class ExtensionsView : MonoBehaviour
 {
     public GameObject extensionInfoPrefab, extensionInfoOrganizer, installedExtensionsHeading, communityExtensionsHeading;
     public ExtensionInfoView extensionInfoView;
@@ -71,7 +71,7 @@ public class ExtensionManagerView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+            container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
             container.SetActive(true);
         }
@@ -91,7 +91,7 @@ public class ExtensionManagerView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+            container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, true);
             container.SetActive(true);
         }
@@ -116,7 +116,7 @@ public class ExtensionManagerView : MonoBehaviour
             {
                 GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-                container.GetComponent<ExtensionInfoContainer>().extensionManagerView = this;
+                container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
                 container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, false);
                 container.SetActive(true);
 

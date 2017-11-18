@@ -9,7 +9,7 @@ public class ExtensionInfoContainer : MonoBehaviour
     public Image icon;
     public Text extensionName, extensionDate, extensionRating, extensionVersion,descriptionText;
     public Button settingsButton, installButton, disableButton;
-    public ExtensionManagerView extensionManagerView;
+    public ExtensionsView ExtensionsView;
 
     private ExtensionInfo data;
     private bool installed;
@@ -26,7 +26,7 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         this.settingsButton.onClick.AddListener(() =>
         {
-            this.StartCoroutine(extensionManagerView.extensionInfoView.SetupView(data));
+            this.StartCoroutine(ExtensionsView.extensionInfoView.SetupView(data));
         });
         if (data.enabled)
         {

@@ -51,7 +51,7 @@ public class ExtensionOrganizerController : MonoBehaviour
             {
                 GameObject gO = mod.Assets.Load("UIPrefab1") as GameObject;
 
-                Instantiate(gO, FindObjectOfType<ExtensionManagerView>().transform);
+                Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
             }
 
         }

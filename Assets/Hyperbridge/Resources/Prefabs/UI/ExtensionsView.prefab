@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 114752427695043844}
   - component: {fileID: 114636402346157718}
   m_Layer: 5
-  m_Name: ExtensionsManagerView
+  m_Name: ExtensionsView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2332,6 +2332,8 @@ MonoBehaviour:
   extensionInfoPrefab: {fileID: 1967056253818010, guid: c105306f0d11e7444882b043ccf5c469,
     type: 2}
   extensionInfoOrganizer: {fileID: 1541659003839408}
+  installedExtensionsHeading: {fileID: 0}
+  communityExtensionsHeading: {fileID: 0}
   extensionInfoView: {fileID: 114795984687480844}
 --- !u!114 &114636973071230944
 MonoBehaviour:
@@ -2640,7 +2642,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-    m_TypeName: Devdog.SciFiDesign.UI.UIElementKeyActions+KeyAction, Assembly-CSharp,
+    m_TypeName: Devdog.SciFiDesign.UI.UIElementKeyActions+KeyAction, Assembly-CSharp-firstpass,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   activationTime: 0
   continous: 0
@@ -3052,13 +3054,13 @@ MonoBehaviour:
   onShowActions:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   onHideActions:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   isDefaultPage: 1
   _isEnabled: 1
   myButton: {fileID: 0}
@@ -3112,13 +3114,13 @@ MonoBehaviour:
   onShowActions:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   onHideActions:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   isDefaultPage: 1
   _isEnabled: 1
   myButton: {fileID: 0}
@@ -3205,13 +3207,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   onHideActions:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Devdog.General.UI.UIWindow+UIWindowActionEvent, Assembly-CSharp-firstpass,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114954059004980404
 MonoBehaviour:
   m_ObjectHideFlags: 1
