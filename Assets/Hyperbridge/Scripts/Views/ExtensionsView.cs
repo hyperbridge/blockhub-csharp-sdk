@@ -24,7 +24,12 @@ public class ExtensionsView : MonoBehaviour
         this.loader = LoadData.LoadFromPath("/Resources/Extensions");
         this.saver = SaveData.SaveAtPath("/Resources/Extensions");
         this.extensionChecker = new ExtensionChecker();
-        this.activeRoutine = StartCoroutine(this.InitLoadExtensions());
+
+        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+    }
+
+    public void OnAppInitialized(AppInitializedEvent e) {
+        this.activeRoutine = this.StartCoroutine(this.InitLoadExtensions());
         this.extensionInfoView.gameObject.SetActive(true);
     }
 
@@ -71,7 +76,7 @@ public class ExtensionsView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
+            container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
             container.SetActive(true);
         }
@@ -91,7 +96,7 @@ public class ExtensionsView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
+            container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
             container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, true);
             container.SetActive(true);
         }
@@ -116,7 +121,7 @@ public class ExtensionsView : MonoBehaviour
             {
                 GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-                container.GetComponent<ExtensionInfoContainer>().ExtensionsView = this;
+                container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
                 container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, false);
                 container.SetActive(true);
 

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Screen : MonoBehaviour
 {
-    public GameObject view;
     public string path;
 
     private void Awake()
@@ -16,7 +15,7 @@ public class Screen : MonoBehaviour
     public void OnAppStateChange(AppStateChangeEvent e)
     {
         var state = e.state;
-        var window = this.view.GetComponent<Devdog.General.UI.UIWindow>();
+        var window = this.gameObject.GetComponent<Devdog.General.UI.UIWindow>();
 
         if (state.uri.StartsWith(this.path, System.StringComparison.CurrentCultureIgnoreCase))
         {

@@ -36,8 +36,10 @@ public class ExtensionChecker
         {
             yield return installedExtensions = loader.LoadThisData<List<ExtensionInfo>>("extensions");
         }
+
         List<ExtensionInfo> externalExtensions = loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
         yield return externalExtensions;
+
         foreach (ExtensionInfo extension in externalExtensions)
         {
            

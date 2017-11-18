@@ -9,7 +9,7 @@ public class ExtensionInfoContainer : MonoBehaviour
     public Image icon;
     public Text extensionName, extensionDate, extensionRating, extensionVersion,descriptionText;
     public Button settingsButton, installButton, disableButton;
-    public ExtensionsView ExtensionsView;
+    public ExtensionsView extensionsView;
 
     private ExtensionInfo data;
     private bool installed;
@@ -26,8 +26,9 @@ public class ExtensionInfoContainer : MonoBehaviour
 
         this.settingsButton.onClick.AddListener(() =>
         {
-            this.StartCoroutine(ExtensionsView.extensionInfoView.SetupView(data));
+            this.StartCoroutine(extensionsView.extensionInfoView.SetupView(data));
         });
+
         if (data.enabled)
         {
             this.disableButton.GetComponentInChildren<Text>().text = "Disable";
@@ -50,6 +51,7 @@ public class ExtensionInfoContainer : MonoBehaviour
                 this.SetupExtension(this.data, this.installed);
             });
         }
+
         if (this.installed)
         {
             this.disableButton.interactable = true;

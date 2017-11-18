@@ -8,31 +8,30 @@ using UMod;
 public class ExtensionOrganizerController : MonoBehaviour
 {
     public GameObject extensionLauncherAccessButton;
-    GridLayoutGroup gridLayoutGroup;
 
+    private GridLayoutGroup gridLayoutGroup;
 
-    void Awake()
+    private void Awake()
     {
-        gridLayoutGroup = GetComponent<GridLayoutGroup>();
-    }
-    private void Start()
-    {
-        DetectInstalledExtensions();
+        this.gridLayoutGroup = GetComponent<GridLayoutGroup>();
+
+        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
     }
 
-    void DetectInstalledExtensions()
+    private void OnAppInitialized(AppInitializedEvent e)
     {
+        this.DetectInstalledExtensions();
+    }
 
+    private void DetectInstalledExtensions()
+    {
         foreach (ModHost mod in AppManager.instance.modManager.ModList())
         {
-            GameObject extensionButton = Instantiate(extensionLauncherAccessButton, transform);
+            GameObject extensionButton = Instantiate(this.extensionLauncherAccessButton, transform);
             extensionButton.GetComponentInChildren<Text>().text = mod.CurrentMod.ModName;
             extensionButton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                ActivateExtension(mod);
-
-
-
+                this.ActivateExtension(mod);
             });
         }
     }
@@ -40,7 +39,9 @@ public class ExtensionOrganizerController : MonoBehaviour
     public void ActivateExtension(ModHost mod)
     {
         Debug.Log(mod.name);
+
         mod.DestroyModObjects();
+
         if (mod.HasScenes)
         {
             mod.LoadDefaultScene();
@@ -53,13 +54,6 @@ public class ExtensionOrganizerController : MonoBehaviour
 
                 Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
             }
-
         }
-
-
     }
-
-
-
-
 }

@@ -23,10 +23,10 @@ public class AppManager : MonoBehaviour
             Debug.LogError("More than one AppManager");
 
         this.state = new AppState();
-        this.walletManager = this.GetComponent<WalletManager>();
-        this.modManager = this.GetComponent<ModManager>();
-        this.saveDataManager = this.GetComponent<SaveDataManager>();
-        this.profileManager = this.GetComponent<ProfileManager>();
+        //this.walletManager = this.GetComponent<WalletManager>();
+        //this.modManager = this.GetComponent<ModManager>();
+        //this.saveDataManager = this.GetComponent<SaveDataManager>();
+        //this.profileManager = this.GetComponent<ProfileManager>();
 
         var debugObjects = GameObject.FindGameObjectsWithTag("Debug");
 
@@ -39,11 +39,21 @@ public class AppManager : MonoBehaviour
         this.screens.AddRange(screens);
 
         CodeControl.Message.AddListener<NavigateEvent>(this.OnNavigateEvent);
+
+        this.modManager.enabled = true;
     }
 
     private void Start() {
-        var message = new AppInitializedEvent();
-        CodeControl.Message.Send<AppInitializedEvent>(message);
+        this.StartCoroutine(this.AfterStart());
+    }
+
+    public IEnumerator AfterStart() {
+        yield return new WaitForSeconds(0.01f);
+
+        CodeControl.Message.Send<AppInitializedEvent>(new AppInitializedEvent());
+        CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/home" });
+
+        yield return null;
     }
 
     public void AddScreen(Screen screen) {

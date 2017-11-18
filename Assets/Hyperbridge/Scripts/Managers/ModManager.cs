@@ -7,27 +7,34 @@ using UnityEditor;
 using UMod;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using System;
 
 public class ModManager : MonoBehaviour
 {
-    ModHost latestLoadedMod;
-    List<ModHost> activeMods;
     public ExtensionListManager extensionList;
-    public ExtensionsView ExtensionsView;
+    public ExtensionsView extensionsView;
+
+    private ModHost latestLoadedMod;
+    private List<ModHost> activeMods;
+
     private void Awake()
     {
-        Mod.Initialize();
-        activeMods = new List<ModHost>();
-        extensionList = new ExtensionListManager();
+        try {
+            Mod.Initialize();
+        }
+        catch (ArgumentOutOfRangeException e) {
+            
+        }
+        this.activeMods = new List<ModHost>();
+        this.extensionList = new ExtensionListManager();
     }
 
     private void Start()
     {
-        CheckMods();
+        this.CheckMods();
     }
 
-    void CheckMods()
+    private void CheckMods()
     {
         //TODO: This is deactivated because Umod isn't real (we're not using it until they update)
         /*foreach (string mod in InstalledExtensionPaths())
@@ -94,9 +101,10 @@ public class ModManager : MonoBehaviour
         if (extensionList.installedExtensions.Contains(extension)) { yield break; }
         extensionList.installedExtensions.Add(extension);
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-        this.ExtensionsView.GenerateInstalledCommunityExtensionContainers();
+        this.extensionsView.GenerateInstalledCommunityExtensionContainers();
         yield return new WaitForSeconds(0.5f);
     }
+
     public IEnumerator UninstallMod(ExtensionInfo extension)
     {
         /*  mod.DestroyModObjects();
@@ -111,27 +119,32 @@ public class ModManager : MonoBehaviour
                 extensionList.installedExtensions.Remove(extensionList.installedExtensions[i]);
             }
         }
+
         extension.enabled = false;
 
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
-        this.ExtensionsView.GenerateInstalledCommunityExtensionContainers();
+        this.extensionsView.GenerateInstalledCommunityExtensionContainers();
 
         yield return new WaitForSeconds(0.5f);
     }
+
     public void DisableMod(ExtensionInfo extension)
     {
         extension.enabled = false;
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
     }
+
     public void EnableMod(ExtensionInfo extension)
     {
         extension.enabled = true;
         StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
     }
+
     public void DeleteMod(ExtensionInfo data)
     {
         Directory.Delete(data.path);
     }
+
     private void OnModLoadComplete(ModLoadCompleteArgs args)
     {
         if (args.IsLoaded)

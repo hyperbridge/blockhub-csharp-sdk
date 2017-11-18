@@ -18,6 +18,9 @@ namespace Devdog.SciFiDesign.UI
         [SerializeField]
         private Text _textDay;
 
+        [SerializeField]
+        private Text _textTimePart;
+
 
         public bool blinkColon = false;
         public float blinkColonInterval = 0.5f;
@@ -38,7 +41,6 @@ namespace Devdog.SciFiDesign.UI
 
             if (_textTimeHour != null)
             {
-
                 _textTimeHour.text = n.Hour < 10 ? "0" + n.Hour : n.Hour < 12 ? n.Hour.ToString() : (n.Hour - 12).ToString();
             }
 
@@ -49,7 +51,12 @@ namespace Devdog.SciFiDesign.UI
 
             if (_textDay != null)
             {
-                _textDay.text = n.Hour > 12 ? "PM " + n.DayOfWeek.ToString().ToUpper() : "AM " + n.DayOfWeek.ToString().ToUpper();
+                _textDay.text = n.DayOfWeek.ToString().ToUpper();
+            }
+
+            if (_textTimePart != null)
+            {
+                _textTimePart.text = n.Hour >= 12 ? "PM" : "AM";
             }
         }
 

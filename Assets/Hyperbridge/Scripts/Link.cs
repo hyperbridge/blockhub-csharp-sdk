@@ -4,15 +4,13 @@ using System.Collections;
 
 public class Link : MonoBehaviour
 {
-    public GameObject view;
     public string path;
-
 
     private void Awake()
     {
         CodeControl.Message.AddListener<AppStateChangeEvent>(this.OnAppStateChange);
 
-        var button = this.view.GetComponent<Button>();
+        var button = this.gameObject.GetComponent<Button>();
 
         button.onClick.AddListener(this.OnButtonClick);
     }
@@ -25,8 +23,8 @@ public class Link : MonoBehaviour
     {
         var state = e.state;
 
-        var animator = this.view.GetComponent<Animator>();
-        var button = this.view.GetComponent<Button>();
+        var animator = this.gameObject.GetComponent<Animator>();
+        var button = this.gameObject.GetComponent<Button>();
 
         if (state.uri.StartsWith(this.path, System.StringComparison.CurrentCultureIgnoreCase))
         {
