@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class SaveJSONButton : MonoBehaviour
 {
@@ -11,8 +13,10 @@ public class SaveJSONButton : MonoBehaviour
     public void SaveJSON()
     {
         ExtensionInfo dataToSave = new ExtensionInfo();
-        foreach (InputField input in inputs) {
-            switch (input.name) {
+        foreach (InputField input in inputs)
+        {
+            switch (input.name)
+            {
                 case "NameInput":
                     dataToSave.name = input.text;
                     break;
@@ -48,7 +52,10 @@ public class SaveJSONButton : MonoBehaviour
                     break;
             }
         }
+
+        #if UNITY_EDITOR
         string ID = GUID.Generate().ToString();
-        AppManager.instance.saveDataManager.SaveExtensionJSON(ID,dataToSave);
+        AppManager.instance.saveDataManager.SaveExtensionJSON(ID, dataToSave);
+        #endif
     }
 }

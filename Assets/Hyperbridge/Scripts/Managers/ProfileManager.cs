@@ -52,7 +52,9 @@ public class ProfileManager : MonoBehaviour
         this.profiles.Add(newData);
         this.saver.Save<ProfileData>(newData.name, newData);
 
+        #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
+        #endif
 
         this.DispatchUpdateEvent();
     }
@@ -79,7 +81,9 @@ public class ProfileManager : MonoBehaviour
 
         this.profiles.Remove(dataToDelete);
 
+        #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
+        #endif
 
         this.DispatchUpdateEvent();
     }

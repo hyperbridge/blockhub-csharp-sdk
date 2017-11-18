@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 [System.Serializable]
 public class JsonFile : DataFile {
-	#region Properties
+#region Properties
 	[SerializeField]
 	new private JObject _data;
 	new public JObject data {
@@ -21,10 +23,10 @@ public class JsonFile : DataFile {
 		}
 		set { _data = value; }
 	}
-	#endregion
+#endregion
 
 #if UNITY_EDITOR
-	#region Editor Fields
+#region Editor Fields
 	private int tier = 0;
 
 	//[SerializeField]
@@ -40,9 +42,9 @@ public class JsonFile : DataFile {
 
 	//[System.NonSerialized]
 	private Rect workspacePos = new Rect();
-	#endregion
+#endregion
 
-	#region Editor Properties
+#region Editor Properties
 	public override bool isChanged {
 		get {
 			bool result = false;
@@ -54,9 +56,9 @@ public class JsonFile : DataFile {
 			return result;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Popup Properties
+#region Popup Properties
 	private GUIContent[] _dataTypeOptions;
 	private GUIContent[] dataTypeOptions {
 		get {
@@ -74,9 +76,9 @@ public class JsonFile : DataFile {
 			return _dataTypeOptions;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Icon Properties
+#region Icon Properties
 	private GUIContent _keyIcon;
 	private GUIContent keyIcon {
 		get {
@@ -114,9 +116,9 @@ public class JsonFile : DataFile {
 			return _rightArrowIcon;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Color Properties
+#region Color Properties
 	private Color darkPrimaryColor {
 		get { return new Color(69 / 255f, 90 / 255f, 100 / 255f); }
 	}
@@ -150,9 +152,9 @@ public class JsonFile : DataFile {
 			return Color.Lerp(lightPrimaryColor, accentColor, Mathf.Sin((float)(EditorApplication.timeSinceStartup % Mathf.PI * 6)) * 0.5f + 0.5f);
 		}
 	}
-	#endregion
+#endregion
 
-	#region Size Properties
+#region Size Properties
 	private int unitSize {
 		get { return 32; }
 	}
@@ -164,9 +166,9 @@ public class JsonFile : DataFile {
 	private int bufferSize {
 		get { return 8; }
 	}
-	#endregion
+#endregion
 
-	#region Style Properties
+#region Style Properties
 	private GUIStyle _spanStyle;
 	private GUIStyle spanStyle {
 		get {
@@ -203,10 +205,10 @@ public class JsonFile : DataFile {
 			return _fieldStyle;
 		}
 	}
-	#endregion
+#endregion
 #endif
 
-	#region Load Methods
+#region Load Methods
 	new public JsonFile Load(FileInfo info) {
 		this.info = info;
 		if (info != null &&
@@ -215,9 +217,9 @@ public class JsonFile : DataFile {
 		}
 		return this;
 	}
-	#endregion
+#endregion
 
-	#region Save Methods
+#region Save Methods
 	new public JsonFile Save(FileInfo info = null) {
 		if (info != null)	// Save as
 			this.info = info;
@@ -229,10 +231,10 @@ public class JsonFile : DataFile {
 			Debug.LogError("Missing file information. Save failed.");
 		return this;
 	}
-	#endregion
+#endregion
 
 #if UNITY_EDITOR
-	#region Serialization Methods
+#region Serialization Methods
 	public override void OnBeforeSerialize() {
 		if (_serializedString == null) {
 			JObject obj = new JObject();
@@ -262,9 +264,9 @@ public class JsonFile : DataFile {
 			_serializedString = null;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Render Methods
+#region Render Methods
 	public override void Render() {
 		scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 		tier = 0;
@@ -590,11 +592,11 @@ public class JsonFile : DataFile {
 		namePos.x = namePos.xMax + bufferSize;
 		namePos.width = fieldWidth;
 		GUI.contentColor = secondaryTextColor;
-		#if UNITY_5_3_OR_NEWER
+#if UNITY_5_3_OR_NEWER
 		name = EditorGUI.DelayedTextField(namePos, name, fieldStyle);
-		#else
+#else
 		name = EditorGUI.TextField(namePos, name, fieldStyle);
-		#endif
+#endif
 		GUI.contentColor = Color.white;
 		GUI.backgroundColor = Color.white;
 		namePos.xMax += bufferSize;
@@ -701,6 +703,6 @@ public class JsonFile : DataFile {
 		}
 		return result;
 	}
-	#endregion
+#endregion
 #endif
 }
