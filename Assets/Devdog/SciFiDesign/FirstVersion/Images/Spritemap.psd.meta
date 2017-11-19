@@ -36,14 +36,17 @@ TextureImporter:
     21300058: CursorIcon
     21300060: BoxGlowy
     21300062: Pointer
-  serializedVersion: 2
+  externalObjects: {}
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -53,23 +56,22 @@ TextureImporter:
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
+    serializedVersion: 2
+    filterMode: 0
     aniso: -1
     mipBias: -1
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -77,12 +79,74 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Border_BgLight
+    - serializedVersion: 2
+      name: Border_BgLight
       rect:
         serializedVersion: 2
         x: 1
@@ -93,7 +157,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 2, y: 2, z: 2, w: 2}
       outline: []
-    - name: Border_NoBG
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Border_NoBG
       rect:
         serializedVersion: 2
         x: 12
@@ -104,7 +171,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 2, y: 2, z: 2, w: 2}
       outline: []
-    - name: Ico_Cross
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Cross
       rect:
         serializedVersion: 2
         x: 27
@@ -115,7 +185,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Search
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Search
       rect:
         serializedVersion: 2
         x: 44
@@ -126,7 +199,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Caret
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Caret
       rect:
         serializedVersion: 2
         x: 70
@@ -137,7 +213,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Star
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Star
       rect:
         serializedVersion: 2
         x: 89
@@ -148,7 +227,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Plus
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Plus
       rect:
         serializedVersion: 2
         x: 114
@@ -159,7 +241,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_CrossLarge
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_CrossLarge
       rect:
         serializedVersion: 2
         x: 137
@@ -170,7 +255,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_StarFilled
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_StarFilled
       rect:
         serializedVersion: 2
         x: 89
@@ -181,7 +269,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Border_DropdownBG
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Border_DropdownBG
       rect:
         serializedVersion: 2
         x: 1
@@ -192,7 +283,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 2, y: 2, z: 2, w: 2}
       outline: []
-    - name: TriangelTest_TEMP
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: TriangelTest_TEMP
       rect:
         serializedVersion: 2
         x: 23
@@ -202,16 +296,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -51.5, y: 42}
-        - {x: -51.5, y: 33}
-        - {x: -48.5, y: 22}
-        - {x: -10.5, y: -42}
-        - {x: 10.5, y: -42}
-        - {x: 22.5, y: -37}
-        - {x: 51.5, y: 35}
-        - {x: 51.5, y: 42}
-    - name: TEMP123
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: TEMP123
       rect:
         serializedVersion: 2
         x: 151
@@ -221,23 +310,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -46.5, y: 42}
-        - {x: -46.5, y: 31}
-        - {x: -45.5, y: 26}
-        - {x: -1.5, y: -42}
-        - {x: 5.5, y: -42}
-        - {x: 12.5, y: -35}
-        - {x: 12.5, y: -19}
-        - {x: -19.5, y: 42}
-      - - {x: 37.5, y: 38}
-        - {x: 7.5, y: -10}
-        - {x: 7.5, y: -19}
-        - {x: 10.5, y: -25}
-        - {x: 15.5, y: -25}
-        - {x: 46.5, y: 26}
-        - {x: 46.5, y: 38}
-    - name: Dots
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Dots
       rect:
         serializedVersion: 2
         x: 172
@@ -248,7 +325,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: CircleBorder
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: CircleBorder
       rect:
         serializedVersion: 2
         x: 3
@@ -259,7 +339,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: CircleBorder_BG
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: CircleBorder_BG
       rect:
         serializedVersion: 2
         x: 38
@@ -269,21 +352,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 12, y: 23}
-        - {x: -12, y: 23}
-        - {x: -15, y: 21}
-        - {x: -21, y: 15}
-        - {x: -23, y: 12}
-        - {x: -23, y: -12}
-        - {x: -21, y: -15}
-        - {x: -15, y: -21}
-        - {x: -12, y: -23}
-        - {x: 12, y: -23}
-        - {x: 23, y: -17}
-        - {x: 23, y: 14}
-        - {x: 15, y: 21}
-    - name: BG
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: BG
       rect:
         serializedVersion: 2
         x: 924
@@ -293,12 +366,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -50, y: 50}
-        - {x: -50, y: -50}
-        - {x: 50, y: -50}
-        - {x: 50, y: 50}
-    - name: Transparent
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Transparent
       rect:
         serializedVersion: 2
         x: 823
@@ -309,7 +381,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_GridView
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_GridView
       rect:
         serializedVersion: 2
         x: 93
@@ -320,7 +395,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_ListView
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_ListView
       rect:
         serializedVersion: 2
         x: 120
@@ -331,7 +409,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_LB
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_LB
       rect:
         serializedVersion: 2
         x: 119
@@ -342,7 +423,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_RB
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_RB
       rect:
         serializedVersion: 2
         x: 162
@@ -353,7 +437,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Profile
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Profile
       rect:
         serializedVersion: 2
         x: 204
@@ -363,15 +450,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -10, y: 16}
-        - {x: -16, y: 14}
-        - {x: -16, y: -16}
-        - {x: 15, y: -16}
-        - {x: 16, y: -13}
-        - {x: 16, y: 13}
-        - {x: 11, y: 16}
-    - name: Ico_Clock
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Clock
       rect:
         serializedVersion: 2
         x: 239
@@ -381,28 +464,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 15, y: 16}
-        - {x: -14, y: 16}
-        - {x: -16, y: 15}
-        - {x: -16, y: -16}
-        - {x: 15, y: -16}
-        - {x: 16, y: -13}
-        - {x: 16, y: 13}
-      - - {x: -7, y: 7}
-        - {x: 2, y: 10}
-        - {x: 10, y: -3}
-        - {x: 2, y: -11}
-      - - {x: 1, y: 9}
-        - {x: -2, y: 9}
-        - {x: -4, y: 7}
-        - {x: -4, y: -4}
-        - {x: 3, y: -9}
-        - {x: 8, y: -9}
-        - {x: 10, y: -6}
-        - {x: 10, y: -2}
-        - {x: 3, y: 7}
-    - name: Ico_Bullet_Empty
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Bullet_Empty
       rect:
         serializedVersion: 2
         x: 156
@@ -413,7 +479,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Bullet
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Bullet
       rect:
         serializedVersion: 2
         x: 184
@@ -424,7 +493,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Rarity_Edge_Wrapper
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Rarity_Edge_Wrapper
       rect:
         serializedVersion: 2
         x: 205
@@ -435,7 +507,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Ico_Lightningbold
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Ico_Lightningbold
       rect:
         serializedVersion: 2
         x: 229
@@ -446,7 +521,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: BoxGlowy
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: BoxGlowy
       rect:
         serializedVersion: 2
         x: 310
@@ -456,14 +534,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 30, y: 30, z: 30, w: 30}
-      outline:
-      - - {x: -31, y: 34}
-        - {x: -34, y: 29}
-        - {x: -34, y: -30}
-        - {x: -30, y: -34}
-        - {x: 34, y: -34}
-        - {x: 34, y: 34}
-    - name: Pointer
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Pointer
       rect:
         serializedVersion: 2
         x: 408
@@ -474,7 +549,10 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
+      tessellationDetail: -1
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

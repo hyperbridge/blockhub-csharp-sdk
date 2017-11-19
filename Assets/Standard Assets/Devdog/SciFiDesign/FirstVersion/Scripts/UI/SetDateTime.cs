@@ -41,7 +41,7 @@ namespace Devdog.SciFiDesign.UI
 
             if (_textTimeHour != null)
             {
-                _textTimeHour.text = n.Hour < 10 ? "0" + n.Hour : n.Hour < 12 ? n.Hour.ToString() : (n.Hour - 12).ToString();
+                _textTimeHour.text = n.Hour < 10 ? "0" + n.Hour : (n.Hour <= 12 ? n.Hour.ToString() : (n.Hour - 12).ToString());
             }
 
             if (_textTimeHour != null)
