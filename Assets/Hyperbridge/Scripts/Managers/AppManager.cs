@@ -14,6 +14,7 @@ public class AppManager : MonoBehaviour
     public ProfileManager profileManager;
     public GameObject ui;
     public List<Screen> screens;
+    public OnlineChecker onlineChecker;
 
     private void Awake()
     {
@@ -38,9 +39,20 @@ public class AppManager : MonoBehaviour
 
         this.screens.AddRange(screens);
 
+        this.onlineChecker = new OnlineChecker();
+        this.StartCoroutine(this.ConnectivityCheck());
+
         CodeControl.Message.AddListener<NavigateEvent>(this.OnNavigateEvent);
 
         this.modManager.enabled = true;
+    }
+
+    private IEnumerator ConnectivityCheck() {
+        while (true) {
+            this.StartCoroutine(this.onlineChecker.Check());
+
+            yield return new WaitForSeconds(15.0f);
+        }
     }
 
     private void Start() {
