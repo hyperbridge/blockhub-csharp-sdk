@@ -25,6 +25,7 @@ public class ModManager : MonoBehaviour
         catch (ArgumentOutOfRangeException e) {
             
         }
+
         this.activeMods = new List<ModHost>();
         this.extensionList = new ExtensionListManager();
     }

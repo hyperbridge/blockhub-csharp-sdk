@@ -7,17 +7,19 @@ using Devdog.General.UI;
 public class ExtensionInfoContainer : MonoBehaviour
 {
     public Image icon;
-    public Text extensionName, extensionDate, extensionRating, extensionVersion,descriptionText;
+    public Text extensionName, extensionDate, extensionRating, extensionVersion, descriptionText;
     public Button settingsButton, installButton, disableButton;
     public ExtensionsView extensionsView;
 
     private ExtensionInfo data;
-    private bool installed;
+    private bool isInstalled;
+    private bool isEnabled;
 
     public void SetupExtension(ExtensionInfo data, bool installed)
     {
         this.data = data;
-        this.installed = installed;
+        this.isInstalled = installed;
+        this.isEnabled = data.enabled;
         this.descriptionText.text = data.descriptionText;
         this.extensionName.text = data.name;
         this.extensionDate.text = data.updateDate;
@@ -29,54 +31,60 @@ public class ExtensionInfoContainer : MonoBehaviour
             this.StartCoroutine(extensionsView.extensionInfoView.SetupView(data));
         });
 
-        if (data.enabled)
+        this.disableButton.onClick.AddListener(() =>
         {
-            this.disableButton.GetComponentInChildren<Text>().text = "Disable";
+            this.isEnabled = !this.isEnabled;
 
-            this.disableButton.onClick.AddListener(() =>
+            if (this.isEnabled)
             {
-                this.disableButton.GetComponentInChildren<Text>().text = "Enable";
-
-                AppManager.instance.modManager.DisableMod(data);
-                this.SetupExtension(this.data, this.installed);
-            });
-        }
-        else
-        {
-            this.disableButton.onClick.AddListener(() =>
-            {
-                this.disableButton.GetComponentInChildren<Text>().text = "Disable";
-
                 AppManager.instance.modManager.EnableMod(data);
-                this.SetupExtension(this.data, this.installed);
-            });
-        }
+            }
+            else {
+                AppManager.instance.modManager.DisableMod(data);
+            }
 
-        if (this.installed)
+            this.UpdateButtonState();
+        });
+
+        this.installButton.onClick.AddListener(() =>
+        {
+            this.isInstalled = !this.isInstalled;
+
+            if (this.isInstalled)
+            {
+                this.StartCoroutine(AppManager.instance.modManager.InstallMod(data));
+            }
+            else {
+
+                this.StartCoroutine(AppManager.instance.modManager.UninstallMod(data));
+            }
+
+            this.UpdateButtonState();
+        });
+
+        this.UpdateButtonState();
+    }
+
+    public void UpdateButtonState() {
+        if (this.isInstalled)
         {
             this.disableButton.interactable = true;
-
             this.installButton.GetComponentInChildren<Text>().text = "Uninstall";
-            this.installButton.onClick.AddListener(() =>
+
+            if (this.isEnabled)
             {
-                this.StartCoroutine(AppManager.instance.modManager.UninstallMod(data));
-                this.SetupExtension(this.data, false);
-            });
+                this.disableButton.GetComponentInChildren<Text>().text = "Disable";
+            }
+            else
+            {
+                this.disableButton.GetComponentInChildren<Text>().text = "Enable";
+            }
         }
-        else
-        {
-            this.disableButton.image.color = new Color32(1,1,1,0);
+        else {
+            this.disableButton.image.color = new Color32(1, 1, 1, 0);
             this.disableButton.GetComponentInChildren<Text>().text = "";
 
             this.installButton.GetComponentInChildren<Text>().text = "Install";
-
-            this.installButton.onClick.AddListener(() =>
-            {
-                this.StartCoroutine(AppManager.instance.modManager.InstallMod(data));
-                this.SetupExtension(this.data, true);
-            });
         }
-
-      
     }
 }
