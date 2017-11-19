@@ -14,6 +14,8 @@ public class InternetConnectionView : MonoBehaviour {
         if (e.connected)
         {
             this.info.SetActive(false);
+
+            // TODO: Do some faster checks with: Application.internetReachability == NetworkReachability.NotReachable
         }
         else {
             this.info.SetActive(true);

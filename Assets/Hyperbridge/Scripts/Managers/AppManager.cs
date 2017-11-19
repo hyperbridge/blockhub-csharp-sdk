@@ -13,7 +13,7 @@ public class AppManager : MonoBehaviour
     public WalletService walletService;
     public ProfileManager profileManager;
     public GameObject ui;
-    public List<Screen> screens;
+    public List<Hyperbridge.Screen> screens;
     public OnlineChecker onlineChecker;
 
     private void Awake()
@@ -35,7 +35,7 @@ public class AppManager : MonoBehaviour
             GameObject.Destroy(go);
         }
 
-        var screens = this.ui.GetComponentsInChildren<Screen>();
+        var screens = this.ui.GetComponentsInChildren<Hyperbridge.Screen>();
 
         this.screens.AddRange(screens);
 
@@ -68,7 +68,7 @@ public class AppManager : MonoBehaviour
         yield return null;
     }
 
-    public void AddScreen(Screen screen) {
+    public void AddScreen(Hyperbridge.Screen screen) {
         this.screens.Add(screen);
     }
 
