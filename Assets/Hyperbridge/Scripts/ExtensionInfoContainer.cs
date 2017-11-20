@@ -68,7 +68,9 @@ public class ExtensionInfoContainer : MonoBehaviour
     public void UpdateButtonState() {
         if (this.isInstalled)
         {
-            this.disableButton.interactable = true;
+            this.disableButton.gameObject.SetActive(true);
+            this.settingsButton.gameObject.SetActive(true);
+
             this.installButton.GetComponentInChildren<Text>().text = "Uninstall";
 
             if (this.isEnabled)
@@ -81,8 +83,8 @@ public class ExtensionInfoContainer : MonoBehaviour
             }
         }
         else {
-            this.disableButton.image.color = new Color32(1, 1, 1, 0);
-            this.disableButton.GetComponentInChildren<Text>().text = "";
+            this.disableButton.gameObject.SetActive(false);
+            this.settingsButton.gameObject.SetActive(false);
 
             this.installButton.GetComponentInChildren<Text>().text = "Install";
         }
