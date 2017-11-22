@@ -518,7 +518,7 @@ PlayerSettings:
   webGLUseWasm: 0
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
-    1: dUI_DoozyUI
+    1: dUI_DoozyUI;dUI_FontAwesome
   platformArchitecture:
     iOS: 2
   scriptingBackend:
