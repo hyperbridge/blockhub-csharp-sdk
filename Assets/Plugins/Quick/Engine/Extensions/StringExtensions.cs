@@ -49,8 +49,8 @@ namespace QuickEngine.Extensions
             if (str.IsNullOrEmpty()) { return str; }
 
             // get globalization info
-            CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
+            System.Globalization.CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Globalization.TextInfo textInfo = cultureInfo.TextInfo;
 
             // convert to title case
             return textInfo.ToTitleCase(str);
@@ -183,9 +183,9 @@ namespace QuickEngine.Extensions
             return new string(array, 0, arrayIndex);
         }
 
-        public static string[] Split(this string s, string separator, StringSplitOptions splitOptions = StringSplitOptions.None)
+        public static string[] Split(this string s, string separator)
         {
-            return s.Split(new string[] { separator }, splitOptions);
+            return s.Split(new string[] { separator }, System.StringSplitOptions.None);
         }
 
         public static int OccurenceCount(this string str, string val)
@@ -222,47 +222,9 @@ namespace QuickEngine.Extensions
             }
         }
 
-        public static bool Contains(this string source, string toCheck, StringComparison comp = StringComparison.Ordinal)
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
         {
             return source.IndexOf(toCheck, comp) >= 0;
-        }
-
-        public static bool EndsWith(this string a, string b)
-        {
-            int ap = a.Length - 1;
-            int bp = b.Length - 1;
-
-            while (ap >= 0 && bp >= 0 && a[ap] == b[bp])
-            {
-                ap--;
-                bp--;
-            }
-            return (bp < 0 && a.Length >= b.Length) ||
-
-                    (ap < 0 && b.Length >= a.Length);
-        }
-
-        public static bool StartsWith(this string a, string b)
-        {
-            int aLen = a.Length;
-            int bLen = b.Length;
-            int ap = 0; int bp = 0;
-
-            while (ap < aLen && bp < bLen && a[ap] == b[bp])
-            {
-                ap++;
-                bp++;
-            }
-
-            return (bp == bLen && aLen >= bLen) ||
-
-                    (ap == aLen && bLen >= aLen);
-        }
-
-        public static bool RegexMatch(this string a, string b)
-        {
-            var myRegExp = new Regex(a);
-            return myRegExp.Match(b).Success;
         }
     }
 }
