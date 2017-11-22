@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 using UMod;
+using UMod.Scripting;
 using System.IO;
 using System.Text.RegularExpressions;
 using System;
@@ -16,6 +17,7 @@ public class ModManager : MonoBehaviour
 
     private ModHost latestLoadedMod;
     private List<ModHost> activeMods;
+    public ScriptProxy proxy;
 
     private void Awake()
     {

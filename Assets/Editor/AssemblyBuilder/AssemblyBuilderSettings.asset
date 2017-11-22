@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff68042e7f96454e81834cea1a33116, type: 3}
+  m_Name: AssemblyBuilderSettings
+  m_EditorClassIdentifier: 
+  compiler: 0
+  mcsPathWin: 
+  mcsPathOsx: 
+  mcsPathLinux: 
+  selectedIndex: 0
+  presets:
+  - guid: 70990ebf-6537-4c9a-b9ca-d1ced7fb898f
+    presetname: ExtensionBridge
+    dllname: ExtensionBridge
+    osxPath: /ude/jet/projects/app/Assets/Hyperbridge/Resources
+    winPath: 
+    linuxPath: 
+    debug: 0
+    delaysign: 0
+    platform: 0
+    codepage: 0
+    define: 
+    noconfig: 0
+    selectedTab: 5
+    unityDllsFilter: 
+    unityDllsSelected: 0
+    projectDllsFilter: 
+    projectDllsSelected: 0
+    scriptsFilter: 
+    scriptsSelected: 0
+    osxUnityDlls: []
+    winUnityDlls: []
+    linuxUnityDlls: []
+    projectDlls: []
+    libraryDlls: []
+    scripts:
+    - found: 1
+      location: Hyperbridge/Scripts/ExtensionInterface/IExtensionBridge.cs
+  osxFilters:
+  - name: Managed
+    include: 1
+  - name: UnityExtensions
+    include: 1
+  winFilters:
+  - name: Managed
+    include: 1
+  - name: UnityExtensions
+    include: 1
+  linuxFilters:
+  - name: Managed
+    include: 1
+  - name: UnityExtensions
+    include: 1

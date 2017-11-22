@@ -90,6 +90,7 @@ public class WalletService : MonoBehaviour
 
         return account;
     }
+
     public void InternalWalletSetup(Account account, string walletName, Text validationText, string coin)
     {
 
@@ -106,6 +107,7 @@ public class WalletService : MonoBehaviour
 
         StartCoroutine(CheckWalletContents(newWallet));
     }
+
     public IEnumerator CheckWalletContents(WalletInfo wallet)
     {
         // Debug.Log(wallet.address);

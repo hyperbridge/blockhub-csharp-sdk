@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,9 +54,7 @@ public class SaveJSONButton : MonoBehaviour
             }
         }
 
-        #if UNITY_EDITOR
-        string ID = GUID.Generate().ToString();
+        string ID = Guid.NewGuid().ToString();
         AppManager.instance.saveDataManager.SaveExtensionJSON(ID, dataToSave);
-        #endif
     }
 }
