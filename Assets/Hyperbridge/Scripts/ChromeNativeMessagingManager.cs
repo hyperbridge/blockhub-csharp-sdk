@@ -74,8 +74,6 @@ public class BridgeMessage
 public class ChromeNativeMessagingManager : MonoBehaviour {
 
 	void Awake() {
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = 10;
 	}
 
 	// Use this for initialization

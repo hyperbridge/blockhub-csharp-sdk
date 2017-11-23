@@ -13,8 +13,47 @@ public class AppManager : MonoBehaviour
     public WalletService walletService;
     public ProfileManager profileManager;
     public GameObject ui;
+    public GameObject performanceModal;
     public List<Hyperbridge.Screen> screens;
     public OnlineChecker onlineChecker;
+
+
+    public void EnableBackgroundMode() {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 1;
+
+        this.performanceModal.SetActive(true);
+    }
+
+    public void EnableForegroundMode()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
+
+        this.performanceModal.SetActive(false);
+    }
+
+    private void OnApplicationFocus(bool hasFocus) {
+        if (hasFocus)
+        {
+            this.EnableForegroundMode();
+        }
+        else
+        {
+            this.EnableBackgroundMode();
+        }
+    }
+
+    private void OnApplicationPause(bool pauseStatus) {
+        if (pauseStatus)
+        {
+            this.EnableBackgroundMode();
+        }
+        else
+        {
+            this.EnableForegroundMode();
+        }
+    }
 
     private void Awake()
     {
@@ -22,6 +61,8 @@ public class AppManager : MonoBehaviour
             instance = this;
         else
             Debug.LogError("More than one AppManager");
+
+        this.EnableForegroundMode();
 
         this.state = new AppState();
         //this.walletManager = this.GetComponent<WalletManager>();

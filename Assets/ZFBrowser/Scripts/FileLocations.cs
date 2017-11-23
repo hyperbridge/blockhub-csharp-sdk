@@ -28,25 +28,26 @@ public static class FileLocations {
 		public string logFile;
 	}
 
-	private static CEFDirs GetCEFDirs() {
+        private static CEFDirs GetCEFDirs()
+        {
 #if UNITY_EDITOR
-		//In the editor we don't know exactly where we are at, but we can look up one of our scripts and move from there
-		var guids = AssetDatabase.FindAssets("EditorWebResources");
-		if (guids.Length != 1) throw new FileNotFoundException("Failed to locate a single EditorWebResources file");
-		string scriptPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+            //In the editor we don't know exactly where we are at, but we can look up one of our scripts and move from there
+            var guids = AssetDatabase.FindAssets("EditorWebResources");
+            if (guids.Length != 1) throw new FileNotFoundException("Failed to locate a single EditorWebResources file");
+            string scriptPath = AssetDatabase.GUIDToAssetPath(guids[0]);
 
-		// ReSharper disable once PossibleNullReferenceException
-		var baseDir = Directory.GetParent(scriptPath).Parent.FullName + "/Plugins";
-		var resourcesPath = baseDir + "/CEFResources";
-		var localesDir = resourcesPath + "/locales";
-		var platformDir = baseDir;
+            // ReSharper disable once PossibleNullReferenceException
+            var baseDir = Directory.GetParent(scriptPath).Parent.FullName + "/Plugins";
+            var resourcesPath = baseDir + "/CEFResources";
+            var localesDir = resourcesPath + "/locales";
+            var platformDir = baseDir;
 
-		#if UNITY_EDITOR_WIN
-			#if UNITY_EDITOR_64
+#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_64
 				platformDir += "/w64";
-			#else
+#else
 				platformDir += "/w32";
-			#endif
+#endif
 
 			//Silly MS.
 			resourcesPath = resourcesPath.Replace("/", "\\");
@@ -56,40 +57,41 @@ public static class FileLocations {
 			var subprocessFile = platformDir + "/" + SlaveExecutable + ".exe";
 			var logFile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/Unity/Editor/Editor.log";
 
-		#elif UNITY_EDITOR_LINUX
-			#if UNITY_EDITOR_64
+#elif UNITY_EDITOR_LINUX
+#if UNITY_EDITOR_64
 				platformDir += "/l64";
-			#else
+#else
 				platformDir += "/w32";
-			#endif
+#endif
 
 			var subprocessFile = platformDir + "/" + SlaveExecutable;
 			var logFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/unity3d/Editor.log";
 
-		#elif UNITY_EDITOR_OSX
-			platformDir += "/m64";
+#elif UNITY_EDITOR_OSX
+            platformDir += "/m64";
 
-			resourcesPath = platformDir + "/BrowserLib.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources";
-			localesDir = resourcesPath;
+            resourcesPath = platformDir + "/BrowserLib.app/Contents/Frameworks/Chromium Embedded Framework.framework/Resources";
+            localesDir = resourcesPath;
 
-			//Chromium's base::mac::GetAppBundlePath will walk up the tree until it finds an ".app" folder and start
-			//looking for pieces from there. That's why everything is hidden in a fake "BrowserLib.app"
-			//folder that's not actually an app.
-			var subprocessFile = platformDir + "/BrowserLib.app/Contents/Frameworks/" + SlaveExecutable + ".app/Contents/MacOS/" + SlaveExecutable;
+            //Chromium's base::mac::GetAppBundlePath will walk up the tree until it finds an ".app" folder and start
+            //looking for pieces from there. That's why everything is hidden in a fake "BrowserLib.app"
+            //folder that's not actually an app.
+            var subprocessFile = platformDir + "/BrowserLib.app/Contents/Frameworks/" + SlaveExecutable + ".app/Contents/MacOS/" + SlaveExecutable;
 
-			var logFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/Logs/Unity/Editor.log";
-		#else
-			#error Web textures are not supported on this platform
-		#endif
+            var logFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/Logs/Unity/Editor.log";
+#else
+#error Web textures are not supported on this platform
+#endif
 
 
-		return new CEFDirs() {
-			resourcesPath = resourcesPath,
-			binariesPath = platformDir,
-			localesPath = localesDir,
-			subprocessFile = subprocessFile,
-			logFile = logFile,
-		};
+            return new CEFDirs()
+            {
+                resourcesPath = resourcesPath,
+                binariesPath = platformDir,
+                localesPath = localesDir,
+                subprocessFile = subprocessFile,
+                logFile = logFile,
+            };
 
 #elif UNITY_STANDALONE_WIN
 		var resourcesPath = Application.dataPath + "/Plugins";
@@ -120,9 +122,9 @@ public static class FileLocations {
 			logFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Library/Logs/Unity/Player.log",
 		};
 #else
-		#error Web textures are not supported on this platform
+            return null;
 #endif
-	}
+        }
 }
 
 }
