@@ -56,8 +56,20 @@ namespace UMod.Example
             load.interactable = false;
 
             // Begin loading
-            host = Mod.LoadMod(GetModPath());
-            host.OnModLoadComplete += OnModLoaded;
+            host = Mod.Load(GetModPath());
+
+            if(host.IsModLoaded == true)
+            {
+                unload.interactable = true;
+
+                var domain = host.ScriptDomain;
+
+                foreach (var assembly in domain.Assemblies) Debug.Log(assembly.Name);
+            }
+            else
+            {
+                load.interactable = true;
+            }
         }
 
         public void OnUnloadClicked()
@@ -69,18 +81,6 @@ namespace UMod.Example
             // Change button state
             load.interactable = true;
             unload.interactable = false;
-        }
-
-        private void OnModLoaded(ModLoadCompleteArgs args)
-        {
-            if (args.IsLoaded == true)
-            {
-                unload.interactable = true;
-            }
-            else
-            {
-                load.interactable = true;
-            }
         }
 
         private ModPath GetModPath()

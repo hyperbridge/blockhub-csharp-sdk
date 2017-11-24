@@ -26,24 +26,22 @@ namespace UMod.Example
             for (int i = 0; i < modPaths.Length; i++)
                 paths[i] = new ModPath(modPaths[i]);
 
-            // Load all mods at the same time. This method will create and return a collection of Mod Hosts (1 per mod) which is responsible for managing the mod.
-            Mod.BatchLoadMods(paths);
+            // Load all paths
+            ModHost[] hosts = Mod.LoadBatch(paths);
 
-            // We need to know when each mod has been loaded or if the mod could not be loaded for any reason. To do this we can subscribe to a static event that is called for each mod.
-            Mod.OnModLoadComplete += OnModHostLoadComplete;
-        }
-
-        private void OnModHostLoadComplete(ModHost host, ModLoadCompleteArgs args)
-        {
-            if(args.IsLoaded == true)
+            // Check the load status of all hosts
+            foreach(ModHost host in hosts)
             {
-                // The mod is now loaded
-                ExampleUtil.Log(this, string.Format("Mod Loaded: {0}", host.CurrentModPath));
-            }
-            else
-            {
-                // The mod did not load correctly
-                ExampleUtil.LogError(this, string.Format("Failed to load mod: {0}, ({1})", host.CurrentModPath, args.ErrorMessage));
+                if(host.IsModLoaded == true)
+                {
+                    // The mod is now loaded
+                    ExampleUtil.Log(this, string.Format("Mod Loaded: {0}", host.CurrentModPath));
+                }
+                else
+                {
+                    // The mod did not load correctly
+                    ExampleUtil.LogError(this, string.Format("Failed to load mod: {0}, ({1})", host.CurrentModPath, host.LoadResult.Message));
+                }
             }
         }
     }

@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Make sure we can access the uMod api
+// Make sure we can access the uMod api for loading
 using UMod;
 
 namespace UMod.Example
 {
     /// <summary>
-    /// An example script that shows how to list all mods currently installed.
+    /// An example script that shows how to load all installed mods.
     /// This example makes use of the 'ModDirectory' but there are other methods.
-    /// To use this script simply attach it to a game object.
+    /// To use this script simlpe attatch it to a game object.
     /// </summary>
     [ExecuteInEditMode]
-    public class Ex06_ListModsExample : MonoBehaviour
+    public class Ex05_LoadInstalledMods : MonoBehaviour
     {
-        // The path used for the mod directory
+        // The path to the mod
         public string modDirectory = "";
 
         private void Start()
@@ -34,19 +34,28 @@ namespace UMod.Example
                 return;
             }
 
-
             // Setup the mod directory before we can use it
             ModDirectory.DirectoryLocation = modDirectory;
 
-            // Check if there are any installed mods.
+            // Check if there are any installed mods
             if (ModDirectory.HasMods == true)
             {
-                // We can now use the mod directory to list all mods installed.
-                // Note that this method will list all valid mods located in the 'modDirectory' path.
-                foreach (string modName in ModDirectory.GetModNames())
+                // This method will attempt to locate any mods installed in the 'modDirectory' location.
+                ModHost[] hosts = Mod.LoadAll();
+
+                // Check the load status of all hosts
+                foreach (ModHost host in hosts)
                 {
-                    // Print the mod name to the console.
-                    ExampleUtil.Log(this, modName);
+                    if (host.IsModLoaded == true)
+                    {
+                        // The mod is now loaded
+                        ExampleUtil.Log(this, string.Format("Mod Loaded: {0}", host.CurrentModPath));
+                    }
+                    else
+                    {
+                        // The mod did not load correctly
+                        ExampleUtil.LogError(this, string.Format("Failed to load mod: {0}, ({1})", host.CurrentModPath, host.LoadResult.Message));
+                    }
                 }
             }
             else

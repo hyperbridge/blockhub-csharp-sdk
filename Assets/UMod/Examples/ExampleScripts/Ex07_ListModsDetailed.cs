@@ -13,7 +13,7 @@ namespace UMod.Example
     /// To use this script simply attach it to a game object.
     /// </summary>
     [ExecuteInEditMode]
-    public class Ex07_ListModsDetailedExample : MonoBehaviour
+    public class Ex07_ListModsDetailed : MonoBehaviour
     {
         // The path used for the mod directory
         public string modDirectory = "";
@@ -48,8 +48,8 @@ namespace UMod.Example
                 {
                     // Build a detailed message for the mod
                     string fullMessage = string.Format("Name = {0}, Version = {1}, Core Version = {2}, Author = {3}, Description = {4}",
-                        mod.ModName,
-                        mod.ModVersion,
+                        mod.NameInfo.ModName,
+                        mod.NameInfo.ModVersion,
                         mod.ModCoreVersion,
                         mod.ModAuthor,
                         mod.ModDescription);

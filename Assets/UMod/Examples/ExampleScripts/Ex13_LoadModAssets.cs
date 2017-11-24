@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Make sure we can access the umod api for loading
 using UMod;
 
 namespace UMod.Example
 {
     /// <summary>
-    /// An example script that shows how to load a prefab from a mod asynchronously.
+    /// An example script that shows how to load a prefab from a mod once successfully loaded.
     /// To use this script simply attach it to a game object and ensure that the path variable points to a valid mod, and that the asset variable is a valid prefab in the mod.
     /// It is important that the mod has been successfully loaded before attempting to load assets otherwise an exception will be thrown.
     /// </summary>
-    public class Ex14_LoadModAssetsAsync : MonoBehaviour
+    public class Ex13_LoadModAssets : MonoBehaviour
     {
         // The host used by this class
         private ModHost host = null;
@@ -21,23 +22,17 @@ namespace UMod.Example
         // The asset to load from the mod
         public string assetName = "Test Prefab";
 
-
+        
         private void Start()
         {
             // Make sure we initialize umod before anything else
             Mod.Initialize();
 
             // Load the mod as in previous examples
-            host = Mod.LoadMod(new ModPath(modPath));
+            host = Mod.Load(new ModPath(modPath));
 
-            // Add a listener for the load event
-            host.OnModLoadComplete += OnModLoadComplete;
-        }
-        
-        private void OnModLoadComplete(ModLoadCompleteArgs args)
-        {
             // We need to make sure the mod is loaded before attempting to load assets
-            if (args.IsLoaded == true)
+            if (host.IsModLoaded == true)
             {
                 // We are now ready to issue a load request for an asset
                 // First we will make sure that there is an asset with the specified name
@@ -45,11 +40,18 @@ namespace UMod.Example
                 {
                     // Now we can call the load method which will provide a Unity asset
                     // This method works in a very similar way to the 'Resources.Load' method returning a prefab object that must be instantiated into the scene
-                    host.Assets.LoadAsync(assetName, OnModAssetLoadComplete);
+                    GameObject go = host.Assets.Load(assetName) as GameObject;
 
                     // Just like 'Resources' we can also use the generic method:
-                    // Note that the callback method would then need to accept a 'GameObject' argument instead of the 'Object' argument
-                    // host.Assets.loadAsync<GameObject>(assetName, onModAssetLoadComplete);
+                    // host.Assets.load<GameObject>(assetName);
+
+                    // Make sure nothing went wrong
+                    // The only thing that can fail at this point is the cast to GameObject if the asset is of a different type
+                    if (go != null)
+                    {
+                        // Create an instance of this prefab
+                        Instantiate(go, Vector3.zero, Quaternion.identity);
+                    }
                 }
                 else
                 {
@@ -61,29 +63,6 @@ namespace UMod.Example
             {
                 // We cannot continue with asset loading
                 ExampleUtil.LogError(this, "Failed to load the mod");
-            }
-        }
-
-        // This method will be called when the asset load has completed
-        private void OnModAssetLoadComplete(Object obj)
-        {
-            // Check for load error
-            if (obj != null)
-            {
-                // Convert the result to a Game Object which is what we are expecting
-                GameObject go = obj as GameObject;
-
-                // Check for conversion error
-                if(go != null)
-                {
-                    // Create an instance of this prefab
-                    Instantiate(go, Vector3.zero, Quaternion.identity);
-                }
-                else
-                {
-                    // At this point we know that the asset is not the type we were expecting
-                    ExampleUtil.LogError(this, "Expected a 'GameObject' asset but got a '" + obj.GetType().Name + "' asset");
-                }
             }
         }
     }

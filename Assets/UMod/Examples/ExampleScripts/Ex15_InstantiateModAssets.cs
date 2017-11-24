@@ -26,16 +26,10 @@ namespace UMod.Example
             Mod.Initialize();
 
             // Load the mod as in previous examples
-            host = Mod.LoadMod(new ModPath(modPath));
+            host = Mod.Load(new ModPath(modPath));
 
-            // Add a listener for the load event
-            host.OnModLoadComplete += OnModLoadComplete;
-        }
-
-        private void OnModLoadComplete(ModLoadCompleteArgs args)
-        {
             // We need to make sure the mod is loaded before attempting to load assets
-            if (args.IsLoaded == true)
+            if (host.IsModLoaded == true)
             {
                 // We are now ready to issue a load request for an asset
                 // First we will make sure that there is an asset with the specified name

@@ -11,7 +11,7 @@ namespace UMod.Example
     /// It is important to correctly unload a mod and not just destroy the host as memory may not be released using the latter method.
     /// To use this script simply attach it to a game object and ensure that loadedHost references a valid mod host.
     /// </summary>
-    public class Ex03_UnloadModExample : MonoBehaviour
+    public class Ex03_UnloadMod : MonoBehaviour
     {
         // The mod host that should be unloaded
         public ModHost loadedHost;

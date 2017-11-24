@@ -15,7 +15,6 @@ public class ModManager : MonoBehaviour
     public ExtensionListManager extensionList;
     public ExtensionsView extensionsView;
 
-    private ModHost latestLoadedMod;
     private List<ModHost> activeMods;
     public ScriptProxy proxy;
 
@@ -59,18 +58,65 @@ public class ModManager : MonoBehaviour
           Debug.Log("Loaded " + request.WasLoadSuccessful);
       }*/
 
+
+    public IEnumerator CommunicationLoop(ModHost host)
+    {
+        while (true)
+        {
+            var domain = host.ScriptDomain;
+
+            //Debug.Log("Assembly count: " + domain.Assemblies.Length);
+
+            foreach (var assembly in domain.Assemblies)
+            {
+                //Debug.Log(assembly.Name);
+            }
+
+            //host.ScriptDomain.ExecutionContext.BroadcastMessage("OnScriptStart");
+
+            //Debug.Log("Script count: " + host.ScriptDomain.ExecutionContext.ExecutingScripts.Length);
+
+            //Debug.Log(host.ScriptDomain.ExecutionContext.IsExecutingScripts);
+
+
+            foreach (var script in host.ScriptDomain.ExecutionContext.ExecutingScripts)
+            {
+                List<string> messages = (List<string>)script.SafeCall("GetMessages");
+
+                //Debug.Log(messages.Count);
+
+                script.SafeCall("ClearMessages");
+
+                List<string> newMessages = new List<string> {
+                    "test",
+                    "abc"
+                };
+
+                script.SafeCall("AddMessages", newMessages);
+            }
+
+            //Debug.Log(host.ScriptDomain.ExecutionContext.ExecutingScripts[0].Properties["foo"]);
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     public void LoadMod(string modPath)
     {
-        Debug.Log(modPath);
+        Debug.Log("Loading mod: " + modPath);
 
         DirectoryInfo newDirectory = new DirectoryInfo(modPath);
 
         ModPath loadFromPath = new ModPath(newDirectory);
 
-        ModHost loadInHost = Mod.LoadMod(loadFromPath);
-        latestLoadedMod = loadInHost;
-        activeMods.Add(loadInHost);
-        loadInHost.OnModLoadComplete += OnModLoadComplete;
+        ModHost host = Mod.Load(loadFromPath);
+
+        activeMods.Add(host);
+
+        if (host.IsModLoaded == true)
+        {
+            StartCoroutine(CommunicationLoop(host));
+        }
     }
 
     public IEnumerator InstallMod(ExtensionInfo extension)
