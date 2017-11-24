@@ -61,10 +61,6 @@ namespace UMod.Example
             if(host.IsModLoaded == true)
             {
                 unload.interactable = true;
-
-                var domain = host.ScriptDomain;
-
-                foreach (var assembly in domain.Assemblies) Debug.Log(assembly.Name);
             }
             else
             {

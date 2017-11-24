@@ -20,7 +20,7 @@ MonoBehaviour:
   - guid: 70990ebf-6537-4c9a-b9ca-d1ced7fb898f
     presetname: ExtensionBridge
     dllname: ExtensionBridge
-    osxPath: /ude/jet/projects/app/Assets/Hyperbridge/Resources
+    osxPath: /Users/ericmuyser/app-extension-attention/Assets
     winPath: 
     linuxPath: 
     debug: 0
@@ -43,7 +43,9 @@ MonoBehaviour:
     libraryDlls: []
     scripts:
     - found: 1
-      location: Hyperbridge/Scripts/ExtensionInterface/IExtensionBridge.cs
+      location: Hyperbridge/Scripts/ExtensionInterface/IExtension.cs
+    - found: 1
+      location: Hyperbridge/Scripts/ExtensionInterface/IExtensionCommand.cs
   osxFilters:
   - name: Managed
     include: 1

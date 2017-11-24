@@ -146,7 +146,7 @@ MonoBehaviour:
   includeProtectedFields: 1
   includeProtectedProperties: 1
   includeProtectedEvents: 1
-  enabled: 1
+  enabled: 0
   onlyObfuscatedSpecifiedNamespaces: 0
   skipNamespacesRecursively: 1
   obfuscateSpecifiedNamespacesRecursively: 1
@@ -156,7 +156,7 @@ MonoBehaviour:
   inheritBeebyteAttributes: 0
   treatScriptableObjectsAsSerializable: 1
   deriveNamesFromCryptoHash: 1
-  sha1seed: 
+  sha1seed: CLzk12mKT8jq
   numberOfDifferentCharactersAsPowerOfTwo: 4
   numberOfHashBitsToUse: 6
   allowCopyingOfAllAttributesInFakeCode: 0

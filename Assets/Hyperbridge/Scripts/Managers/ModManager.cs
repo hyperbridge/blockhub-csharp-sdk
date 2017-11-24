@@ -16,7 +16,6 @@ public class ModManager : MonoBehaviour
     public ExtensionsView extensionsView;
 
     private List<ModHost> activeMods;
-    public ScriptProxy proxy;
 
     private void Awake()
     {
@@ -70,6 +69,27 @@ public class ModManager : MonoBehaviour
             foreach (var assembly in domain.Assemblies)
             {
                 //Debug.Log(assembly.Name);
+                ScriptType[] types = assembly.FindAllSubtypesOf<IExtension>();
+
+                foreach(ScriptType type in types) {
+                    IExtension extension = type.CreateRawInstance<IExtension>();
+
+                    List<IExtensionCommand> outgoingCommands = extension.GetOutgoingCommands();
+
+                    //Debug.Log(commands.Count);
+
+                    extension.ClearOutgoingCommands();
+
+                    var command1 = new ExtensionCommand { Name = "A", Value = "B" };
+                    var command2 = new ExtensionCommand { Name = "X", Value = "Y" };
+
+                    List<IExtensionCommand> incomingCommands = new List<IExtensionCommand> {
+                        command1,
+                        command2
+                    };
+
+                    extension.AddIncomingCommands(incomingCommands);
+                }
             }
 
             //host.ScriptDomain.ExecutionContext.BroadcastMessage("OnScriptStart");
@@ -79,21 +99,21 @@ public class ModManager : MonoBehaviour
             //Debug.Log(host.ScriptDomain.ExecutionContext.IsExecutingScripts);
 
 
-            foreach (var script in host.ScriptDomain.ExecutionContext.ExecutingScripts)
-            {
-                List<string> messages = (List<string>)script.SafeCall("GetMessages");
+            //foreach (var script in host.ScriptDomain.ExecutionContext.ExecutingScripts)
+            //{
+            //    List<string> messages = (List<string>)script.SafeCall("GetMessages");
 
-                //Debug.Log(messages.Count);
+            //    //Debug.Log(messages.Count);
 
-                script.SafeCall("ClearMessages");
+            //    script.SafeCall("ClearMessages");
 
-                List<string> newMessages = new List<string> {
-                    "test",
-                    "abc"
-                };
+            //    List<string> newMessages = new List<string> {
+            //        "test",
+            //        "abc"
+            //    };
 
-                script.SafeCall("AddMessages", newMessages);
-            }
+            //    script.SafeCall("AddMessages", newMessages);
+            //}
 
             //Debug.Log(host.ScriptDomain.ExecutionContext.ExecutingScripts[0].Properties["foo"]);
 
