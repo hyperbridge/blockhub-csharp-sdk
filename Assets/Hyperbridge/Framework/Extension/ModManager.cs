@@ -69,10 +69,10 @@ public class ModManager : MonoBehaviour
             foreach (var assembly in domain.Assemblies)
             {
                 //Debug.Log(assembly.Name);
-                ScriptType[] types = assembly.FindAllSubtypesOf<IExtension>();
+                ScriptType[] types = assembly.FindAllSubtypesOf<IExtensionBridge>();
 
                 foreach(ScriptType type in types) {
-                    IExtension extension = type.CreateRawInstance<IExtension>();
+                    IExtensionBridge extension = type.CreateRawInstance<IExtensionBridge>();
 
                     List<IExtensionCommand> outgoingCommands = extension.GetOutgoingCommands();
 

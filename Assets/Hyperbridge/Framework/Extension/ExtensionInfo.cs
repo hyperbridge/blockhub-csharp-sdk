@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+using Hyperbridge.Extension;
 
 public class ExtensionInfo
 {
@@ -6,5 +7,5 @@ public class ExtensionInfo
     public int installs;
     public float rating;
     public bool enabled;
-
+    public List<Capability> capabilities = new List<Capability>();
 }

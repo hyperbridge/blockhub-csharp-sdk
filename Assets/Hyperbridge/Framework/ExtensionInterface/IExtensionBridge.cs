@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public interface IExtension {
+public interface IExtensionBridge {
     List<IExtensionCommand> GetOutgoingCommands();
 
     void AddIncomingCommands(List<IExtensionCommand> commands);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 
+// TODO: I'm not sure I'm a fan of this. We should know always know what files we're loading, I think..
 public class LoadData
 {
     private string _path;
@@ -110,11 +111,7 @@ public class LoadData
                 }
             }
         }
+
         return returnList;
-
     }
-
-
-
-
 }

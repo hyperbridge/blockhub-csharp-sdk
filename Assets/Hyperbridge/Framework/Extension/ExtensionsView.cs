@@ -28,7 +28,8 @@ public class ExtensionsView : MonoBehaviour
         CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
     }
 
-    public void OnAppInitialized(AppInitializedEvent e) {
+    public void OnAppInitialized(AppInitializedEvent e)
+    {
         this.activeRoutine = this.StartCoroutine(this.InitLoadExtensions());
         this.extensionInfoView.gameObject.SetActive(true);
     }
@@ -65,8 +66,6 @@ public class ExtensionsView : MonoBehaviour
         GenerateInstalledCommunityExtensionContainers();
         this.StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
         this.activeRoutine = null;
-
-       
     }
 
 
@@ -81,6 +80,7 @@ public class ExtensionsView : MonoBehaviour
             container.SetActive(true);
         }
     }
+
     public void GenerateInstalledCommunityExtensionContainers()
     {
         foreach (Transform child in this.extensionInfoOrganizer.transform)
@@ -117,6 +117,7 @@ public class ExtensionsView : MonoBehaviour
 
                 }
             }
+
             if (!found)
             {
                 GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
@@ -126,7 +127,6 @@ public class ExtensionsView : MonoBehaviour
                 container.SetActive(true);
 
             }
-
         }
 
     }

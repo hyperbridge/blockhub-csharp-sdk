@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ProfileManager : MonoBehaviour
 {
-
     public List<ProfileData> profiles = new List<ProfileData>();
     public ManageProfilesView _manageProfilesView;
     public Text profileNameDisplay, profileNameDisplayBase;
@@ -46,8 +45,13 @@ public class ProfileManager : MonoBehaviour
 
     public void SaveNewProfileData(string imageLocation, string profileName, bool makeDefault)
     {
-        var newData = new ProfileData();
-        newData.SetupProfileData(profileName, makeDefault, imageLocation, this.profiles.Count.ToString());
+        var newData = new ProfileData
+        {
+            name = profileName,
+            isDefault = makeDefault,
+            imageLocation = imageLocation,
+            uuid = this.profiles.Count.ToString()
+        };
 
         this.profiles.Add(newData);
         this.saver.Save<ProfileData>(newData.name, newData);
@@ -63,8 +67,14 @@ public class ProfileManager : MonoBehaviour
     {
         DeleteProfileData(this.currentlyEditingProfile);
 
-        var editedData = new ProfileData();
-        editedData.SetupProfileData(profileName, makeDefault, imageLocation, this.currentlyEditingProfile.uuid);
+        var editedData = new ProfileData
+        {
+            name = profileName,
+            isDefault = makeDefault,
+            imageLocation = imageLocation,
+            uuid = this.currentlyEditingProfile.uuid
+        };
+
         saver.Save<ProfileData>(editedData.name, editedData);
 
         yield return new WaitForSeconds(0.25f);
