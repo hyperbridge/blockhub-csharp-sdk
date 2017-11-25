@@ -10,7 +10,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System;
 
-public class ModManager : MonoBehaviour
+public class ExtensionManager : MonoBehaviour
 {
     public ExtensionListManager extensionList;
     public ExtensionsView extensionsView;

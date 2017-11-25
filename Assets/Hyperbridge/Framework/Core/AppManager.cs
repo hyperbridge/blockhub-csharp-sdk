@@ -8,7 +8,7 @@ public class AppManager : MonoBehaviour
 
     public AppState state;
     public WalletManager walletManager;
-    public ModManager modManager;
+    public ExtensionManager modManager;
     public SaveDataManager saveDataManager;
     public WalletService walletService;
     public ProfileManager profileManager;
