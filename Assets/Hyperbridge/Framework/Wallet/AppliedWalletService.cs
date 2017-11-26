@@ -11,7 +11,6 @@ using Nethereum.RPC.TransactionManagers;
 using Nethereum.Signer;
 using Hyperbridge.Blockchain.Ethereum;
 
-
 namespace Hyperbridge.Wallet
 {
     public class AppliedWalletService : MonoBehaviour

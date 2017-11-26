@@ -23,11 +23,13 @@ public class WalletsView : MonoBehaviour
     {
         var wallets = e.wallets;
 
-        foreach (Transform child in this.listView.transform) {
+        foreach (Transform child in this.listView.transform)
+        {
             Destroy(child.gameObject);
         }
 
-        foreach (WalletInfo info in wallets) {
+        foreach (WalletInfo info in wallets)
+        {
 
             GameObject go = Instantiate(displayPrefab);
 
@@ -39,5 +41,5 @@ public class WalletsView : MonoBehaviour
             go.SetActive(true);
         }
     }
-    
+
 }

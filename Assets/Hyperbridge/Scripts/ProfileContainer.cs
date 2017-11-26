@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Hyperbridge.Profile;
 using Hyperbridge.Core;
 
-
 public class ProfileContainer : MonoBehaviour
 {
     public Image image;
@@ -25,7 +24,8 @@ public class ProfileContainer : MonoBehaviour
             this.image.sprite = sprite;
 
         this.button = GetComponent<Button>();
-        this.button.onClick.AddListener(() => {
+        this.button.onClick.AddListener(() =>
+        {
             AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(this.data); // TODO: please no
         });
     }

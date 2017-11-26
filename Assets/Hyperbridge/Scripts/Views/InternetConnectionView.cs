@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hyperbridge.Networking;
 
-public class InternetConnectionView : MonoBehaviour {
+public class InternetConnectionView : MonoBehaviour
+{
     public GameObject info;
 
     private void Awake() {

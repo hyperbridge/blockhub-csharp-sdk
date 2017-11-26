@@ -41,7 +41,8 @@ public class ExtensionInfoContainer : MonoBehaviour
             {
                 AppManager.instance.modManager.EnableMod(data);
             }
-            else {
+            else
+            {
                 AppManager.instance.modManager.DisableMod(data);
             }
 
@@ -56,7 +57,8 @@ public class ExtensionInfoContainer : MonoBehaviour
             {
                 this.StartCoroutine(AppManager.instance.modManager.InstallMod(data));
             }
-            else {
+            else
+            {
 
                 this.StartCoroutine(AppManager.instance.modManager.UninstallMod(data));
             }
@@ -67,7 +69,8 @@ public class ExtensionInfoContainer : MonoBehaviour
         this.UpdateButtonState();
     }
 
-    public void UpdateButtonState() {
+    public void UpdateButtonState()
+    {
         if (this.isInstalled)
         {
             this.disableButton.gameObject.SetActive(true);
@@ -84,7 +87,8 @@ public class ExtensionInfoContainer : MonoBehaviour
                 this.disableButton.GetComponentInChildren<Text>().text = "Enable";
             }
         }
-        else {
+        else
+        {
             this.disableButton.gameObject.SetActive(false);
             this.settingsButton.gameObject.SetActive(false);
 

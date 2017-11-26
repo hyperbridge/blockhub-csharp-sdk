@@ -118,8 +118,6 @@ namespace Hyperbridge.Core
 
             CodeControl.Message.Send<AppInitializedEvent>(new AppInitializedEvent());
             CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/home" });
-
-            yield return null;
         }
 
         public void AddScreen(Hyperbridge.UI.Screen screen)

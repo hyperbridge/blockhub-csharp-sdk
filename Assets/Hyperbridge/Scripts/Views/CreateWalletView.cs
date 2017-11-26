@@ -61,9 +61,9 @@ public class CreateWalletView : MonoBehaviour
         SaveData saver = SaveData.SaveAtPath(newPath);
         saver.SaveExternal<string>(this.walletNameInputField.text, tempJson);
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
-        #endif
+#endif
 
         Account tempAccount = null;
         yield return new WaitForThreadedTask(() =>
