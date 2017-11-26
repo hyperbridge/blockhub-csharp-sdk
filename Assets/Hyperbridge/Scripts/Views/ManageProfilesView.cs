@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using SuperScrollView;
 using Devdog.General.UI;
+using Hyperbridge.Profile;
+using Hyperbridge.Core;
 
 public class ManageProfilesView : MonoBehaviour
 {

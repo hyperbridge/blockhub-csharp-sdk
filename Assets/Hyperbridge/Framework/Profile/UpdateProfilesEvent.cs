@@ -2,7 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UpdateProfilesEvent : CodeControl.Message
+namespace Hyperbridge.Profile
 {
-    public List<ProfileData> profiles;
+    public class UpdateProfilesEvent : CodeControl.Message
+    {
+        public List<ProfileData> profiles;
+    }
 }

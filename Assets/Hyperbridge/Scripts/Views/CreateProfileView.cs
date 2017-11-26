@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyperbridge.Core;
 
 public class CreateProfileView : MonoBehaviour
 {

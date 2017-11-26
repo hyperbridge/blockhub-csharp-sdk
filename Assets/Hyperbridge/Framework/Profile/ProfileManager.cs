@@ -2,121 +2,129 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyperbridge.Core;
 
-public class ProfileManager : MonoBehaviour
+namespace Hyperbridge.Profile
 {
-    public List<ProfileData> profiles = new List<ProfileData>();
-    public ManageProfilesView _manageProfilesView;
-    public Text profileNameDisplay, profileNameDisplayBase;
-    public ProfileData currentlyEditingProfile;
-
-    private SaveData saver;
-    private LoadData loader;
-
-    private void Awake()
+    public class ProfileManager : MonoBehaviour
     {
-        this.saver = SaveData.SaveAtPath("/Resources/Profiles");
-        this.loader = LoadData.LoadFromPath("/Resources/Profiles");
+        public List<ProfileData> profiles = new List<ProfileData>();
+        public ManageProfilesView _manageProfilesView;
+        public Text profileNameDisplay, profileNameDisplayBase;
+        public ProfileData currentlyEditingProfile;
 
-        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
-    }
+        private SaveData saver;
+        private LoadData loader;
 
-    public void DispatchUpdateEvent()
-    {
-        var message = new UpdateProfilesEvent();
-        message.profiles = this.profiles;
-        CodeControl.Message.Send<UpdateProfilesEvent>(message);
-    }
-
-    public void OnAppInitialized(AppInitializedEvent e)
-    {
-        this.LoadProfiles();
-    }
-
-    public List<ProfileData> LoadProfiles()
-    {
-        this.profiles = this.loader.LoadAllFilesFromFolder<ProfileData>();
-        this.UpdateProfileNameDisplay();
-
-        this.DispatchUpdateEvent();
-
-        return this.profiles;
-    }
-
-    public void SaveNewProfileData(string imageLocation, string profileName, bool makeDefault)
-    {
-        var newData = new ProfileData
+        private void Awake()
         {
-            name = profileName,
-            isDefault = makeDefault,
-            imageLocation = imageLocation,
-            uuid = this.profiles.Count.ToString()
-        };
+            this.saver = SaveData.SaveAtPath("/Resources/Profiles");
+            this.loader = LoadData.LoadFromPath("/Resources/Profiles");
 
-        this.profiles.Add(newData);
-        this.saver.Save<ProfileData>(newData.name, newData);
+            CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+        }
 
-        #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-        #endif
-
-        this.DispatchUpdateEvent();
-    }
-
-    public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
-    {
-        DeleteProfileData(this.currentlyEditingProfile);
-
-        var editedData = new ProfileData
+        public void DispatchUpdateEvent()
         {
-            name = profileName,
-            isDefault = makeDefault,
-            imageLocation = imageLocation,
-            uuid = this.currentlyEditingProfile.uuid
-        };
+            var message = new UpdateProfilesEvent();
+            message.profiles = this.profiles;
+            CodeControl.Message.Send<UpdateProfilesEvent>(message);
+        }
 
-        saver.Save<ProfileData>(editedData.name, editedData);
+        public void OnAppInitialized(AppInitializedEvent e)
+        {
+            this.LoadProfiles();
+        }
 
-        yield return new WaitForSeconds(0.25f);
+        public List<ProfileData> LoadProfiles()
+        {
+            this.profiles = this.loader.LoadAllFilesFromFolder<ProfileData>();
+            this.UpdateProfileNameDisplay();
 
-        this.profiles.Add(editedData);
-        this.UpdateProfileNameDisplay(editedData);
+            this.DispatchUpdateEvent();
 
-        this.DispatchUpdateEvent();
-    }
+            return this.profiles;
+        }
 
-    public void DeleteProfileData(ProfileData dataToDelete)
-    {
-        AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "Profiles");
+        public void SaveNewProfileData(string imageLocation, string profileName, bool makeDefault)
+        {
+            var newData = new ProfileData
+            {
+                name = profileName,
+                isDefault = makeDefault,
+                imageLocation = imageLocation,
+                uuid = this.profiles.Count.ToString()
+            };
 
-        this.profiles.Remove(dataToDelete);
+            this.profiles.Add(newData);
+            this.saver.Save<ProfileData>(newData.name, newData);
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
-        #endif
+#endif
 
-        this.DispatchUpdateEvent();
-    }
+            this.DispatchUpdateEvent();
+        }
 
-    // TODO: How does this happen? Seems like it should just use above
-    public void DeleteEditingProfileData()
-    {
-        this.DeleteProfileData(currentlyEditingProfile);
-    }
+        public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
+        {
+            DeleteProfileData(this.currentlyEditingProfile);
 
-    public void UpdateProfileNameDisplay(ProfileData newDefault = null)
-    {
-        foreach (ProfileData data in this.profiles) {
-            if (newDefault != null && newDefault == data) {
-                profileNameDisplay.text = data.name;
-                profileNameDisplayBase.text = data.name;
-            }
-            else if (newDefault == null && data.isDefault) {
-                profileNameDisplay.text = data.name;
-                profileNameDisplayBase.text = data.name;
-            }
-            else {
-                data.isDefault = false;
+            var editedData = new ProfileData
+            {
+                name = profileName,
+                isDefault = makeDefault,
+                imageLocation = imageLocation,
+                uuid = this.currentlyEditingProfile.uuid
+            };
+
+            saver.Save<ProfileData>(editedData.name, editedData);
+
+            yield return new WaitForSeconds(0.25f);
+
+            this.profiles.Add(editedData);
+            this.UpdateProfileNameDisplay(editedData);
+
+            this.DispatchUpdateEvent();
+        }
+
+        public void DeleteProfileData(ProfileData dataToDelete)
+        {
+            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "Profiles");
+
+            this.profiles.Remove(dataToDelete);
+
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
+
+            this.DispatchUpdateEvent();
+        }
+
+        // TODO: How does this happen? Seems like it should just use above
+        public void DeleteEditingProfileData()
+        {
+            this.DeleteProfileData(currentlyEditingProfile);
+        }
+
+        public void UpdateProfileNameDisplay(ProfileData newDefault = null)
+        {
+            foreach (ProfileData data in this.profiles)
+            {
+                if (newDefault != null && newDefault == data)
+                {
+                    profileNameDisplay.text = data.name;
+                    profileNameDisplayBase.text = data.name;
+                }
+                else if (newDefault == null && data.isDefault)
+                {
+                    profileNameDisplay.text = data.name;
+                    profileNameDisplayBase.text = data.name;
+                }
+                else
+                {
+                    data.isDefault = false;
+                }
             }
         }
     }

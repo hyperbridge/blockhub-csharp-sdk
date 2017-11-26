@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class AppState
+namespace Hyperbridge.Core
 {
-    public string uri = "/main";
-    public bool menuVisible = false;
+    public class AppState
+    {
+        public string uri = "/main";
+        public bool menuVisible = false;
+    }
 }

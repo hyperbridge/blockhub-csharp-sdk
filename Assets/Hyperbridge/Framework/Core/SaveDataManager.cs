@@ -9,47 +9,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using Hyperbridge.Extension;
 
-public class SaveDataManager : MonoBehaviour
+namespace Hyperbridge.Core
 {
-    private Text saveText, loadText;
-    private LoadData loader;
-    private SaveData saver;
-
-    public void CacheValues()
+    public class SaveDataManager : MonoBehaviour
     {
-    }
+        private Text saveText, loadText;
+        private LoadData loader;
+        private SaveData saver;
 
-    public IEnumerator SaveCurrentExtensionData()
-    {
-        this.saver = SaveData.SaveAtPath("/Resources/Extensions");
-        saver.Save<List<ExtensionInfo>>("community-extensions", AppManager.instance.modManager.extensionList.communityExtensions);
-        yield return new WaitForSeconds(0.5f);
-        saver.Save<List<ExtensionInfo>>("extensions", AppManager.instance.modManager.extensionList.installedExtensions);
-
-    }
-
-    public void SaveExtensionJSON(string ID, ExtensionInfo data)
-    {
-        this.saver = SaveData.SaveAtPath("/Resources/Extensions/" + ID + "/" + data.name);
-        this.saver.Save<ExtensionInfo>(data.name, data);
-    }
-
-    public void DeleteSpecificSave(string saveName, string path)
-    {
-        Debug.Log(Application.dataPath + path + "/" + saveName + ".json");
-        if (File.Exists(Application.dataPath + path + "/" + saveName + ".json"))
+        public void CacheValues()
         {
-            File.Delete(Application.dataPath + path + "/" + saveName + ".json");
         }
-        else
-        {
-            throw new FileNotFoundException();
-        }
-    }
 
-    public void LoadSavedData()
-    {
-        this.loader = LoadData.LoadFromPath("Extensions");
+        public IEnumerator SaveCurrentExtensionData()
+        {
+            this.saver = SaveData.SaveAtPath("/Resources/Extensions");
+            saver.Save<List<ExtensionInfo>>("community-extensions", AppManager.instance.modManager.extensionList.communityExtensions);
+            yield return new WaitForSeconds(0.5f);
+            saver.Save<List<ExtensionInfo>>("extensions", AppManager.instance.modManager.extensionList.installedExtensions);
+
+        }
+
+        public void SaveExtensionJSON(string ID, ExtensionInfo data)
+        {
+            this.saver = SaveData.SaveAtPath("/Resources/Extensions/" + ID + "/" + data.name);
+            this.saver.Save<ExtensionInfo>(data.name, data);
+        }
+
+        public void DeleteSpecificSave(string saveName, string path)
+        {
+            Debug.Log(Application.dataPath + path + "/" + saveName + ".json");
+            if (File.Exists(Application.dataPath + path + "/" + saveName + ".json"))
+            {
+                File.Delete(Application.dataPath + path + "/" + saveName + ".json");
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
+        }
+
+        public void LoadSavedData()
+        {
+            this.loader = LoadData.LoadFromPath("Extensions");
+        }
     }
 }

@@ -10,47 +10,50 @@ using System.Threading.Tasks;
 using Nethereum.RPC.TransactionManagers;
 using Nethereum.Signer;
 
-
-public class Account
+namespace Hyperbridge.Blockchain.Ethereum
 {
+    public class Account
+    {
+        public string Address { get; protected set; }
+        public string PrivateKey { get; protected set; }
 
 #if !PCL
-    public static Account LoadFromKeyStoreFile(string filePath, string password)
-    {
-        var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        var key = keyStoreService.DecryptKeyStoreFromFile(password, filePath);
-        return new Account(key);
-    }
+        public static Account LoadFromKeyStoreFile(string filePath, string password)
+        {
+            var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
+            var key = keyStoreService.DecryptKeyStoreFromFile(password, filePath);
+
+            return new Account(key);
+        }
 #endif
-    public static Account LoadFromKeyStore(string json, string password)
-    {
-        var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
-        var key = keyStoreService.DecryptKeyStoreFromJson(password, json);
-        return new Account(key);
-    }
 
-    public Account(EthECKey key)
-    {
-        Initialise(key);
-    }
+        public static Account LoadFromKeyStore(string json, string password)
+        {
+            var keyStoreService = new Nethereum.KeyStore.KeyStoreService();
+            var key = keyStoreService.DecryptKeyStoreFromJson(password, json);
 
-    public Account(string privateKey)
-    {
-        Initialise(new EthECKey(privateKey));
-    }
+            return new Account(key);
+        }
 
-    public Account(byte[] privateKey)
-    {
-        Initialise(new EthECKey(privateKey, true));
-    }
+        public Account(EthECKey key)
+        {
+            this.Initialize(key);
+        }
 
-    private void Initialise(EthECKey key)
-    {
-        PrivateKey = key.GetPrivateKey();
-        Address = key.GetPublicAddress();
-    }
+        public Account(string privateKey)
+        {
+            this.Initialize(new EthECKey(privateKey));
+        }
 
-    public string Address { get; protected set; }
-    public string PrivateKey { get; protected set; }
+        public Account(byte[] privateKey)
+        {
+            this.Initialize(new EthECKey(privateKey, true));
+        }
+
+        private void Initialize(EthECKey key)
+        {
+            this.PrivateKey = key.GetPrivateKey();
+            this.Address = key.GetPublicAddress();
+        }
+    }
 }
-

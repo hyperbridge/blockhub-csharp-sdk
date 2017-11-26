@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Devdog.General.UI;
+using Hyperbridge.Extension;
+using Hyperbridge.Core;
 
 public class ExtensionInfoContainer : MonoBehaviour
 {

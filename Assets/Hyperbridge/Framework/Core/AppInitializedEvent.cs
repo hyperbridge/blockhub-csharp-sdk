@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AppInitializedEvent : CodeControl.Message
+namespace Hyperbridge.Core
 {
+    public class AppInitializedEvent : CodeControl.Message
+    {
+    }
 }

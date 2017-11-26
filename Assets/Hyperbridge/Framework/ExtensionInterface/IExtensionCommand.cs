@@ -1,7 +1,10 @@
 using System.Collections;
 
-public interface IExtensionCommand
+namespace Hyperbridge.ExtensionInterface
 {
-    string Name { get; set; }
-    string Value { get; set; }
+    public interface IExtensionCommand
+    {
+        string Name { get; set; }
+        string Value { get; set; }
+    }
 }

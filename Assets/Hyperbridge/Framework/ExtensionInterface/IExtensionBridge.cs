@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public interface IExtensionBridge {
-    List<IExtensionCommand> GetOutgoingCommands();
+namespace Hyperbridge.ExtensionInterface
+{
+    public interface IExtensionBridge
+    {
+        List<IExtensionCommand> GetOutgoingCommands();
 
-    void AddIncomingCommands(List<IExtensionCommand> commands);
+        void AddIncomingCommands(List<IExtensionCommand> commands);
 
-    void AddOutgoingCommands(List<IExtensionCommand> commands);
+        void AddOutgoingCommands(List<IExtensionCommand> commands);
 
-    void ClearOutgoingCommands();
+        void ClearOutgoingCommands();
 
-    void ClearIncomingCommands();
+        void ClearIncomingCommands();
 
-    void ParseCommand(IExtensionCommand command);
+        void ParseCommand(IExtensionCommand command);
 
-    void Update();
+        void Update();
+    }
 }

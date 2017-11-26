@@ -2,36 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyperbridge.Core;
 
-public class WalletInfoContainer : MonoBehaviour
+namespace Hyperbridge.Wallet
 {
-    public Text title, walletContents;
-    public WalletInfo wallet;
-    public Sprite[] coinTypeSprites;
-    public Image logo;
-
-    public Button walletInfoViewButton;
-
-    public void SetupContainer(WalletInfo wallet)
+    public class WalletInfoContainer : MonoBehaviour
     {
-        this.wallet = wallet;
-        this.title.text = wallet.title;
+        public Text title, walletContents;
+        public WalletInfo wallet;
+        public Sprite[] coinTypeSprites;
+        public Image logo;
 
-        if (wallet.coinType == "Ethereum")
+        public Button walletInfoViewButton;
+
+        public void SetupContainer(WalletInfo wallet)
         {
-            logo.sprite = coinTypeSprites[0];
+            this.wallet = wallet;
+            this.title.text = wallet.title;
+
+            if (wallet.coinType == "Ethereum")
+            {
+                logo.sprite = coinTypeSprites[0];
+            }
+            else if (wallet.coinType == "Bitcoin")
+            {
+                logo.sprite = coinTypeSprites[1];
+
+            }
+
+            this.walletInfoViewButton.onClick.AddListener(() =>
+            {
+                AppManager.instance.walletManager.infoView.SetupView(this.wallet);
+            });
+
+            this.StartCoroutine(AppManager.instance.walletService.GetAccountBalance(this.wallet.address, this.walletContents, (balance) => { }));
         }
-        else if (wallet.coinType == "Bitcoin")
-        {
-            logo.sprite = coinTypeSprites[1];
-
-        }
-
-        this.walletInfoViewButton.onClick.AddListener(() =>
-        {
-            AppManager.instance.walletManager.infoView.SetupView(this.wallet);
-        });
-
-        this.StartCoroutine(AppManager.instance.walletService.GetAccountBalance(this.wallet.address, this.walletContents, (balance) => { }));
     }
 }

@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CopyToSystemClipboard
+namespace Hyperbridge.OS
 {
-    public void CopyStringToSystemClipboard(string text)
+    public class CopyToSystemClipboard
     {
-        TextEditor te = new TextEditor();
-        te.text = text;
-        te.SelectAll();
-        te.Copy();
+        public void CopyStringToSystemClipboard(string text)
+        {
+            TextEditor te = new TextEditor();
+            te.text = text;
+            te.SelectAll();
+            te.Copy();
+        }
     }
 }

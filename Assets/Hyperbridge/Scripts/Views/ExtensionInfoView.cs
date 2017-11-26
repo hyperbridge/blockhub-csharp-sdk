@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyperbridge.Extension;
 
 public class ExtensionInfoView : MonoBehaviour
 {

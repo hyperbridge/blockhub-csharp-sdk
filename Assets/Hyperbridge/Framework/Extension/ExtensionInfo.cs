@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using Hyperbridge.Extension;
 
-public class ExtensionInfo
+namespace Hyperbridge.Extension
 {
-    public string descriptionText, tags, name, updateDate, path, imagePath, version, uuid;
-    public int installs;
-    public float rating;
-    public bool enabled;
-    public List<Capability> capabilities = new List<Capability>();
+    public class ExtensionInfo
+    {
+        public string descriptionText, tags, name, updateDate, path, imagePath, version, uuid;
+        public int installs;
+        public float rating;
+        public bool enabled;
+        public List<Capability> capabilities = new List<Capability>();
+    }
 }

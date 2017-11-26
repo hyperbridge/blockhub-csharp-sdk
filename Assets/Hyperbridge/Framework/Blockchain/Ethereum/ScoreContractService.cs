@@ -14,6 +14,7 @@ using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Signer;
 using UnityEngine;
 
+// This is just a demonstration
 
 public class ScoreContractService {
     public static string ABI = @"[{'constant':false,'inputs':[{'name':'score','type':'int256'},{'name':'v','type':'uint8'},{'name':'r','type':'bytes32'},{'name':'s','type':'bytes32'}],'name':'setTopScore','outputs':[],'payable':false,'type':'function'},{'constant':true,'inputs':[{'name':'','type':'uint256'}],'name':'topScores','outputs':[{'name':'addr','type':'address'},{'name':'score','type':'int256'}],'payable':false,'type':'function'},{'constant':false,'inputs':[],'name':'getCountTopScores','outputs':[{'name':'','type':'uint256'}],'payable':false,'type':'function'},{'constant':true,'inputs':[{'name':'','type':'address'}],'name':'userTopScores','outputs':[{'name':'','type':'int256'}],'payable':false,'type':'function'},{'inputs':[],'payable':false,'type':'constructor'}]";

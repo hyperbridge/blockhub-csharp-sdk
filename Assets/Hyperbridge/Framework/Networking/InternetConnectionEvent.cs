@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InternetConnectionEvent : CodeControl.Message
+namespace Hyperbridge.Networking
 {
-    public bool connected;
+    public class InternetConnectionEvent : CodeControl.Message
+    {
+        public bool connected;
+    }
 }

@@ -2,47 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Hyperbridge.Core;
 
-public class WalletManager : MonoBehaviour
+namespace Hyperbridge.Wallet
 {
-    public List<WalletInfo> wallets = new List<WalletInfo>();
-    public WalletsView managerView;
-    public WalletInfoView infoView;
-
-    private void Awake()
+    public class WalletManager : MonoBehaviour
     {
-        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
-    }
+        public List<WalletInfo> wallets = new List<WalletInfo>();
+        public WalletsView managerView;
+        public WalletInfoView infoView;
 
-    public void OnAppInitialized(AppInitializedEvent e) {
-        this.RefreshWalletList();
-    }
+        private void Awake()
+        {
+            CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+        }
 
-    public void RefreshWalletList()
-    {
-        this.StartCoroutine(this.LoadWallets());
-    }
+        public void OnAppInitialized(AppInitializedEvent e)
+        {
+            this.RefreshWalletList();
+        }
 
-    public void DeleteWallet(WalletInfo wallet)
-    {
-        this.wallets.Remove(wallet);
+        public void RefreshWalletList()
+        {
+            this.StartCoroutine(this.LoadWallets());
+        }
 
-        File.Delete(wallet._path);
+        public void DeleteWallet(WalletInfo wallet)
+        {
+            this.wallets.Remove(wallet);
 
-        this.StartCoroutine(this.LoadWallets());
-    }
+            File.Delete(wallet._path);
 
-    public IEnumerator LoadWallets()
-    {
-        LoadData loader = LoadData.LoadFromPath("/Resources/Wallets");
-        List<WalletInfo> loadedData = new List<WalletInfo>();
+            this.StartCoroutine(this.LoadWallets());
+        }
 
-        this.wallets = loader.LoadAllFilesFromSubFolder<WalletInfo>();
+        public IEnumerator LoadWallets()
+        {
+            LoadData loader = LoadData.LoadFromPath("/Resources/Wallets");
+            List<WalletInfo> loadedData = new List<WalletInfo>();
 
-        var message = new UpdateWalletsEvent();
-        message.wallets = wallets;
-        CodeControl.Message.Send<UpdateWalletsEvent>(message);
+            this.wallets = loader.LoadAllFilesFromSubFolder<WalletInfo>();
 
-        yield return wallets;
+            var message = new UpdateWalletsEvent();
+            message.wallets = wallets;
+            CodeControl.Message.Send<UpdateWalletsEvent>(message);
+
+            yield return wallets;
+        }
     }
 }

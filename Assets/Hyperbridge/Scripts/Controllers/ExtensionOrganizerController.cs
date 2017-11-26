@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UMod;
+using Hyperbridge.Core;
 
 public class ExtensionOrganizerController : MonoBehaviour
 {

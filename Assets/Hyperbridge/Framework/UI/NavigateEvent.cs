@@ -1,7 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class NavigateEvent : CodeControl.Message
+namespace Hyperbridge.UI
 {
-    public string path;
+    public class NavigateEvent : CodeControl.Message
+    {
+        public string path;
+    }
 }

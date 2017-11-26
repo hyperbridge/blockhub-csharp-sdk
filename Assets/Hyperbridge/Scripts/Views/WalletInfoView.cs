@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 using Devdog.General.UI;
 using System;
+using Hyperbridge.UI;
+using Hyperbridge.Wallet;
+using Hyperbridge.Core;
+using Hyperbridge.OS;
 
 public class WalletInfoView : MonoBehaviour
 {

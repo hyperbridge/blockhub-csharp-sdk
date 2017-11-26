@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Hyperbridge.Core;
 
-namespace Hyperbridge {
+namespace Hyperbridge.UI
+{
     public class Screen : MonoBehaviour
     {
         public string path;

@@ -1,4 +1,5 @@
-namespace Hyperbridge.Extension {
+namespace Hyperbridge.Extension
+{
     public class Capability
     {
         public string name;

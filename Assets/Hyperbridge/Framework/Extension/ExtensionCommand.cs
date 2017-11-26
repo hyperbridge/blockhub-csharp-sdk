@@ -1,8 +1,10 @@
-using UnityEngine;
-using System.Collections;
+using Hyperbridge.ExtensionInterface;
 
-public class ExtensionCommand : IExtensionCommand
+namespace Hyperbridge.Extension
 {
-    public string Name { get; set; }
-    public string Value { get; set; }
+    public class ExtensionCommand : IExtensionCommand
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 }

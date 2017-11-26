@@ -4,114 +4,117 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 
-// TODO: I'm not sure I'm a fan of this. We should know always know what files we're loading, I think..
-public class LoadData
+namespace Hyperbridge.Core
 {
-    private string _path;
-
-    public static LoadData LoadFromPath(string path)
+    // TODO: I'm not sure I'm a fan of this. We should know always know what files we're loading, I think..
+    public class LoadData
     {
-        return new LoadData
+        private string _path;
+
+        public static LoadData LoadFromPath(string path)
         {
-            _path = path
-        };
-    }
-
-    public T LoadThisData<T>(string data)
-    {
-        if (File.Exists(Application.dataPath + _path + "/" + data + ".json"))
-        {
-            var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + data + ".json");
-
-            // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
-
-            if (fileToLoad == null)
+            return new LoadData
             {
-                //  Debug.Log(_path + data);
-                //string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
-
-                //throw new FileNotFoundException(message);
-                return default(T);
-            }
-            else
-            {
-                Debug.Log(data + " has been loaded successfully");
-
-                return JsonConvert.DeserializeObject<T>(fileToLoad);
-            }
+                _path = path
+            };
         }
-        else { Debug.Log(Application.dataPath + _path + "/" + data + ".json Not found"); }
 
-        return default(T);
-    }
-
-    public List<T> LoadAllFilesFromFolder<T>()
-    {
-        DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
-        DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
-        FileInfo[] info = dirInfo.GetFiles("*.json");
-        List<T> returnList = new List<T>();
-
-        if (info.Length > 0)
+        public T LoadThisData<T>(string data)
         {
-            foreach (FileInfo file in info)
+            if (File.Exists(Application.dataPath + _path + "/" + data + ".json"))
             {
-                var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + file.Name);
+                var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + data + ".json");
 
                 // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
                 if (fileToLoad == null)
                 {
-                    string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+                    //  Debug.Log(_path + data);
+                    //string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
 
-                    Debug.Log(message);
-
-                    return returnList;
                     //throw new FileNotFoundException(message);
+                    return default(T);
                 }
                 else
                 {
-                    returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                    Debug.Log(data + " has been loaded successfully");
+
+                    return JsonConvert.DeserializeObject<T>(fileToLoad);
                 }
             }
+            else { Debug.Log(Application.dataPath + _path + "/" + data + ".json Not found"); }
+
+            return default(T);
         }
 
-        return returnList;
-    }
-
-
-    public List<T> LoadAllFilesFromSubFolder<T>()
-    {
-        DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
-        DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
-        List<T> returnList = new List<T>();
-
-        if (subDirectories.Length == 0) return returnList;
-        foreach (DirectoryInfo subDir in subDirectories)
+        public List<T> LoadAllFilesFromFolder<T>()
         {
-            FileInfo[] info = subDir.GetFiles("*.json");
+            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+            DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+            FileInfo[] info = dirInfo.GetFiles("*.json");
+            List<T> returnList = new List<T>();
 
-            if (info.Length == 0) return null;
-
-            foreach (FileInfo file in info)
+            if (info.Length > 0)
             {
-                string fileToLoad = file.OpenText().ReadToEnd();
-
-                if (fileToLoad == null)
+                foreach (FileInfo file in info)
                 {
-                    string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+                    var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + file.Name);
 
-                    Debug.Log(message);
+                    // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
-                    return returnList;
-                }
-                else
-                {
-                    returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                    if (fileToLoad == null)
+                    {
+                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+
+                        Debug.Log(message);
+
+                        return returnList;
+                        //throw new FileNotFoundException(message);
+                    }
+                    else
+                    {
+                        returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                    }
                 }
             }
+
+            return returnList;
         }
 
-        return returnList;
+
+        public List<T> LoadAllFilesFromSubFolder<T>()
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+            DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+            List<T> returnList = new List<T>();
+
+            if (subDirectories.Length == 0) return returnList;
+            foreach (DirectoryInfo subDir in subDirectories)
+            {
+                FileInfo[] info = subDir.GetFiles("*.json");
+
+                if (info.Length == 0) return null;
+
+                foreach (FileInfo file in info)
+                {
+                    string fileToLoad = file.OpenText().ReadToEnd();
+
+                    if (fileToLoad == null)
+                    {
+                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+
+                        Debug.Log(message);
+
+                        return returnList;
+                    }
+                    else
+                    {
+                        returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                    }
+                }
+            }
+
+            return returnList;
+        }
     }
 }

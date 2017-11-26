@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Why??
-public class ExtensionListManager
+namespace Hyperbridge.Extension
 {
-    public List<ExtensionInfo> installedExtensions = new List<ExtensionInfo>();
-    public List<ExtensionInfo> communityExtensions = new List<ExtensionInfo>();
+    // TODO: Why??
+    public class ExtensionListManager
+    {
+        public List<ExtensionInfo> installedExtensions = new List<ExtensionInfo>();
+        public List<ExtensionInfo> communityExtensions = new List<ExtensionInfo>();
+    }
 }

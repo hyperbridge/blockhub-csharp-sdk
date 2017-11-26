@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using SFB;
 using System.Text.RegularExpressions;
+using Hyperbridge.Blockchain.Ethereum;
+using Hyperbridge.Wallet;
+using Hyperbridge.UI;
+using Hyperbridge.Core;
 
 public class CreateWalletView : MonoBehaviour
 {

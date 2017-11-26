@@ -1,7 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class MenuEvent : CodeControl.Message
+namespace Hyperbridge.UI
 {
-    public bool visible;
+    public class MenuEvent : CodeControl.Message
+    {
+        public bool visible;
+    }
 }
