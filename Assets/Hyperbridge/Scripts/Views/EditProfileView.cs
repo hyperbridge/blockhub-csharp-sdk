@@ -17,7 +17,7 @@ public class EditProfileView : MonoBehaviour
     {
         this.saveEditButton.onClick.AddListener(() =>
         {
-            StartCoroutine(AppManager.instance.profileManager.EditProfileData(null, this.nameInput.text, this.makeDefault.isOn));
+            DispatchUpdatedProfileEvent();
         });
     }
 
@@ -27,5 +27,14 @@ public class EditProfileView : MonoBehaviour
 
         this.nameInput.text = data.name;
         this.makeDefault.isOn = data.isDefault;
+    }
+
+    void DispatchUpdatedProfileEvent()
+    {
+        var message = new EditProfileEvent();
+        message.imageLocation = null;
+        message.profileName = this.nameInput.text;
+        message.makeDefault = this.makeDefault.isOn;
+        CodeControl.Message.Send<EditProfileEvent>(message);
     }
 }

@@ -14,7 +14,7 @@ using Hyperbridge.Core;
 public class ExtensionsView : MonoBehaviour
 {
     public GameObject extensionInfoPrefab, extensionInfoOrganizer, installedExtensionsHeading, communityExtensionsHeading;
-    public ExtensionInfoView extensionInfoView;
+    public ExtensionModalDetailsView extensionInfoView;
 
     private LoadData loader;
     private SaveData saver;
@@ -50,7 +50,7 @@ public class ExtensionsView : MonoBehaviour
         {
             foreach (Transform child in this.extensionInfoOrganizer.transform)
             {
-                if (child.gameObject.GetComponent<ExtensionInfoContainer>() != null)
+                if (child.gameObject.GetComponent<ExtensionSummaryContainerView>() != null)
                 {
                     Destroy(child.gameObject);
                 }
@@ -77,8 +77,8 @@ public class ExtensionsView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
-            container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, installed);
+            container.GetComponent<ExtensionSummaryContainerView>().extensionsView = this;
+            container.GetComponent<ExtensionSummaryContainerView>().SetupExtension(extension, installed);
             container.SetActive(true);
         }
     }
@@ -98,8 +98,8 @@ public class ExtensionsView : MonoBehaviour
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-            container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
-            container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, true);
+            container.GetComponent<ExtensionSummaryContainerView>().extensionsView = this;
+            container.GetComponent<ExtensionSummaryContainerView>().SetupExtension(extension, true);
             container.SetActive(true);
         }
 
@@ -124,8 +124,8 @@ public class ExtensionsView : MonoBehaviour
             {
                 GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
-                container.GetComponent<ExtensionInfoContainer>().extensionsView = this;
-                container.GetComponent<ExtensionInfoContainer>().SetupExtension(extension, false);
+                container.GetComponent<ExtensionSummaryContainerView>().extensionsView = this;
+                container.GetComponent<ExtensionSummaryContainerView>().SetupExtension(extension, false);
                 container.SetActive(true);
 
             }

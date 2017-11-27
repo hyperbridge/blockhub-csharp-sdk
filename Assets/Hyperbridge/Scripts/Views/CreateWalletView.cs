@@ -17,7 +17,7 @@ public class CreateWalletView : MonoBehaviour
     public GameObject loadingModal;
     public Toggle ethereumToggle, bitcoinToggle;
 
-    void Start() // TODO: WALLET ANIMATION CREATION. THREADING.
+    void Start() 
     {
         this.createWalletButton.onClick.AddListener(() =>
         {

@@ -114,7 +114,7 @@ namespace Hyperbridge.Core
 
         public IEnumerator AfterStart()
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForEndOfFrame();
 
             CodeControl.Message.Send<AppInitializedEvent>(new AppInitializedEvent());
             CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/home" });

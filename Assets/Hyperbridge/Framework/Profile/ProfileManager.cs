@@ -22,6 +22,7 @@ namespace Hyperbridge.Profile
             this.loader = LoadData.LoadFromPath("/Resources/Profiles");
 
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+            CodeControl.Message.AddListener<EditProfileEvent>(this.OnProfileEdited);
         }
 
         public void DispatchUpdateEvent()
@@ -35,7 +36,10 @@ namespace Hyperbridge.Profile
         {
             this.LoadProfiles();
         }
-
+        public void OnProfileEdited(EditProfileEvent e)
+        {
+            StartCoroutine(EditProfileData(e));
+        }
         public List<ProfileData> LoadProfiles()
         {
             this.profiles = this.loader.LoadAllFilesFromFolder<ProfileData>();
@@ -60,21 +64,21 @@ namespace Hyperbridge.Profile
             this.saver.Save<ProfileData>(newData.name, newData);
 
 #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
+            UnityEditor.AssetDatabase.Refresh();
 #endif
 
             this.DispatchUpdateEvent();
         }
 
-        public IEnumerator EditProfileData(string imageLocation, string profileName, bool makeDefault)
+        public IEnumerator EditProfileData(EditProfileEvent message)
         {
             DeleteProfileData(this.currentlyEditingProfile);
 
             var editedData = new ProfileData
             {
-                name = profileName,
-                isDefault = makeDefault,
-                imageLocation = imageLocation,
+                name = message.profileName,
+                isDefault = message.makeDefault,
+                imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid
             };
 
@@ -90,12 +94,12 @@ namespace Hyperbridge.Profile
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "Profiles");
+            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles");
 
             this.profiles.Remove(dataToDelete);
 
 #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
+            UnityEditor.AssetDatabase.Refresh();
 #endif
 
             this.DispatchUpdateEvent();
