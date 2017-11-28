@@ -19,7 +19,7 @@ MonoBehaviour:
     allowAssetSharing: 1
     materialAssets: []
     prefabAssets: []
-  autoLoadModScenes: 1
+  autoLoadModScenes: 0
   cleanupModObjects: 1
   commandLineToken: +mod=%PATH%
   logLevel: 3

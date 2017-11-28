@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System;
 using Hyperbridge.ExtensionInterface;
 using Hyperbridge.Core;
+using Hyperbridge.UI;
 
 namespace Hyperbridge.Extension
 {
@@ -112,12 +113,21 @@ namespace Hyperbridge.Extension
 
             ModPath loadFromPath = new ModPath(newDirectory);
 
-            ModHost host = Mod.Load(loadFromPath);
+            ModHost host = Mod.Load(loadFromPath, false);
 
             if (host.IsModLoaded == true)
             {
+                host.Activate();
+                host.Scenes.DefaultScene.LoadAsync(true);
+                StartCoroutine(OnModLoadComplete());
                 StartCoroutine(this.CommunicationLoop(host));
+
+                //TODO: This is only a test
+                ModLoadedEvent message = new ModLoadedEvent();
+                message.host = host;
+                CodeControl.Message.Send<ModLoadedEvent>(message);
             }
+
 
             return host;
         }
@@ -181,24 +191,16 @@ namespace Hyperbridge.Extension
             Directory.Delete(data.path);
         }
 
-        private void OnModLoadComplete(ModLoadCompleteArgs args)
+        private IEnumerator OnModLoadComplete()
         {
-            if (args.IsLoaded)
-            {
-                Debug.Log("Mod loaded");
-                /* if (latestLoadedMod.Assets.Exists("UIPrefab1"))
-                 {
-                     GameObject gO = latestLoadedMod.Assets.Load("UIPrefab1") as GameObject;
+            yield return new WaitForSeconds(1);
+            Debug.Log("Mod loaded");
+            NavigateEvent message = new NavigateEvent();
+            message.path = "/main/home";
+            CodeControl.Message.Send<NavigateEvent>(message);
 
-                     Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
-                 }
-                 */
 
-            }
-            else if (!args.IsLoaded)
-            {
-                Debug.LogError("Can't load that mod");
-            }
+
         }
 
         public List<ExtensionInfo> GetInstalledExtensions()
