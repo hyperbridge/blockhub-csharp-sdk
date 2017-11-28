@@ -24,7 +24,7 @@ namespace Hyperbridge.Extension
             }
             catch (ArgumentOutOfRangeException e)
             {
-
+                Debug.LogError(e.ToString());
             }
 
             this.extensionList = new ExtensionListManager();

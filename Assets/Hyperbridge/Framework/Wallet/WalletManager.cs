@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Hyperbridge.Core;
+using SFB;
 
 namespace Hyperbridge.Wallet
 {
@@ -11,6 +12,19 @@ namespace Hyperbridge.Wallet
         public List<WalletInfo> wallets = new List<WalletInfo>();
         public WalletsView managerView;
         public WalletInfoView infoView;
+
+        public string CurrentWalletPath
+        {
+            get
+            {
+                return CurrentWalletPath;
+            }
+            set
+            {
+                CodeControl.Message.Send<WalletPathChangedEvent>(new WalletPathChangedEvent { path = value });
+
+            }
+        }
 
         private void Awake()
         {
@@ -48,6 +62,13 @@ namespace Hyperbridge.Wallet
             CodeControl.Message.Send<UpdateWalletsEvent>(message);
 
             yield return wallets;
+        }
+
+        public void SelectWalletPath()
+        {
+            string[] newPath = StandaloneFileBrowser.OpenFolderPanel("Where would you like to save your Wallets?", Application.dataPath, false);
+
+            CurrentWalletPath = newPath[0];
         }
     }
 }

@@ -49,16 +49,15 @@ public class CreateWalletView : MonoBehaviour
             AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address, encryptedJson) =>
             {
                 // We just print the address and the encrypted json we just created
-                Debug.Log(address);
-                Debug.Log(encryptedJson);
+               // Debug.Log(address);
+                //Debug.Log(encryptedJson);
                 tempAddress = address;
                 tempJson = encryptedJson;
             });
         });
 
-        string newPath = StandaloneFileBrowser.SaveFilePanel("Save Keystore JSON", "", this.walletNameInputField.text, "json");
 
-        SaveData saver = SaveData.SaveAtPath(newPath);
+        SaveData saver = SaveData.SaveAtPath(AppManager.instance.walletManager.CurrentWalletPath);
         saver.SaveExternal<string>(this.walletNameInputField.text, tempJson);
 
 #if UNITY_EDITOR

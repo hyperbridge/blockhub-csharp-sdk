@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Nethereum.Hex.HexTypes;
 using Nethereum.JsonRpc.UnityClient;
-using Nethereum.RPC.Eth.Blocks;
-using System.Threading.Tasks;
-using Nethereum.RPC.TransactionManagers;
-using Nethereum.Signer;
 using UnityEngine.UI;
 using SFB;
 using System.Text.RegularExpressions;
@@ -96,8 +90,8 @@ namespace Hyperbridge.Wallet
                 }
             }
 
-            Debug.Log(account.Address);
-            Debug.Log(account.PrivateKey);
+          //  Debug.Log(account.Address);
+          //  Debug.Log(account.PrivateKey);
 
             return account;
         }
