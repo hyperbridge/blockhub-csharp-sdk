@@ -16,8 +16,6 @@ namespace Hyperbridge.Extension
         public ExtensionListManager extensionList;
         public ExtensionsView extensionsView;
 
-        private List<ModHost> activeMods;
-
         private void Awake()
         {
             try
@@ -29,37 +27,18 @@ namespace Hyperbridge.Extension
 
             }
 
-            this.activeMods = new List<ModHost>();
             this.extensionList = new ExtensionListManager();
+
+            CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
         }
 
-        private void Start()
+        private void OnAppInitialized(AppInitializedEvent e)
         {
-            this.CheckMods();
-        }
-
-        private void CheckMods()
-        {
-            //TODO: This is deactivated because Umod isn't real (we're not using it until they update)
-            /*foreach (string mod in InstalledExtensionPaths())
+            foreach (string modPath in this.InstalledExtensionPaths())
             {
-                LoadMod(mod);
-            }*/
+                this.LoadMod(modPath);
+            }
         }
-        /* public IEnumerator LoadMod(string modPath)
-          {
-              Debug.Log(modPath);
-
-              DirectoryInfo newDirectory = new DirectoryInfo(modPath);
-
-              ModPath loadFromPath = new ModPath(newDirectory);
-              WaitForModLoad request = new WaitForModLoad(loadFromPath);
-
-              yield return request;
-
-              Debug.Log("Loaded " + request.WasLoadSuccessful);
-          }*/
-
 
         public IEnumerator CommunicationLoop(ModHost host)
         {
@@ -125,7 +104,7 @@ namespace Hyperbridge.Extension
             }
         }
 
-        public void LoadMod(string modPath)
+        public ModHost LoadMod(string modPath)
         {
             Debug.Log("Loading mod: " + modPath);
 
@@ -135,55 +114,39 @@ namespace Hyperbridge.Extension
 
             ModHost host = Mod.Load(loadFromPath);
 
-            activeMods.Add(host);
-
             if (host.IsModLoaded == true)
             {
-                StartCoroutine(CommunicationLoop(host));
+                StartCoroutine(this.CommunicationLoop(host));
             }
+
+            return host;
         }
 
         public IEnumerator InstallMod(ExtensionInfo extension)
         {
-            // File Transfer
-            /* string ID = GUID.Generate().ToString();
+            ModHost mod = this.LoadMod(Application.dataPath + "/Resources/Extensions/" + extension.uuid + "/" + extension.name);
 
-             Directory.CreateDirectory(Application.dataPath + "/Resources/Extensions/" + ID + "/");
-
-
-             FileUtil.CopyFileOrDirectory(modPath+"/"+modName+"/", Application.dataPath + "/Resources/Extensions/" + ID + "/" + modName+"/");
-             yield return new WaitForEndOfFrame();
-             //We're not ready for mod loading yet   LoadMod(Application.dataPath + "/Resources/Extensions/" + modName);
-             LoadData loader = LoadData.LoadFromPath("/Resources/Extensions/" + ID + "/" + modName);
-
-             UnityEditor.AssetDatabase.Refresh();
-
-             ExtensionInfo extensionToEdit = loader.LoadThisData<ExtensionInfo>(modName);
-
-             extensionToEdit.enabled = true;
-             extensionToEdit.path = Application.dataPath + "/Resources/Extensions/" + ID + "/";
-             AppManager.instance.saveDataManager.SaveExtensionJSON(ID, extensionToEdit);*/
-            /* for (int i = 0; i < extensionList.communityExtensions.Count; i++)
-             {
-                 if (extensionList.communityExtensions[i].uuid == extension.uuid)
-                 {
-                     extensionList.communityExtensions.Remove(extensionList.communityExtensions[i]);
-                 }
-             }*/
+            extension.mod = mod;
             extension.enabled = true;
-            if (extensionList.installedExtensions.Contains(extension)) { yield break; }
+
+            if (extensionList.installedExtensions.Contains(extension))
+            {
+                yield break;
+            }
+
             extensionList.installedExtensions.Add(extension);
+
             StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
+
             this.extensionsView.GenerateInstalledCommunityExtensionContainers();
+
             yield return new WaitForSeconds(0.5f);
         }
 
         public IEnumerator UninstallMod(ExtensionInfo extension)
         {
-            /*  mod.DestroyModObjects();
-              mod.UnloadMod();
-
-              File.Delete(mod.CurrentModPath.ToString());*/
+            extension.mod.DestroyModObjects();
+            extension.mod.UnloadMod();
 
             for (int i = 0; i < extensionList.installedExtensions.Count; i++)
             {
@@ -238,18 +201,39 @@ namespace Hyperbridge.Extension
             }
         }
 
-
-        public List<ModHost> ModList()
+        public List<ExtensionInfo> GetInstalledExtensions()
         {
-            return activeMods;
+            return this.extensionList.installedExtensions;
+        }
+
+        public void ActivateExtension(ExtensionInfo extension)
+        {
+            extension.mod.DestroyModObjects();
+
+            if (extension.mod.HasScenes)
+            {
+                extension.mod.LoadDefaultScene();
+            }
+            else if (extension.mod.HasAssets)
+            {
+                if (extension.mod.Assets.Exists("UIPrefab1"))
+                {
+                    GameObject gO = extension.mod.Assets.Load("UIPrefab1") as GameObject;
+
+                    Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
+                }
+            }
+
+            CodeControl.Message.Send<ExtensionUpdateEvent>(new ExtensionUpdateEvent());
         }
 
         public string[] InstalledExtensionPaths()
         {
-            string[] directories = Directory.GetDirectories(Application.dataPath + "/Resources/Extensions");
-            for (int i = 0; i < directories.Length; i++)
+            string[] directories = new string[extensionList.installedExtensions.Count];
+
+            for (int i = 0; i < extensionList.installedExtensions.Count; i++)
             {
-                directories[i] = directories[i].Replace(@"\", @"/");
+                directories[i] = Application.dataPath + "/Resources/Extensions/" + extensionList.installedExtensions[i].uuid + "/" + extensionList.installedExtensions[i].name;
             }
 
             return directories;

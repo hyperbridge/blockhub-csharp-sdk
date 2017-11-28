@@ -17,7 +17,7 @@ namespace Hyperbridge.Core
 
         public AppState state;
         public WalletManager walletManager;
-        public ExtensionManager modManager;
+        public ExtensionManager extensionManager;
         public SaveDataManager saveDataManager;
         public WalletService walletService;
         public ProfileManager profileManager;
@@ -30,7 +30,7 @@ namespace Hyperbridge.Core
         public void EnableBackgroundMode()
         {
             QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 1;
+            Application.targetFrameRate = 30;
 
             this.performanceModal.SetActive(true);
         }
@@ -94,7 +94,7 @@ namespace Hyperbridge.Core
 
             CodeControl.Message.AddListener<NavigateEvent>(this.OnNavigateEvent);
 
-            this.modManager.enabled = true;
+            this.extensionManager.enabled = true;
         }
 
         private IEnumerator ConnectivityCheck()

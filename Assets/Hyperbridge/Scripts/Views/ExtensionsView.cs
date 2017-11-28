@@ -57,17 +57,13 @@ public class ExtensionsView : MonoBehaviour
             }
         }
 
-        yield return StartCoroutine(this.extensionChecker.CheckExtensions(communityExtensions =>
-        {
-            AppManager.instance.modManager.extensionList.communityExtensions = communityExtensions;
-        }, installedExtensions =>
-        {
-            AppManager.instance.modManager.extensionList.installedExtensions = installedExtensions;
-        }));
+        AppManager.instance.extensionManager.extensionList.communityExtensions = LoadData.LoadFromPath("Assets/Resources/Extensions").LoadFile<List<ExtensionInfo>>("community-extensions.json");
+        AppManager.instance.extensionManager.extensionList.installedExtensions = LoadData.LoadFromPath("Assets/Resources/Extensions").LoadFile<List<ExtensionInfo>>("extensions.json");
 
-        GenerateInstalledCommunityExtensionContainers();
-        this.StartCoroutine(AppManager.instance.saveDataManager.SaveCurrentExtensionData());
+        this.GenerateInstalledCommunityExtensionContainers();
         this.activeRoutine = null;
+
+        yield return null;
     }
 
 
@@ -94,7 +90,7 @@ public class ExtensionsView : MonoBehaviour
             }
         }
 
-        foreach (ExtensionInfo extension in AppManager.instance.modManager.extensionList.installedExtensions)
+        foreach (ExtensionInfo extension in AppManager.instance.extensionManager.extensionList.installedExtensions)
         {
             GameObject container = Instantiate(this.extensionInfoPrefab, this.extensionInfoOrganizer.transform);
 
@@ -105,10 +101,10 @@ public class ExtensionsView : MonoBehaviour
 
         communityExtensionsHeading.transform.SetSiblingIndex(transform.parent.childCount - 1);
 
-        foreach (ExtensionInfo extension in AppManager.instance.modManager.extensionList.communityExtensions)
+        foreach (ExtensionInfo extension in AppManager.instance.extensionManager.extensionList.communityExtensions)
         {
             bool found = false;
-            foreach (ExtensionInfo ext in AppManager.instance.modManager.extensionList.installedExtensions)
+            foreach (ExtensionInfo ext in AppManager.instance.extensionManager.extensionList.installedExtensions)
             {
                 if (ext.uuid == extension.uuid)
                 {
@@ -127,7 +123,6 @@ public class ExtensionsView : MonoBehaviour
                 container.GetComponent<ExtensionSummaryContainerView>().extensionsView = this;
                 container.GetComponent<ExtensionSummaryContainerView>().SetupExtension(extension, false);
                 container.SetActive(true);
-
             }
         }
 

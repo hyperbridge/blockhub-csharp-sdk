@@ -26,9 +26,9 @@ namespace Hyperbridge.Core
         public IEnumerator SaveCurrentExtensionData()
         {
             this.saver = SaveData.SaveAtPath("/Resources/Extensions");
-            saver.Save<List<ExtensionInfo>>("community-extensions", AppManager.instance.modManager.extensionList.communityExtensions);
+            saver.Save<List<ExtensionInfo>>("community-extensions", AppManager.instance.extensionManager.extensionList.communityExtensions);
             yield return new WaitForSeconds(0.5f);
-            saver.Save<List<ExtensionInfo>>("extensions", AppManager.instance.modManager.extensionList.installedExtensions);
+            saver.Save<List<ExtensionInfo>>("extensions", AppManager.instance.extensionManager.extensionList.installedExtensions);
 
         }
 

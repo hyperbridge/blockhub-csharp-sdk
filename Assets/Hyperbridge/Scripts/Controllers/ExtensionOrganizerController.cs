@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using UMod;
 using Hyperbridge.Core;
+using Hyperbridge.Extension;
 
 public class ExtensionOrganizerController : MonoBehaviour
 {
@@ -16,45 +17,26 @@ public class ExtensionOrganizerController : MonoBehaviour
     {
         this.gridLayoutGroup = GetComponent<GridLayoutGroup>();
 
-        CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+        CodeControl.Message.AddListener<ExtensionUpdateEvent>(this.OnExtensionUpdate);
     }
 
-    private void OnAppInitialized(AppInitializedEvent e)
+    private void OnExtensionUpdate(ExtensionUpdateEvent e)
     {
         this.DetectInstalledExtensions();
     }
 
     private void DetectInstalledExtensions()
     {
-        foreach (ModHost mod in AppManager.instance.modManager.ModList())
+        Debug.Log("Loading extension into group");
+
+        foreach (ExtensionInfo extension in AppManager.instance.extensionManager.GetInstalledExtensions())
         {
             GameObject extensionButton = Instantiate(this.extensionLauncherAccessButton, transform);
-            extensionButton.GetComponentInChildren<Text>().text = mod.CurrentMod.ModName;
+            extensionButton.GetComponentInChildren<Text>().text = extension.name;
             extensionButton.GetComponent<Button>().onClick.AddListener(() =>
             {
-                this.ActivateExtension(mod);
+                AppManager.instance.extensionManager.ActivateExtension(extension);
             });
-        }
-    }
-
-    public void ActivateExtension(ModHost mod)
-    {
-        Debug.Log(mod.name);
-
-        mod.DestroyModObjects();
-
-        if (mod.HasScenes)
-        {
-            mod.LoadDefaultScene();
-        }
-        else if (mod.HasAssets)
-        {
-            if (mod.Assets.Exists("UIPrefab1"))
-            {
-                GameObject gO = mod.Assets.Load("UIPrefab1") as GameObject;
-
-                Instantiate(gO, FindObjectOfType<ExtensionsView>().transform);
-            }
         }
     }
 }

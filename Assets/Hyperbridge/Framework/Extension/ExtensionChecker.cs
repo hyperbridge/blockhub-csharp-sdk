@@ -25,54 +25,60 @@ namespace Hyperbridge.Extension
 
           }*/
 
-        public IEnumerator CheckExtensions(Action<List<ExtensionInfo>> communityExtensions, Action<List<ExtensionInfo>> localExtensions)
-        {
-            LoadData loader = LoadData.LoadFromPath("/Resources/Extensions");
-            List<ExtensionInfo> commExtensions = new List<ExtensionInfo>();
-            List<ExtensionInfo> installedExtensions = new List<ExtensionInfo>();
+        // We dont need to do any of this
+        // We can always trust the JSON
+        // The JSON gets updated when we take action inside the app to download an extension
+        // Or when we remove an extension
 
-            if (File.Exists(Application.dataPath + "/Resources/Extensions/community-extensions.json"))
-            {
-                yield return commExtensions = loader.LoadThisData<List<ExtensionInfo>>("community-extensions");
-            }
 
-            if (File.Exists(Application.dataPath + "/Resources/Extensions/extensions.json"))
-            {
-                yield return installedExtensions = loader.LoadThisData<List<ExtensionInfo>>("extensions");
-            }
+        //public IEnumerator CheckExtensions(Action<List<ExtensionInfo>> communityExtensions, Action<List<ExtensionInfo>> localExtensions)
+        //{
+            //LoadData loader = LoadData.LoadFromPath("/Resources/Extensions");
+            //List<ExtensionInfo> commExtensions = new List<ExtensionInfo>();
+            //List<ExtensionInfo> installedExtensions = new List<ExtensionInfo>();
 
-            List<ExtensionInfo> externalExtensions = loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
-            yield return externalExtensions;
+            //if (File.Exists(Application.dataPath + "/Resources/Extensions/community-extensions.json"))
+            //{
+            //    yield return commExtensions = loader.LoadThisData<List<ExtensionInfo>>("community-extensions");
+            //}
 
-            foreach (ExtensionInfo extension in externalExtensions)
-            {
+            //if (File.Exists(Application.dataPath + "/Resources/Extensions/extensions.json"))
+            //{
+            //    yield return installedExtensions = loader.LoadThisData<List<ExtensionInfo>>("extensions");
+            //}
 
-                if (commExtensions.Count > 0)
-                {
-                    bool found = false;
-                    for (int i = 0; i < commExtensions.Count; i++)
-                    {
-                        if (commExtensions[i].uuid == extension.uuid)
-                        {
-                            found = true;
-                        }
+            //List<ExtensionInfo> externalExtensions = loader.LoadAllFilesFromSubFolder<ExtensionInfo>();
+            //yield return externalExtensions;
 
-                    }
-                    if (!found)
-                    {
-                        commExtensions.Add(extension);
+            //foreach (ExtensionInfo extension in externalExtensions)
+            //{
 
-                    }
-                }
-                else
-                {
-                    commExtensions.Add(extension);
-                }
-            }
+            //    if (commExtensions.Count > 0)
+            //    {
+            //        bool found = false;
+            //        for (int i = 0; i < commExtensions.Count; i++)
+            //        {
+            //            if (commExtensions[i].uuid == extension.uuid)
+            //            {
+            //                found = true;
+            //            }
 
-            communityExtensions(commExtensions);
-            localExtensions(installedExtensions);
-        }
+            //        }
+            //        if (!found)
+            //        {
+            //            commExtensions.Add(extension);
+
+            //        }
+            //    }
+            //    else
+            //    {
+            //        commExtensions.Add(extension);
+            //    }
+            //}
+
+            //communityExtensions(commExtensions);
+            //localExtensions(installedExtensions);
+        //}
 
 
     }

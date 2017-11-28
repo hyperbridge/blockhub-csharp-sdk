@@ -81,6 +81,12 @@ namespace Hyperbridge.Core
             return returnList;
         }
 
+        public T LoadFile<T>(string path) {
+            FileInfo file = new FileInfo(_path + "/" + path);
+            string fileToLoad = file.OpenText().ReadToEnd();
+
+            return JsonConvert.DeserializeObject<T>(fileToLoad);
+        }
 
         public List<T> LoadAllFilesFromSubFolder<T>()
         {

@@ -39,11 +39,11 @@ public class ExtensionSummaryContainerView : MonoBehaviour
 
             if (this.isEnabled)
             {
-                AppManager.instance.modManager.EnableMod(data);
+                AppManager.instance.extensionManager.EnableMod(data);
             }
             else
             {
-                AppManager.instance.modManager.DisableMod(data);
+                AppManager.instance.extensionManager.DisableMod(data);
             }
 
             this.UpdateButtonState();
@@ -55,12 +55,12 @@ public class ExtensionSummaryContainerView : MonoBehaviour
 
             if (this.isInstalled)
             {
-                this.StartCoroutine(AppManager.instance.modManager.InstallMod(data));
+                this.StartCoroutine(AppManager.instance.extensionManager.InstallMod(data));
             }
             else
             {
 
-                this.StartCoroutine(AppManager.instance.modManager.UninstallMod(data));
+                this.StartCoroutine(AppManager.instance.extensionManager.UninstallMod(data));
             }
 
             this.UpdateButtonState();

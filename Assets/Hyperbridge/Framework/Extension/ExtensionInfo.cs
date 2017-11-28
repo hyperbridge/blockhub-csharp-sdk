@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Hyperbridge.Extension;
+using UMod;
 
 namespace Hyperbridge.Extension
 {
@@ -10,5 +11,6 @@ namespace Hyperbridge.Extension
         public float rating;
         public bool enabled;
         public List<Capability> capabilities = new List<Capability>();
+        public ModHost mod;
     }
 }
