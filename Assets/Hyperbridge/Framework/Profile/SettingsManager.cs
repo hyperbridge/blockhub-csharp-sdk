@@ -43,7 +43,7 @@ public class SettingsManager : MonoBehaviour
 
     IEnumerator LoadSettings(string ID)
     {
-        LoadData loader = LoadData.LoadFromPath("/Resources/" + ID + "/Settings");
+        LoadData loader = LoadData.LoadFromPath("/Resources/Profiles/" + ID + "/Settings");
 
         yield return currentSettings = loader.LoadJSONByName<Settings>("settings");
         if (currentSettings == null) yield break;
