@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Hyperbridge.Wallet;
-public class MainSettingsCoreView : MonoBehaviour {
+
+
+public class MainSettingsCoreView : MonoBehaviour
+{
 
     public InputField walletPathDisplay;
 
-    void Start () {
+    void Start()
+    {
 
-        CodeControl.Message.AddListener<WalletPathChangedEvent>(OnWalletPathChanged);
+        CodeControl.Message.AddListener<WalletPathChangedEvent>(OnWalletPathChangedEvent);
 
     }
-	
 
-    void OnWalletPathChanged(WalletPathChangedEvent e)
+
+    void OnWalletPathChangedEvent(WalletPathChangedEvent e)
     {
         walletPathDisplay.text = e.path;
     }

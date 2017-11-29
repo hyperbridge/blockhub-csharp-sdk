@@ -37,7 +37,7 @@ namespace Hyperbridge.Extension
         {
             foreach (string modPath in this.InstalledExtensionPaths())
             {
-                this.LoadMod(modPath);
+               // this.LoadMod(modPath);
             }
         }
 

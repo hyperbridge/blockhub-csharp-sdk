@@ -11,7 +11,7 @@ namespace Hyperbridge.Profile
         public List<ProfileData> profiles = new List<ProfileData>();
         public ManageProfilesView _manageProfilesView;
         public Text profileNameDisplay, profileNameDisplayBase;
-        public ProfileData currentlyEditingProfile;
+        public ProfileData currentlyEditingProfile, activeProfile;
 
         private SaveData saver;
         private LoadData loader;
@@ -29,6 +29,7 @@ namespace Hyperbridge.Profile
         {
             var message = new UpdateProfilesEvent();
             message.profiles = this.profiles;
+            message.activeProfile = this.activeProfile;
             CodeControl.Message.Send<UpdateProfilesEvent>(message);
         }
 
@@ -42,7 +43,7 @@ namespace Hyperbridge.Profile
         }
         public List<ProfileData> LoadProfiles()
         {
-            this.profiles = this.loader.LoadAllFilesFromFolder<ProfileData>();
+            this.profiles = this.loader.LoadAllFilesFromSubFolder<ProfileData>();
             this.UpdateProfileNameDisplay();
 
             this.DispatchUpdateEvent();
@@ -57,9 +58,9 @@ namespace Hyperbridge.Profile
                 name = profileName,
                 isDefault = makeDefault,
                 imageLocation = imageLocation,
-                uuid = this.profiles.Count.ToString()
+                uuid = System.Guid.NewGuid().ToString()
             };
-
+            saver = SaveData.SaveAtPath("/Resources/Profiles/" + newData.uuid);
             this.profiles.Add(newData);
             this.saver.Save<ProfileData>(newData.name, newData);
 
@@ -106,6 +107,7 @@ namespace Hyperbridge.Profile
         }
 
         // TODO: How does this happen? Seems like it should just use above
+        
         public void DeleteEditingProfileData()
         {
             this.DeleteProfileData(currentlyEditingProfile);
@@ -119,11 +121,13 @@ namespace Hyperbridge.Profile
                 {
                     profileNameDisplay.text = data.name;
                     profileNameDisplayBase.text = data.name;
+                    activeProfile = data;
                 }
                 else if (newDefault == null && data.isDefault)
                 {
                     profileNameDisplay.text = data.name;
                     profileNameDisplayBase.text = data.name;
+                    activeProfile = data;
                 }
                 else
                 {

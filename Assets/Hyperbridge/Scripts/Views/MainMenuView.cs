@@ -1,20 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Hyperbridge.UI;
+using Hyperbridge.Profile;
 
 public class MainMenuView : MonoBehaviour
 {
-    void Awake() {
+    public Text[] activeProfileNameTexts;
+    void Awake()
+    {
         CodeControl.Message.AddListener<MenuEvent>(this.OnMenuEvent);
-	}
+        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
+    }
 
-    public void OnMenuEvent(MenuEvent e) {
-        if (e.visible) {
+    public void OnMenuEvent(MenuEvent e)
+    {
+        if (e.visible)
+        {
             this.gameObject.GetComponent<Devdog.General.UI.UIWindow>().Show();
         }
-        else {
+        else
+        {
             this.gameObject.GetComponent<Devdog.General.UI.UIWindow>().Hide();
+        }
+    }
+
+    void OnProfilesUpdated(UpdateProfilesEvent e)
+    {
+        foreach (Text t in activeProfileNameTexts)
+        {
+            t.text = e.activeProfile.name;
+
         }
     }
 }

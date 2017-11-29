@@ -19,11 +19,11 @@ namespace Hyperbridge.Core
             };
         }
 
-        public T LoadThisData<T>(string data)
+        public T LoadJSONByName<T>(string filename)
         {
-            if (File.Exists(Application.dataPath + _path + "/" + data + ".json"))
+            if (File.Exists(Application.dataPath + _path + "/" + filename + ".json"))
             {
-                var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + data + ".json");
+                var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + filename + ".json");
 
                 // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
@@ -37,12 +37,12 @@ namespace Hyperbridge.Core
                 }
                 else
                 {
-                    Debug.Log(data + " has been loaded successfully");
+                    Debug.Log(filename + " has been loaded successfully");
 
                     return JsonConvert.DeserializeObject<T>(fileToLoad);
                 }
             }
-            else { Debug.Log(Application.dataPath + _path + "/" + data + ".json Not found"); }
+            else { Debug.Log(Application.dataPath + _path + "/" + filename + ".json Not found"); }
 
             return default(T);
         }

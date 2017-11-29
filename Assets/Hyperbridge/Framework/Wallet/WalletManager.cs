@@ -69,6 +69,9 @@ namespace Hyperbridge.Wallet
             string[] newPath = StandaloneFileBrowser.OpenFolderPanel("Where would you like to save your Wallets?", Application.dataPath, false);
 
             CurrentWalletPath = newPath[0];
+
+
+
         }
     }
 }
