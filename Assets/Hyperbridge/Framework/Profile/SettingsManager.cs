@@ -6,17 +6,21 @@ using Hyperbridge.Profile;
 public class SettingsManager : MonoBehaviour
 {
     public Settings currentSettings;
-    
+
     void Start()
     {
-        CodeControl.Message.AddListener<UpdateSettingsEvent>(UpdateSettings);
-        CodeControl.Message.AddListener<UpdateProfilesEvent>(LoadSettings);
+        CodeControl.Message.AddListener<UpdateSettingsEvent>(OnSettingsUpdated);
+        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfileUpdated);
+
     }
+
+
+
     //TODO: Saver will change
-    void UpdateSettings(UpdateSettingsEvent e)
+    void OnSettingsUpdated(UpdateSettingsEvent e)
     {
         Debug.Log(e.profileID);
-        SaveData saver = SaveData.SaveAtPath("/Resources/" + e.profileID + "/Settings");
+        SaveData saver = SaveData.SaveAtPath("/Resources/Profiles/" + e.profileID + "/Settings");
 
         Settings s = new Settings();
         s.allowThirdPartyExtensions = e.allowThirdPartyExtensions;
@@ -30,12 +34,33 @@ public class SettingsManager : MonoBehaviour
 
         saver.Save<Settings>("settings", s);
     }
-    //TODO: Leader will change
-    void LoadSettings(UpdateProfilesEvent e)
+    //TODO: Loader will change
+    void OnProfileUpdated(UpdateProfilesEvent e)
     {
-        LoadData loader = LoadData.LoadFromPath("/Resources/" + e.activeProfile + "/Settings");
 
-        currentSettings = loader.LoadJSONByName<Settings>("settings");
+        StartCoroutine(LoadSettings(e.activeProfile.uuid));
+    }
 
+    IEnumerator LoadSettings(string ID)
+    {
+        LoadData loader = LoadData.LoadFromPath("/Resources/" + ID + "/Settings");
+
+        yield return currentSettings = loader.LoadJSONByName<Settings>("settings");
+        if (currentSettings == null) yield break;
+        this.DispatchSettingsLoadedEvent();
+    }
+
+    void DispatchSettingsLoadedEvent()
+    {
+        SettingsLoadedEvent s = new SettingsLoadedEvent();
+        s.allowThirdPartyExtensions = currentSettings.allowThirdPartyExtensions;
+        s.chromeDataAggregation = currentSettings.chromeDataAggregation;
+        s.chromeExtensionIntegration = currentSettings.chromeExtensionIntegration;
+        s.enableVPN = currentSettings.enableVPN;
+        s.extensionSavingDirectory = currentSettings.extensionSavingDirectory;
+        s.walletSavingDirectory = currentSettings.walletSavingDirectory;
+        s.profileID = currentSettings.profileID;
+
+        CodeControl.Message.Send<SettingsLoadedEvent>(s);
     }
 }

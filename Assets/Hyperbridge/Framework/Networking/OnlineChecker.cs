@@ -15,8 +15,8 @@ namespace Hyperbridge.Networking
         public IEnumerator Check()
         {
             downloading = true;
-
-            Debug.Log("[OnlineChecker] Checking connection with " + URL);
+            //TODO: Enable this when required for debugging
+            //  Debug.Log("[OnlineChecker] Checking connection with " + URL);
 
             // Create and send our request
             var request = new HTTPRequest(new Uri(URL));

@@ -82,7 +82,7 @@ namespace Hyperbridge.Profile
                 imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid
             };
-
+            saver = SaveData.SaveAtPath("/Resources/Profiles/" + editedData.uuid);
             saver.Save<ProfileData>(editedData.name, editedData);
 
             yield return new WaitForSeconds(0.25f);
@@ -95,7 +95,7 @@ namespace Hyperbridge.Profile
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles");
+            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles/"+dataToDelete.uuid);
 
             this.profiles.Remove(dataToDelete);
 
@@ -106,7 +106,7 @@ namespace Hyperbridge.Profile
             this.DispatchUpdateEvent();
         }
 
-        // TODO: How does this happen? Seems like it should just use above
+        // TODO: How does this happen? Seems like it should just use above <- This is the only way to use a button, buttons can't pass abstract info
         
         public void DeleteEditingProfileData()
         {
