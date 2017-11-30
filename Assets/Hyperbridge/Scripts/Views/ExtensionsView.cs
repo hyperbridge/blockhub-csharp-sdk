@@ -15,16 +15,12 @@ public class ExtensionsView : MonoBehaviour
 {
     public GameObject extensionInfoPrefab, extensionInfoOrganizer, installedExtensionsHeading, communityExtensionsHeading;
     public ExtensionModalDetailsView extensionInfoView;
-
-    private LoadData loader;
-    private SaveData saver;
     private Coroutine activeRoutine;
     private ExtensionChecker extensionChecker;
 
     private void Awake()
     {
-        this.loader = LoadData.LoadFromPath("/Resources/Extensions");
-        this.saver = SaveData.SaveAtPath("/Resources/Extensions");
+
         this.extensionChecker = new ExtensionChecker();
 
         CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
@@ -57,8 +53,8 @@ public class ExtensionsView : MonoBehaviour
             }
         }
 
-        AppManager.instance.extensionManager.extensionList.communityExtensions = LoadData.LoadFromPath("Assets/Resources/Extensions").LoadFile<List<ExtensionInfo>>("community-extensions.json");
-        AppManager.instance.extensionManager.extensionList.installedExtensions = LoadData.LoadFromPath("Assets/Resources/Extensions").LoadFile<List<ExtensionInfo>>("extensions.json");
+        AppManager.instance.extensionManager.extensionList.communityExtensions = Database.LoadJSONFile<List<ExtensionInfo>>("/Resources/Extensions", "community-extensions");
+        AppManager.instance.extensionManager.extensionList.installedExtensions = Database.LoadJSONFile<List<ExtensionInfo>>("/Resources/Extensions", "extensions");
 
         this.GenerateInstalledCommunityExtensionContainers();
         this.activeRoutine = null;

@@ -16,11 +16,8 @@ public class SettingsManager : MonoBehaviour
 
 
 
-    //TODO: Saver will change
     void OnSettingsUpdated(UpdateSettingsEvent e)
     {
-        Debug.Log(e.profileID);
-        SaveData saver = SaveData.SaveAtPath("/Resources/Profiles/" + e.profileID + "/Settings");
 
         Settings s = new Settings();
         s.allowThirdPartyExtensions = e.allowThirdPartyExtensions;
@@ -32,9 +29,9 @@ public class SettingsManager : MonoBehaviour
         s.profileID = e.profileID;
         currentSettings = s;
 
-        saver.Save<Settings>("settings", s);
+        Database.SaveJSON<Settings>("/Resources/Profiles/" + e.profileID + "/Settings","settings", s);
     }
-    //TODO: Loader will change
+
     void OnProfileUpdated(UpdateProfilesEvent e)
     {
 
@@ -43,9 +40,8 @@ public class SettingsManager : MonoBehaviour
 
     IEnumerator LoadSettings(string ID)
     {
-        LoadData loader = LoadData.LoadFromPath("/Resources/Profiles/" + ID + "/Settings");
 
-        yield return currentSettings = loader.LoadJSONByName<Settings>("settings");
+        yield return currentSettings = Database.LoadJSONByName<Settings>("/Resources/Profiles/" + ID + "/Settings","settings");
         if (currentSettings == null) yield break;
         this.DispatchSettingsLoadedEvent();
     }

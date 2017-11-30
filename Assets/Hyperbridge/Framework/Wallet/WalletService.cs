@@ -90,23 +90,19 @@ namespace Hyperbridge.Wallet
                 }
             }
 
-          //  Debug.Log(account.Address);
-          //  Debug.Log(account.PrivateKey);
+            //  Debug.Log(account.Address);
+            //  Debug.Log(account.PrivateKey);
 
             return account;
         }
 
         public void InternalWalletSetup(Account account, string walletName, Text validationText, string coin)
         {
-
             var newWallet = new WalletInfo();
             string uuid = Guid.NewGuid().ToString();
             newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey, uuid, coin);
 
-            SaveData saveWallet = SaveData.SaveAtPath("/Resources/Wallets/" + uuid);
-
-            saveWallet.Save<WalletInfo>(walletName, newWallet);
-
+            Database.SaveJSON<WalletInfo>("/Resources/Wallets/" + uuid, walletName, newWallet);
 
             validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
 
@@ -170,8 +166,6 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator CheckWalletContents(WalletInfo wallet, Text container)
         {
-            Debug.Log(wallet.address);
-
             var wait = 1;
             bool processDone = false;
 
@@ -207,9 +201,6 @@ namespace Hyperbridge.Wallet
             byte[] key = keyStoreService.DecryptKeyStoreFromJson(password, keystore);
             var account = new Account(key);
 
-            Debug.Log(account.Address);
-            Debug.Log(account.PrivateKey);
-
             var wait = 1;
             while (true)
             {
@@ -225,7 +216,7 @@ namespace Hyperbridge.Wallet
                 {
                     var blockNumber = blockNumberRequest.Result.Value;
 
-                    Debug.Log("Block: " + blockNumber.ToString());
+                 //   Debug.Log("Block: " + blockNumber.ToString());
                 }
             }
         }

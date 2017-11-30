@@ -52,14 +52,16 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator LoadWallets()
         {
-            LoadData loader = LoadData.LoadFromPath("/Resources/Wallets");
             List<WalletInfo> loadedData = new List<WalletInfo>();
 
-            this.wallets = loader.LoadAllFilesFromSubFolder<WalletInfo>();
+           StartCoroutine( Database.LoadAllJSONFilesFromSubFolders<WalletInfo>("/Resources/Wallets/",(wallets)=>
+            {
+                var message = new UpdateWalletsEvent();
+                message.wallets = wallets;
+                CodeControl.Message.Send<UpdateWalletsEvent>(message);
+            }));
 
-            var message = new UpdateWalletsEvent();
-            message.wallets = wallets;
-            CodeControl.Message.Send<UpdateWalletsEvent>(message);
+           
 
             yield return wallets;
         }

@@ -17,7 +17,7 @@ public class CreateWalletView : MonoBehaviour
     public GameObject loadingModal;
     public Toggle ethereumToggle, bitcoinToggle;
 
-    void Start() 
+    void Start()
     {
         this.createWalletButton.onClick.AddListener(() =>
         {
@@ -49,7 +49,7 @@ public class CreateWalletView : MonoBehaviour
             AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address, encryptedJson) =>
             {
                 // We just print the address and the encrypted json we just created
-               // Debug.Log(address);
+                // Debug.Log(address);
                 //Debug.Log(encryptedJson);
                 tempAddress = address;
                 tempJson = encryptedJson;
@@ -57,8 +57,7 @@ public class CreateWalletView : MonoBehaviour
         });
 
 
-        SaveData saver = SaveData.SaveAtPath(AppManager.instance.walletManager.CurrentWalletPath);
-        saver.SaveExternal<string>(this.walletNameInputField.text, tempJson);
+        Database.SaveJSONToExternal<string>(AppManager.instance.walletManager.CurrentWalletPath, this.walletNameInputField.text, tempJson);
 
 #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();

@@ -16,26 +16,20 @@ namespace Hyperbridge.Core
     public class SaveDataManager : MonoBehaviour
     {
         private Text saveText, loadText;
-        private LoadData loader;
-        private SaveData saver;
-
-        public void CacheValues()
-        {
-        }
+   
 
         public IEnumerator SaveCurrentExtensionData()
         {
-            this.saver = SaveData.SaveAtPath("/Resources/Extensions");
-            saver.Save<List<ExtensionInfo>>("community-extensions", AppManager.instance.extensionManager.extensionList.communityExtensions);
+            
+            Database.SaveJSON<List<ExtensionInfo>>("/Resources/Extensions","community-extensions", AppManager.instance.extensionManager.extensionList.communityExtensions);
             yield return new WaitForSeconds(0.5f);
-            saver.Save<List<ExtensionInfo>>("extensions", AppManager.instance.extensionManager.extensionList.installedExtensions);
+            Database.SaveJSON<List<ExtensionInfo>>("/Resources/Extensions","extensions", AppManager.instance.extensionManager.extensionList.installedExtensions);
 
         }
 
         public void SaveExtensionJSON(string ID, ExtensionInfo data)
         {
-            this.saver = SaveData.SaveAtPath("/Resources/Extensions/" + ID + "/" + data.name);
-            this.saver.Save<ExtensionInfo>(data.name, data);
+            Database.SaveJSON<ExtensionInfo>("/Resources/Extensions/",data.name, data);
         }
 
         public void DeleteSpecificSave(string saveName, string path)
@@ -51,9 +45,6 @@ namespace Hyperbridge.Core
             }
         }
 
-        public void LoadSavedData()
-        {
-            this.loader = LoadData.LoadFromPath("Extensions");
-        }
+       
     }
 }

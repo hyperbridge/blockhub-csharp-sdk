@@ -13,13 +13,11 @@ namespace Hyperbridge.Profile
         public Text profileNameDisplay, profileNameDisplayBase;
         public ProfileData currentlyEditingProfile, activeProfile;
 
-        private SaveData saver;
-        private LoadData loader;
 
         private void Awake()
         {
-            this.saver = SaveData.SaveAtPath("/Resources/Profiles");
-            this.loader = LoadData.LoadFromPath("/Resources/Profiles");
+          //  this.saver = SaveData.SaveAtPath("/Resources/Profiles");
+           // this.loader = LoadData.LoadFromPath("/Resources/Profiles");
 
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
             CodeControl.Message.AddListener<EditProfileEvent>(this.OnProfileEdited);
@@ -43,10 +41,14 @@ namespace Hyperbridge.Profile
         }
         public List<ProfileData> LoadProfiles()
         {
-            this.profiles = this.loader.LoadAllFilesFromSubFolder<ProfileData>();
-            this.UpdateProfileNameDisplay();
+          StartCoroutine(  Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles)=>
+            {
+                this.profiles = profiles;
+                this.UpdateProfileNameDisplay();
 
-            this.DispatchUpdateEvent();
+                this.DispatchUpdateEvent();
+            }));
+            
 
             return this.profiles;
         }
@@ -60,9 +62,8 @@ namespace Hyperbridge.Profile
                 imageLocation = imageLocation,
                 uuid = System.Guid.NewGuid().ToString()
             };
-            saver = SaveData.SaveAtPath("/Resources/Profiles/" + newData.uuid);
             this.profiles.Add(newData);
-            this.saver.Save<ProfileData>(newData.name, newData);
+            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid,newData.name, newData);
 
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
@@ -82,8 +83,7 @@ namespace Hyperbridge.Profile
                 imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid
             };
-            saver = SaveData.SaveAtPath("/Resources/Profiles/" + editedData.uuid);
-            saver.Save<ProfileData>(editedData.name, editedData);
+            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid,editedData.name, editedData);
 
             yield return new WaitForSeconds(0.25f);
 

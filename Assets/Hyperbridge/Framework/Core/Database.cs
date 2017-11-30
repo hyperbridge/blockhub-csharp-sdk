@@ -1,29 +1,40 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.IO;
 using Newtonsoft.Json;
-using System.IO;
-
+using UnityEngine;
+using System.Collections.Generic;
 namespace Hyperbridge.Core
 {
-    // TODO: I'm not sure I'm a fan of this. We should know always know what files we're loading, I think..
-    public class LoadData
+    public static class Database
     {
-        private string _path;
 
-        public static LoadData LoadFromPath(string path)
+
+        public static void SaveJSONToExternal<T>(string externalPath, string saveName, T objectToSave)
         {
-            return new LoadData
-            {
-                _path = path
-            };
+
+            File.WriteAllText(externalPath + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
+
+            Debug.Log(saveName + " Saved at: " + externalPath);
         }
 
-        public T LoadJSONByName<T>(string filename)
+        public static void SaveJSON<T>(string internalPath, string saveName, T objectToSave)
         {
-            if (File.Exists(Application.dataPath + _path + "/" + filename + ".json"))
+            if (!Directory.Exists(Application.dataPath + internalPath))
             {
-                var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + filename + ".json");
+                Directory.CreateDirectory(Application.dataPath + internalPath);
+            }
+
+            File.WriteAllText(Application.dataPath + internalPath + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
+
+            Debug.Log(saveName + " Saved at: " + internalPath);
+        }
+
+
+
+        public static T LoadJSONByName<T>(string path, string filename)
+        {
+            if (File.Exists(Application.dataPath + path + "/" + filename + ".json"))
+            {
+                var fileToLoad = File.ReadAllText(Application.dataPath + path + "/" + filename + ".json");
 
                 // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
@@ -42,14 +53,14 @@ namespace Hyperbridge.Core
                     return JsonConvert.DeserializeObject<T>(fileToLoad);
                 }
             }
-            else { Debug.Log(Application.dataPath + _path + "/" + filename + ".json Not found"); }
+            else { Debug.Log(Application.dataPath + path + "/" + filename + ".json Not found"); }
 
             return default(T);
         }
 
-        public List<T> LoadAllFilesFromFolder<T>()
+        public static List<T> LoadAllJSONFilesFromFolder<T>(string path)
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + path);
             DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
             FileInfo[] info = dirInfo.GetFiles("*.json");
             List<T> returnList = new List<T>();
@@ -58,13 +69,13 @@ namespace Hyperbridge.Core
             {
                 foreach (FileInfo file in info)
                 {
-                    var fileToLoad = File.ReadAllText(Application.dataPath + _path + "/" + file.Name);
+                    var fileToLoad = File.ReadAllText(Application.dataPath + path + "/" + file.Name);
 
                     // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
                     if (fileToLoad == null)
                     {
-                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, path);
 
                         Debug.Log(message);
 
@@ -81,25 +92,28 @@ namespace Hyperbridge.Core
             return returnList;
         }
 
-        public T LoadFile<T>(string path) {
-            FileInfo file = new FileInfo(_path + "/" + path);
+        public static T LoadJSONFile<T>(string path, string fileName)
+        {
+            FileInfo file = new FileInfo(Application.dataPath + "/" + path+"/" + fileName + ".json");
             string fileToLoad = file.OpenText().ReadToEnd();
 
             return JsonConvert.DeserializeObject<T>(fileToLoad);
         }
 
-        public List<T> LoadAllFilesFromSubFolder<T>()
+        public static IEnumerator<T> LoadAllJSONFilesFromSubFolders<T>(string path, System.Action<List<T>> callback)
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + _path);
+            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + path);
+            Debug.Log(Application.dataPath + path);
             DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
             List<T> returnList = new List<T>();
 
-            if (subDirectories.Length == 0) return returnList;
+            if (subDirectories.Length == 0) callback(returnList);
+
             foreach (DirectoryInfo subDir in subDirectories)
             {
                 FileInfo[] info = subDir.GetFiles("*.json");
 
-                if (info.Length == 0) return null;
+                if (info.Length == 0) yield break;
 
                 foreach (FileInfo file in info)
                 {
@@ -107,11 +121,11 @@ namespace Hyperbridge.Core
 
                     if (fileToLoad == null)
                     {
-                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, _path);
+                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, path);
 
                         Debug.Log(message);
 
-                        return returnList;
+                        callback(returnList);
                     }
                     else
                     {
@@ -119,8 +133,9 @@ namespace Hyperbridge.Core
                     }
                 }
             }
-
-            return returnList;
+            callback(returnList);
+            yield return default(T);
         }
     }
 }
+
