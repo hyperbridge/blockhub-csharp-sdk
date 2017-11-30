@@ -12,26 +12,35 @@ namespace Hyperbridge.Wallet
         public List<WalletInfo> wallets = new List<WalletInfo>();
         public WalletsView managerView;
         public WalletInfoView infoView;
-
+        string walletPath;
         public string CurrentWalletPath
         {
             get
             {
-                return CurrentWalletPath;
+                return walletPath;
             }
             set
             {
                 CodeControl.Message.Send<WalletPathChangedEvent>(new WalletPathChangedEvent { path = value });
-                
+                walletPath = value;
             }
         }
 
         private void Awake()
         {
+            CodeControl.Message.AddListener<SettingsLoadedEvent>(this.OnSettingsLoaded);
 
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
         }
+        void OnSettingsLoaded(SettingsLoadedEvent e)
+        {
+            walletPath = e.walletSavingDirectory;
+            if(walletPath == "")
+            {
+                walletPath = Application.persistentDataPath + "/" + e.profileID + "/Wallets";
 
+            }
+        }
         public void OnAppInitialized(AppInitializedEvent e)
         {
             this.RefreshWalletList();

@@ -22,7 +22,7 @@ namespace Hyperbridge.Wallet
             _path = "";
         }
 
-        public bool CorrectWalletInfo(Text validationText)
+        public bool IsWalletInfoComplete(Text validationText)
         {
             if (nameField.text.Length < 1 || passwordField.text.Length < 7)
             {
@@ -48,7 +48,7 @@ namespace Hyperbridge.Wallet
 
         public void AcceptWallet(Text validationText)
         {
-            if (KeystoreValidate(keystore, validationText) && CorrectWalletInfo(validationText))
+            if (KeystoreValidate(keystore, validationText) && IsWalletInfoComplete(validationText))
             {
                 ConfirmAccount(keystore, validationText, passwordField.text, nameField.text);
             }
@@ -225,12 +225,29 @@ namespace Hyperbridge.Wallet
         {
             this.StartCoroutine(this.CheckBlockNumber());
         }
-
+        bool IsWalletLocationValid()
+        {
+            if (AppManager.instance.walletManager.CurrentWalletPath == Application.persistentDataPath +"/" +AppManager.instance.profileManager.activeProfile.uuid+ "/Wallets")
+            {
+                return true;
+            }
+            else
+            {
+                if (Directory.Exists(AppManager.instance.walletManager.CurrentWalletPath))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         // This function will just execute a callback after it creates and encrypt a new account
         public void CreateAccount(string password, System.Action<string,string, string> callback)
         {
             Debug.Log("[WalletService] Creating account...");
-
+            if (!IsWalletLocationValid()) callback("", "", "");
             // We use the Nethereum.Signer to generate a new secret key
             var ecKey = Nethereum.Signer.EthECKey.GenerateKey();
 

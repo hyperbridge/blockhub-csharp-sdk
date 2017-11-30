@@ -56,6 +56,12 @@ public class CreateWalletView : MonoBehaviour
 
            
         });
+        if(key == "" || tempAddress == ""|| tempJson == "")
+        {
+            validationText.text = "The Path for wallet saving you have set has issues. Please check settings";
+            validationText.color = Color.red;
+            yield break;
+        }
         if (ethereumToggle.isOn)
         {
             AppManager.instance.walletService.InternalWalletSetup(tempAddress, key, this.walletNameInputField.text, validationText, "Ethereum");
