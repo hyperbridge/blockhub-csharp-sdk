@@ -43,41 +43,41 @@ public class CreateWalletView : MonoBehaviour
     public IEnumerator CreateWallet()
     {
         yield return new WaitForSeconds(0.2f);
-        string tempAddress = "", tempJson = "";
+
+        string tempAddress = "", tempJson = "",key = "";
         yield return new WaitForThreadedTask(() =>
         {
-            AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address, encryptedJson) =>
+            AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address,privateKey, encryptedJson) =>
             {
-                // We just print the address and the encrypted json we just created
-                // Debug.Log(address);
-                //Debug.Log(encryptedJson);
+                key = privateKey;
                 tempAddress = address;
                 tempJson = encryptedJson;
             });
+
+           
         });
+        if (ethereumToggle.isOn)
+        {
+            AppManager.instance.walletService.InternalWalletSetup(tempAddress, key, this.walletNameInputField.text, validationText, "Ethereum");
 
-
-        Database.SaveJSONToExternal<string>(AppManager.instance.walletManager.CurrentWalletPath, this.walletNameInputField.text, tempJson);
+        }
+        else if (bitcoinToggle.isOn)
+        {
+            AppManager.instance.walletService.InternalWalletSetup(tempAddress, key, this.walletNameInputField.text, validationText, "Bitcoin");
+            
+        }
+        // Database.SaveJSONToExternal<string>(AppManager.instance.walletManager.CurrentWalletPath, this.walletNameInputField.text, tempJson);
 
 #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
 #endif
 
-        Account tempAccount = null;
-        yield return new WaitForThreadedTask(() =>
+        //Account tempAccount = null;
+      /*  yield return new WaitForThreadedTask(() =>
         {
             tempAccount = AppManager.instance.walletService.ConfirmAccount(tempJson, this.validationText, this.walletPasswordInputField.text, this.walletNameInputField.text);
-        });
-        if (ethereumToggle.isOn)
-        {
-            AppManager.instance.walletService.InternalWalletSetup(tempAccount, this.walletNameInputField.text, validationText, "Ethereum");
-
-        }
-        else if (bitcoinToggle.isOn)
-        {
-            AppManager.instance.walletService.InternalWalletSetup(tempAccount, this.walletNameInputField.text, validationText, "Bitcoin");
-
-        }
+        });*/
+       
         this.loadingModal.SetActive(false);
 
         this.gameObject.GetComponent<Devdog.General.UI.UIWindowPage>().Hide();

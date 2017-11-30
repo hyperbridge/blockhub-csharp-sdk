@@ -96,11 +96,11 @@ namespace Hyperbridge.Wallet
             return account;
         }
 
-        public void InternalWalletSetup(Account account, string walletName, Text validationText, string coin)
+        public void InternalWalletSetup(string address, string privateKey,string walletName, Text validationText, string coin)
         {
             var newWallet = new WalletInfo();
             string uuid = Guid.NewGuid().ToString();
-            newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, account.Address, account.PrivateKey, uuid, coin);
+            newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, address, privateKey, uuid, coin);
 
             Database.SaveJSON<WalletInfo>("/Resources/Wallets/" + uuid, walletName, newWallet);
 
@@ -227,7 +227,7 @@ namespace Hyperbridge.Wallet
         }
 
         // This function will just execute a callback after it creates and encrypt a new account
-        public void CreateAccount(string password, System.Action<string, string> callback)
+        public void CreateAccount(string password, System.Action<string,string, string> callback)
         {
             Debug.Log("[WalletService] Creating account...");
 
@@ -248,10 +248,9 @@ namespace Hyperbridge.Wallet
             var encryptedJson = keystoreservice.EncryptAndGenerateDefaultKeyStoreAsJson(password, privateKey, address);
             // Finally we execute the callback and return our public address and the encrypted json.
             // (you will only be able to decrypt the json with the password used to encrypt it)
-            callback(address, encryptedJson);
+
+            callback(address, privateKey.ToString(), encryptedJson);
         }
-
-
 
         bool KeystoreValidate(string text, Text validationText)
         {

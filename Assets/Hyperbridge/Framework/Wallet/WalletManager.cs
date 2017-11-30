@@ -22,12 +22,13 @@ namespace Hyperbridge.Wallet
             set
             {
                 CodeControl.Message.Send<WalletPathChangedEvent>(new WalletPathChangedEvent { path = value });
-
+                
             }
         }
 
         private void Awake()
         {
+
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
         }
 
