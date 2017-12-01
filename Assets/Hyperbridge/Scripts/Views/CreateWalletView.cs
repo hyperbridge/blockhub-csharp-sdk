@@ -16,9 +16,13 @@ public class CreateWalletView : MonoBehaviour
     public Button createWalletButton;
     public GameObject loadingModal;
     public Toggle ethereumToggle, bitcoinToggle;
-
+    Coroutine createWalletRoutine;
+    bool waitingForWallet;
+    float waitingTimer;
     void Start()
     {
+        waitingTimer = 0;
+        waitingForWallet = false;
         this.createWalletButton.onClick.AddListener(() =>
         {
             this.validationText.text = "Please be patient. Your key is being created.";
@@ -27,7 +31,7 @@ public class CreateWalletView : MonoBehaviour
             {
                 this.loadingModal.SetActive(true);
 
-                this.StartCoroutine(this.CreateWallet());
+                createWalletRoutine = this.StartCoroutine(this.CreateWallet());
             }
             else if (this.walletPasswordInputField.text.Length < 8)
             {
@@ -39,29 +43,48 @@ public class CreateWalletView : MonoBehaviour
             }
         });
     }
-
+    private void Update()
+    {
+        if (waitingForWallet)
+        {
+            waitingTimer += Time.deltaTime;
+            if (waitingTimer >= 16)
+            {
+                StopCoroutine(createWalletRoutine);
+                WalletCreationTimedOut();
+                waitingForWallet = false;
+            }
+        }
+    }
     public IEnumerator CreateWallet()
     {
         yield return new WaitForSeconds(0.2f);
 
-        string tempAddress = "", tempJson = "",key = "";
+        string tempAddress = "", tempJson = "", key = "";
+        if (!AppManager.instance.walletService.IsWalletLocationValid())
+        {
+            validationText.text = "The Path for wallet saving you have set has issues. Please check settings";
+            validationText.color = Color.red;
+            NavigateViewOnSuccess();
+            yield break;
+        }
+        waitingTimer = 0;
+
+        waitingForWallet = true;
         yield return new WaitForThreadedTask(() =>
         {
-            AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address,privateKey, encryptedJson) =>
+            AppManager.instance.walletService.CreateAccount(this.walletPasswordInputField.text, (address, privateKey, encryptedJson) =>
             {
                 key = privateKey;
                 tempAddress = address;
                 tempJson = encryptedJson;
             });
 
-           
+
         });
-        if(key == "" || tempAddress == ""|| tempJson == "")
-        {
-            validationText.text = "The Path for wallet saving you have set has issues. Please check settings";
-            validationText.color = Color.red;
-            yield break;
-        }
+        Debug.Log(waitingTimer);
+        waitingTimer = 0;
+        waitingForWallet = false;
         if (ethereumToggle.isOn)
         {
             AppManager.instance.walletService.InternalWalletSetup(tempAddress, key, this.walletNameInputField.text, validationText, "Ethereum");
@@ -70,20 +93,18 @@ public class CreateWalletView : MonoBehaviour
         else if (bitcoinToggle.isOn)
         {
             AppManager.instance.walletService.InternalWalletSetup(tempAddress, key, this.walletNameInputField.text, validationText, "Bitcoin");
-            
+
         }
-        // Database.SaveJSONToExternal<string>(AppManager.instance.walletManager.CurrentWalletPath, this.walletNameInputField.text, tempJson);
 
 #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
 #endif
 
-        //Account tempAccount = null;
-      /*  yield return new WaitForThreadedTask(() =>
-        {
-            tempAccount = AppManager.instance.walletService.ConfirmAccount(tempJson, this.validationText, this.walletPasswordInputField.text, this.walletNameInputField.text);
-        });*/
-       
+        NavigateViewOnSuccess();
+    }
+
+    void NavigateViewOnSuccess()
+    {
         this.loadingModal.SetActive(false);
 
         this.gameObject.GetComponent<Devdog.General.UI.UIWindowPage>().Hide();
@@ -91,5 +112,20 @@ public class CreateWalletView : MonoBehaviour
         CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/wallets" });
 
         this.StartCoroutine(AppManager.instance.walletManager.LoadWallets());
+    }
+
+
+    public void CancelWalletCreation()
+    {
+        StopCoroutine(this.createWalletRoutine);
+        this.loadingModal.SetActive(false);
+        validationText.text = "Process has been stopped by user";
+
+    }
+    public void WalletCreationTimedOut()
+    {
+        this.loadingModal.SetActive(false);
+        validationText.text = "The process has timed out. Try again later.";
+
     }
 }

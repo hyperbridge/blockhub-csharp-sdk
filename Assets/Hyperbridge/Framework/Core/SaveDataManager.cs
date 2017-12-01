@@ -34,7 +34,7 @@ namespace Hyperbridge.Core
 
         public void DeleteSpecificSave(string saveName, string path)
         {
-            Debug.Log(Application.dataPath + path + "/" + saveName + ".json");
+           // Debug.Log(Application.dataPath + path + "/" + saveName + ".json");
             if (File.Exists(Application.dataPath + path + "/" + saveName + ".json"))
             {
                 File.Delete(Application.dataPath + path + "/" + saveName + ".json");

@@ -34,16 +34,17 @@ namespace Hyperbridge.Wallet
         }
         void OnSettingsLoaded(SettingsLoadedEvent e)
         {
-            walletPath = e.walletSavingDirectory;
+            walletPath = e.loadedSettings.walletSavingDirectory;
             if(walletPath == "")
             {
-                walletPath = Application.persistentDataPath + "/" + e.profileID + "/Wallets";
+                walletPath = Application.persistentDataPath + "/" + e.loadedSettings.profileID + "/Wallets";
 
             }
+            this.RefreshWalletList();
+
         }
         public void OnAppInitialized(AppInitializedEvent e)
         {
-            this.RefreshWalletList();
         }
 
         public void RefreshWalletList()
@@ -64,7 +65,7 @@ namespace Hyperbridge.Wallet
         {
             List<WalletInfo> loadedData = new List<WalletInfo>();
 
-           StartCoroutine( Database.LoadAllJSONFilesFromSubFolders<WalletInfo>("/Resources/Wallets/",(wallets)=>
+           StartCoroutine( Database.LoadAllJSONFilesFromExternalSubFolders<WalletInfo>(CurrentWalletPath,(wallets)=>
             {
                 var message = new UpdateWalletsEvent();
                 message.wallets = wallets;

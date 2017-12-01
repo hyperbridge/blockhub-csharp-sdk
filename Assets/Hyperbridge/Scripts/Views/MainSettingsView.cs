@@ -17,42 +17,39 @@ public class MainSettingsView : MonoBehaviour
     }
 
 
-    void UpdateView(bool chromeExtensionIntegration, bool chromeDataAggregation, bool enableVPN, bool allowThirdPartyExtensions, string walletPath, string extensionPath)
+    void UpdateView(Settings s)
     {
-        chromeExtensionIntegrationToggle.isOn = chromeExtensionIntegration;
-        chromeDataAggregationToggle.isOn = chromeDataAggregation;
-        VPNToggle.isOn = enableVPN;
-        allowThirdPartyExtensionsToggle.isOn = allowThirdPartyExtensions;
-        walletSavingDirectoryDisplay.text = walletPath;
-        extensionSavingDirectoryDisplay.text = extensionPath;
+        chromeExtensionIntegrationToggle.isOn = s.chromeExtensionIntegration;
+        chromeDataAggregationToggle.isOn = s.chromeDataAggregation;
+        VPNToggle.isOn = s.enableVPN;
+        allowThirdPartyExtensionsToggle.isOn = s.allowThirdPartyExtensions;
+        walletSavingDirectoryDisplay.text = s.walletSavingDirectory;
+        extensionSavingDirectoryDisplay.text = s.extensionSavingDirectory;
     }
 
     void OnSettingsUpdated(UpdateSettingsEvent e)
     {
-        UpdateView(e.chromeExtensionIntegration, e.chromeDataAggregation, e.enableVPN,
-            e.allowThirdPartyExtensions, e.walletSavingDirectory,
-            e.extensionSavingDirectory);
+        UpdateView(e.loadedSettings);
 
     }
     void OnSettingsLoaded(SettingsLoadedEvent e)
     {
-        UpdateView(e.chromeExtensionIntegration, e.chromeDataAggregation, e.enableVPN,
-            e.allowThirdPartyExtensions, e.walletSavingDirectory,
-            e.extensionSavingDirectory);
+        UpdateView(e.loadedSettings);
     }
 
     public void DispatchSettingsUpdateEvent()
     {
         
         UpdateSettingsEvent message = new UpdateSettingsEvent();
-
-        message.allowThirdPartyExtensions = allowThirdPartyExtensionsToggle.isOn;
-        message.chromeDataAggregation = chromeDataAggregationToggle.isOn;
-        message.chromeExtensionIntegration = chromeExtensionIntegrationToggle.isOn;
-        message.enableVPN = VPNToggle.isOn;
-        message.walletSavingDirectory = this.walletSavingDirectoryDisplay.text;
-        message.extensionSavingDirectory = this.extensionSavingDirectoryDisplay.text;
-        message.profileID = AppManager.instance.profileManager.activeProfile.uuid;
+        Settings s = new Settings();
+        s.allowThirdPartyExtensions = allowThirdPartyExtensionsToggle.isOn;
+        s.chromeDataAggregation = chromeDataAggregationToggle.isOn;
+        s.chromeExtensionIntegration = chromeExtensionIntegrationToggle.isOn;
+        s.enableVPN = VPNToggle.isOn;
+        s.walletSavingDirectory = this.walletSavingDirectoryDisplay.text;
+        s.extensionSavingDirectory = this.extensionSavingDirectoryDisplay.text;
+        s.profileID = AppManager.instance.profileManager.activeProfile.uuid;
+        message.loadedSettings = s;
         CodeControl.Message.Send<UpdateSettingsEvent>(message);
     }
 }

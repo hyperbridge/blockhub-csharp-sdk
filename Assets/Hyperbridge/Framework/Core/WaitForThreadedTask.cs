@@ -26,7 +26,7 @@ namespace Hyperbridge.Core
         )
         {
             isRunning = true;
-            new Thread(() => { task(); isRunning = false; }).Start(priority);
+            new Thread(() => { task(); isRunning = false; }).Start();
         }
 
         /// <summary>

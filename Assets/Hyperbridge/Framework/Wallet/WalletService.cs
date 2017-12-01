@@ -17,11 +17,25 @@ namespace Hyperbridge.Wallet
 
         string _path, keystore;
 
+        float timeoutTimer;
+        bool waiting;
         private void Start()
         {
             _path = "";
+            timeoutTimer = 0;
         }
+        private void Update()
+        {
+            if (waiting)
+            {
+                if (timeoutTimer >= 10)
+                {
+                    waiting = false;
+                }
+            }
 
+
+        }
         public bool IsWalletInfoComplete(Text validationText)
         {
             if (nameField.text.Length < 1 || passwordField.text.Length < 7)
@@ -96,13 +110,13 @@ namespace Hyperbridge.Wallet
             return account;
         }
 
-        public void InternalWalletSetup(string address, string privateKey,string walletName, Text validationText, string coin)
+        public void InternalWalletSetup(string address, string privateKey, string walletName, Text validationText, string coin)
         {
             var newWallet = new WalletInfo();
             string uuid = Guid.NewGuid().ToString();
-            newWallet.Setup(Application.dataPath + "/Resources/Wallets/" + walletName + ".json", walletName, address, privateKey, uuid, coin);
+            newWallet.Setup(AppManager.instance.walletManager.CurrentWalletPath + "/" + walletName + ".json", walletName, address, privateKey, uuid, coin);
 
-            Database.SaveJSON<WalletInfo>("/Resources/Wallets/" + uuid, walletName, newWallet);
+            Database.SaveJSONToExternal<WalletInfo>(AppManager.instance.walletManager.CurrentWalletPath + "/" + uuid, walletName, newWallet);
 
             validationText.text = "Your new wallet has been added! You can add another one or go Back to the wallet list!";
 
@@ -124,7 +138,7 @@ namespace Hyperbridge.Wallet
                 yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
                 if (balanceRequest.Exception == null)
                 {
-                    Debug.Log(balanceRequest.Result);
+                    // Debug.Log(balanceRequest.Result);
 
                     processDone = true;
                     yield return null;
@@ -216,7 +230,7 @@ namespace Hyperbridge.Wallet
                 {
                     var blockNumber = blockNumberRequest.Result.Value;
 
-                 //   Debug.Log("Block: " + blockNumber.ToString());
+                    //   Debug.Log("Block: " + blockNumber.ToString());
                 }
             }
         }
@@ -225,9 +239,9 @@ namespace Hyperbridge.Wallet
         {
             this.StartCoroutine(this.CheckBlockNumber());
         }
-        bool IsWalletLocationValid()
+        public bool IsWalletLocationValid()
         {
-            if (AppManager.instance.walletManager.CurrentWalletPath == Application.persistentDataPath +"/" +AppManager.instance.profileManager.activeProfile.uuid+ "/Wallets")
+            if (AppManager.instance.walletManager.CurrentWalletPath == Application.persistentDataPath + "/Profiles/" + AppManager.instance.profileManager.activeProfile.uuid + "/Wallets")
             {
                 return true;
             }
@@ -244,10 +258,9 @@ namespace Hyperbridge.Wallet
             }
         }
         // This function will just execute a callback after it creates and encrypt a new account
-        public void CreateAccount(string password, System.Action<string,string, string> callback)
+        public void CreateAccount(string password, System.Action<string, string, string> callback)
         {
             Debug.Log("[WalletService] Creating account...");
-            if (!IsWalletLocationValid()) callback("", "", "");
             // We use the Nethereum.Signer to generate a new secret key
             var ecKey = Nethereum.Signer.EthECKey.GenerateKey();
 

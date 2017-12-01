@@ -10,7 +10,10 @@ namespace Hyperbridge.Core
 
         public static void SaveJSONToExternal<T>(string externalPath, string saveName, T objectToSave)
         {
-
+            if (!Directory.Exists(externalPath))
+            {
+                Directory.CreateDirectory(externalPath);
+            }
             File.WriteAllText(externalPath + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
 
             Debug.Log(saveName + " Saved at: " + externalPath);
@@ -36,14 +39,10 @@ namespace Hyperbridge.Core
             {
                 var fileToLoad = File.ReadAllText(Application.dataPath + path + "/" + filename + ".json");
 
-                // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
 
                 if (fileToLoad == null)
                 {
-                    //  Debug.Log(_path + data);
-                    //string message = string.Format("File '{0}' not found at path '{1}'.", data + ".json", _path);
 
-                    //throw new FileNotFoundException(message);
                     return default(T);
                 }
                 else
@@ -53,7 +52,7 @@ namespace Hyperbridge.Core
                     return JsonConvert.DeserializeObject<T>(fileToLoad);
                 }
             }
-            else { Debug.Log(Application.dataPath + path + "/" + filename + ".json Not found"); }
+            else { Debug.Log(Application.dataPath + path + "/" + filename + ".json Not found."); }
 
             return default(T);
         }
@@ -71,8 +70,6 @@ namespace Hyperbridge.Core
                 {
                     var fileToLoad = File.ReadAllText(Application.dataPath + path + "/" + file.Name);
 
-                    // fileToLoad = Resources.Load<TextAsset>(_path +"/"+  data +".json");
-
                     if (fileToLoad == null)
                     {
                         string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, path);
@@ -80,7 +77,6 @@ namespace Hyperbridge.Core
                         Debug.Log(message);
 
                         return returnList;
-                        //throw new FileNotFoundException(message);
                     }
                     else
                     {
@@ -94,7 +90,7 @@ namespace Hyperbridge.Core
 
         public static T LoadJSONFile<T>(string path, string fileName)
         {
-            FileInfo file = new FileInfo(Application.dataPath + "/" + path+"/" + fileName + ".json");
+            FileInfo file = new FileInfo(Application.dataPath + "/" + path + "/" + fileName + ".json");
             string fileToLoad = file.OpenText().ReadToEnd();
 
             return JsonConvert.DeserializeObject<T>(fileToLoad);
@@ -103,7 +99,42 @@ namespace Hyperbridge.Core
         public static IEnumerator<T> LoadAllJSONFilesFromSubFolders<T>(string path, System.Action<List<T>> callback)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath + path);
-            Debug.Log(Application.dataPath + path);
+            DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+            List<T> returnList = new List<T>();
+
+            if (subDirectories.Length == 0) callback(returnList);
+
+            foreach (DirectoryInfo subDir in subDirectories)
+            {
+                FileInfo[] info = subDir.GetFiles("*.json");
+
+                if (info.Length == 0) yield break;
+
+                foreach (FileInfo file in info)
+                {
+                    string fileToLoad = file.OpenText().ReadToEnd();
+
+                    if (fileToLoad == null)
+                    {
+                        string message = string.Format("No files '{0}' not found at path '{1}'.", file.FullName, path);
+
+                        Debug.Log(message);
+
+                        callback(returnList);
+                    }
+                    else
+                    {
+                        returnList.Add(JsonConvert.DeserializeObject<T>(fileToLoad));
+                    }
+                }
+            }
+            callback(returnList);
+            yield return default(T);
+        }
+
+        public static IEnumerator<T> LoadAllJSONFilesFromExternalSubFolders<T>(string path, System.Action<List<T>> callback)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
             DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
             List<T> returnList = new List<T>();
 

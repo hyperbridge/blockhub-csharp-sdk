@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using Hyperbridge.Core;
 using Hyperbridge.Profile;
 public class SettingsManager : MonoBehaviour
@@ -20,16 +21,9 @@ public class SettingsManager : MonoBehaviour
     {
 
         Settings s = new Settings();
-        s.allowThirdPartyExtensions = e.allowThirdPartyExtensions;
-        s.chromeDataAggregation = e.chromeDataAggregation;
-        s.chromeExtensionIntegration = e.chromeExtensionIntegration;
-        s.enableVPN = e.enableVPN;
-        s.extensionSavingDirectory = e.extensionSavingDirectory;
-        s.walletSavingDirectory = e.walletSavingDirectory;
-        s.profileID = e.profileID;
-        currentSettings = s;
+        s = e.loadedSettings;
 
-        Database.SaveJSON<Settings>("/Resources/Profiles/" + e.profileID + "/Settings","settings", s);
+        Database.SaveJSON<Settings>("/Resources/Profiles/" + s.profileID + "/Settings", "settings", s);
     }
 
     void OnProfileUpdated(UpdateProfilesEvent e)
@@ -40,15 +34,34 @@ public class SettingsManager : MonoBehaviour
 
     IEnumerator LoadSettings(string ID)
     {
+        if (File.Exists("/Resources/Profiles/" + ID + "/Settings/settings.json"))
+        {
 
-        yield return currentSettings = Database.LoadJSONByName<Settings>("/Resources/Profiles/" + ID + "/Settings","settings");
-        if (currentSettings == null) yield break;
-        this.DispatchSettingsLoadedEvent();
+
+            yield return currentSettings = Database.LoadJSONByName<Settings>("/Resources/Profiles/" + ID + "/Settings", "settings");
+            this.DispatchSettingsLoadedEvent();
+        }
+        else
+        {
+            Settings startingSettings = new Settings();
+            startingSettings.allowThirdPartyExtensions = true;
+            startingSettings.chromeDataAggregation = true;
+            startingSettings.chromeExtensionIntegration = true;
+            startingSettings.chromeExtensionVerified = false;
+            startingSettings.enableVPN = false;
+            startingSettings.extensionSavingDirectory = "Resources/Profiles/" + ID + "/Settings";
+            startingSettings.walletSavingDirectory = Application.persistentDataPath + "/Profiles/" + ID + "/Wallets";
+            currentSettings = startingSettings;
+            this.DispatchSettingsLoadedEvent();
+
+        }
+        yield return null;
     }
 
     void DispatchSettingsLoadedEvent()
     {
-        SettingsLoadedEvent s = new SettingsLoadedEvent();
+        SettingsLoadedEvent message = new SettingsLoadedEvent();
+        Settings s = new Settings();
         s.allowThirdPartyExtensions = currentSettings.allowThirdPartyExtensions;
         s.chromeDataAggregation = currentSettings.chromeDataAggregation;
         s.chromeExtensionIntegration = currentSettings.chromeExtensionIntegration;
@@ -56,7 +69,7 @@ public class SettingsManager : MonoBehaviour
         s.extensionSavingDirectory = currentSettings.extensionSavingDirectory;
         s.walletSavingDirectory = currentSettings.walletSavingDirectory;
         s.profileID = currentSettings.profileID;
-
-        CodeControl.Message.Send<SettingsLoadedEvent>(s);
+        message.loadedSettings = s;
+        CodeControl.Message.Send<SettingsLoadedEvent>(message);
     }
 }
