@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Hyperbridge.UI;
+using Hyperbridge.Profile;
+using Hyperbridge.Core;
 
 public class MainHomeView : MonoBehaviour {
-    public GameObject extensionLauncherAccessButton;
+    public GameObject extensionLauncherAccessButton, notificationContainer;
     public RectTransform testObjectLocation;
     void Start () {
         CodeControl.Message.AddListener<ModLoadedEvent>(OnModLoaded);
@@ -27,7 +29,14 @@ public class MainHomeView : MonoBehaviour {
         });
     }
 
-
+    public void GenerateNotifications()
+    {
+        foreach (Notification n in AppManager.instance.profileManager.activeProfile.notifications)
+        {
+            GameObject notification = Instantiate(notificationContainer);
+            notification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date);
+        }
+    }
 
 
 }
