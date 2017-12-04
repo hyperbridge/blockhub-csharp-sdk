@@ -33,7 +33,7 @@ public class EditProfileView : MonoBehaviour
     {
         var message = new EditProfileEvent();
         message.imageLocation = null;
-        message.profileName = this.nameInput.text;
+        message.name = this.nameInput.text;
         message.makeDefault = this.makeDefault.isOn;
         CodeControl.Message.Send<EditProfileEvent>(message);
     }

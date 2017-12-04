@@ -10,7 +10,7 @@ using Hyperbridge.Extension;
 public class ExtensionOrganizerController : MonoBehaviour
 {
     public GameObject extensionLauncherAccessButton;
-
+    public VerticalLayoutGroup[] columns;
     private GridLayoutGroup gridLayoutGroup;
 
     private void Awake()
@@ -24,7 +24,7 @@ public class ExtensionOrganizerController : MonoBehaviour
     {
         this.DetectInstalledExtensions();
     }
-
+    //TODO: Make this detect the amount of items in each column
     private void DetectInstalledExtensions()
     {
         Debug.Log("Loading extension into group");

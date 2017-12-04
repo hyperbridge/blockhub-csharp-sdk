@@ -35,7 +35,7 @@ namespace Hyperbridge.Wallet
         void OnSettingsLoaded(SettingsLoadedEvent e)
         {
             walletPath = e.loadedSettings.walletSavingDirectory;
-            if(walletPath == "")
+            if (walletPath == "")
             {
                 walletPath = Application.persistentDataPath + "/" + e.loadedSettings.profileID + "/Wallets";
 
@@ -64,22 +64,23 @@ namespace Hyperbridge.Wallet
         public IEnumerator LoadWallets()
         {
             List<WalletInfo> loadedData = new List<WalletInfo>();
+            if (!Directory.Exists(CurrentWalletPath)) yield break;
 
-           StartCoroutine( Database.LoadAllJSONFilesFromExternalSubFolders<WalletInfo>(CurrentWalletPath,(wallets)=>
-            {
-                var message = new UpdateWalletsEvent();
-                message.wallets = wallets;
-                CodeControl.Message.Send<UpdateWalletsEvent>(message);
-            }));
+            StartCoroutine(Database.LoadAllJSONFilesFromExternalSubFolders<WalletInfo>(CurrentWalletPath, (wallets) =>
+             {
+                 var message = new UpdateWalletsEvent();
+                 message.wallets = wallets;
+                 CodeControl.Message.Send<UpdateWalletsEvent>(message);
+             }));
 
-           
+
 
             yield return wallets;
         }
 
         public void SelectWalletPath()
         {
-            string[] newPath = StandaloneFileBrowser.OpenFolderPanel("Where would you like to save your Wallets?", Application.dataPath, false);
+            string[] newPath = StandaloneFileBrowser.OpenFolderPanel("Save Wallets At:", Application.dataPath, false);
 
             CurrentWalletPath = newPath[0];
 

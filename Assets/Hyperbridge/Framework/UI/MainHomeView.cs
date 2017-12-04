@@ -29,14 +29,7 @@ public class MainHomeView : MonoBehaviour {
         });
     }
 
-    public void GenerateNotifications()
-    {
-        foreach (Notification n in AppManager.instance.profileManager.activeProfile.notifications)
-        {
-            GameObject notification = Instantiate(notificationContainer);
-            notification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date);
-        }
-    }
+    
 
 
 }

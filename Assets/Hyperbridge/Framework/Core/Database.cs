@@ -15,7 +15,7 @@ namespace Hyperbridge.Core
                 Directory.CreateDirectory(externalPath);
             }
             File.WriteAllText(externalPath + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
-
+            
             Debug.Log(saveName + " Saved at: " + externalPath);
         }
 
@@ -25,7 +25,7 @@ namespace Hyperbridge.Core
             {
                 Directory.CreateDirectory(Application.dataPath + internalPath);
             }
-
+            
             File.WriteAllText(Application.dataPath + internalPath + "/" + saveName + ".json", JsonConvert.SerializeObject(objectToSave));
 
             Debug.Log(saveName + " Saved at: " + internalPath);

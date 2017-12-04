@@ -74,15 +74,17 @@ namespace Hyperbridge.Profile
 
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
-            DeleteProfileData(this.currentlyEditingProfile);
-
+            if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
             var editedData = new ProfileData
             {
-                name = message.profileName,
+                name = message.name,
                 isDefault = message.makeDefault,
                 imageLocation = message.imageLocation,
-                uuid = this.currentlyEditingProfile.uuid
+                uuid = this.currentlyEditingProfile.uuid,
+                notifications = message.notifications
             };
+            yield return new WaitForSeconds(1);
+
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid,editedData.name, editedData);
 
             yield return new WaitForSeconds(0.25f);

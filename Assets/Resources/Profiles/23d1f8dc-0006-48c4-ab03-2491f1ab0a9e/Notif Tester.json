@@ -1,0 +1,7 @@
+{
+  "name": "Notif Tester",
+  "isDefault": true,
+  "imageLocation": null,
+  "uuid": "23d1f8dc-0006-48c4-ab03-2491f1ab0a9e",
+  "notifications": [ {"index": "0","text": "asdasd","type": "type","date":"17 12 04"} ]
+}
