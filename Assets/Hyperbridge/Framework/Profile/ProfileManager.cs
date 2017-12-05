@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hyperbridge.Core;
 
+
 namespace Hyperbridge.Profile
 {
     public class ProfileManager : MonoBehaviour
@@ -16,7 +17,8 @@ namespace Hyperbridge.Profile
 
         private void Awake()
         {
-          //  this.saver = SaveData.SaveAtPath("/Resources/Profiles");
+
+            //  this.saver = SaveData.SaveAtPath("/Resources/Profiles");
            // this.loader = LoadData.LoadFromPath("/Resources/Profiles");
 
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
@@ -28,6 +30,7 @@ namespace Hyperbridge.Profile
             var message = new UpdateProfilesEvent();
             message.profiles = this.profiles;
             message.activeProfile = this.activeProfile;
+            message.activeProfile.notifications = new List<Notification>();
             CodeControl.Message.Send<UpdateProfilesEvent>(message);
         }
 
@@ -47,6 +50,7 @@ namespace Hyperbridge.Profile
                 this.UpdateProfileNameDisplay();
 
                 this.DispatchUpdateEvent();
+                
             }));
             
 

@@ -3,18 +3,21 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using Nethereum.JsonRpc.UnityClient;
+using Nethereum.Hex;
+using Nethereum.RPC.Eth.DTOs;
 using UnityEngine.UI;
 using SFB;
 using System.Text.RegularExpressions;
 using Hyperbridge.Blockchain.Ethereum;
 using Hyperbridge.Core;
 
+
 namespace Hyperbridge.Wallet
 {
     public class WalletService : MonoBehaviour
     {
         public InputField nameField, passwordField;
-
+        public Button tempCreateWallet;
         string _path, keystore;
 
         float timeoutTimer;
@@ -23,6 +26,7 @@ namespace Hyperbridge.Wallet
         {
             _path = "";
             timeoutTimer = 0;
+            //  tempCreateWallet.onClick.AddListener(() => { InternalWalletSetup("0x50c54C1Cf8b06f0F1Ef5f1DF795d6cb358DE8091", "04975e2906e4a2511babb776a8eecbcb222e844e9030d5004c4599d4b477ce72", "SecondWallet", null, "bitcoin"); });
         }
         private void Update()
         {
@@ -38,6 +42,7 @@ namespace Hyperbridge.Wallet
         }
         public bool IsWalletInfoComplete(Text validationText)
         {
+
             if (nameField.text.Length < 1 || passwordField.text.Length < 7)
             {
                 validationText.text = "Empty Name or Incomplete Password";
@@ -104,12 +109,19 @@ namespace Hyperbridge.Wallet
                 }
             }
 
-            //  Debug.Log(account.Address);
-            //  Debug.Log(account.PrivateKey);
-
             return account;
         }
 
+        public IEnumerator SendFundsToAddress(string addressTo, string addressFrom, string gas, string value)
+        {
+            EthSendTransactionUnityRequest request = new EthSendTransactionUnityRequest("https://mainnet.infura.io");
+            var gasForTransaction = new Nethereum.Hex.HexTypes.HexBigInteger(gas);
+            var valueForTransaction = new Nethereum.Hex.HexTypes.HexBigInteger(value);
+            TransactionInput transaction = new TransactionInput("", addressTo, addressFrom, gasForTransaction, valueForTransaction);
+
+            yield return request.SendRequest(transaction);
+
+        }
         public void InternalWalletSetup(string address, string privateKey, string walletName, Text validationText, string coin)
         {
             var newWallet = new WalletInfo();
@@ -128,9 +140,11 @@ namespace Hyperbridge.Wallet
             // Debug.Log(wallet.address);
             var wait = 1;
             bool processDone = false;
-
+            int rounds = 0;
             while (!processDone)
             {
+                rounds++;
+                Debug.Log(rounds);
                 yield return new WaitForSeconds(wait);
                 wait = 10;
                 EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
@@ -138,7 +152,7 @@ namespace Hyperbridge.Wallet
                 yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
                 if (balanceRequest.Exception == null)
                 {
-                    // Debug.Log(balanceRequest.Result);
+                    Debug.Log(balanceRequest.Result);
 
                     processDone = true;
                     yield return null;
@@ -148,7 +162,7 @@ namespace Hyperbridge.Wallet
         }
 
         // We create the function which will check the balance of the address and return a callback with a decimal variable
-        public IEnumerator GetAccountBalance(string address, Text container, System.Action<decimal> callback)
+        public IEnumerator GetAccountBalance(string address, System.Action<decimal> callback)
         {
             // Now we define a new EthGetBalanceUnityRequest and send it the testnet url where we are going to
             // check the address, in this case "https://kovan.infura.io".
@@ -156,14 +170,14 @@ namespace Hyperbridge.Wallet
             var getBalanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
             // Then we call the method SendRequest() from the getBalanceRequest we created
             // with the address and the newest created block.
-            yield return getBalanceRequest.SendRequest(address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
+            getBalanceRequest.SendRequest(address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
 
+            yield return new WaitUntil(() => getBalanceRequest.Result != null);
             // Now we check if the request has an exception
             if (getBalanceRequest.Exception == null)
             {
                 // We define balance and assign the value that the getBalanceRequest gave us.
                 var balance = getBalanceRequest.Result.Value;
-                container.text = Nethereum.Util.UnitConversion.Convert.FromWei(balance, 18).ToString();
 
                 // Finally we execute the callback and we use the Netherum.Util.UnitConversion
                 // to convert the balance from WEI to ETHER (that has 18 decimal places)
@@ -174,30 +188,6 @@ namespace Hyperbridge.Wallet
             {
                 // If there was an error we just throw an exception.
                 throw new System.InvalidOperationException("Get balance request failed");
-            }
-
-        }
-
-        public IEnumerator CheckWalletContents(WalletInfo wallet, Text container)
-        {
-            var wait = 1;
-            bool processDone = false;
-
-            while (!processDone)
-            {
-                yield return new WaitForSeconds(wait);
-                wait = 3;
-                EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");
-
-                yield return balanceRequest.SendRequest(wallet.address, Nethereum.RPC.Eth.DTOs.BlockParameter.CreateLatest());
-                if (balanceRequest.Exception == null)
-                {
-                    container.text = balanceRequest.Result.Value.ToString();
-
-                    processDone = true;
-                    yield return null;
-                }
-
             }
         }
 

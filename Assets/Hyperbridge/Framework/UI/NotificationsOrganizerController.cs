@@ -16,6 +16,8 @@ public class NotificationsOrganizerController : MonoBehaviour {
 
     void OnProfilesUpdated(UpdateProfilesEvent e)
     {
+        if (e.activeProfile.notifications.Count < 0) return;
+
         for (int i = 0; i < e.activeProfile.notifications.Count; i++)
         {
             GameObject newNotification = Instantiate(notificationContainerPrefab, columns[0].transform);
