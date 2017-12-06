@@ -16,7 +16,13 @@ public class NotificationsOrganizerController : MonoBehaviour {
 
     void OnProfilesUpdated(UpdateProfilesEvent e)
     {
-        if (e.activeProfile.notifications.Count < 0) return;
+        foreach (Transform child in columns[0].transform)
+        {
+            Destroy(child.gameObject);
+        }
+        if (e.activeProfile.notifications == null) return;
+
+        if (e.activeProfile.notifications.Count <= 0) return;
 
         for (int i = 0; i < e.activeProfile.notifications.Count; i++)
         {

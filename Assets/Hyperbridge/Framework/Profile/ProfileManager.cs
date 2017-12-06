@@ -13,14 +13,11 @@ namespace Hyperbridge.Profile
         public ManageProfilesView _manageProfilesView;
         public Text profileNameDisplay, profileNameDisplayBase;
         public ProfileData currentlyEditingProfile, activeProfile;
-
+        string defaultProfileName;
 
         private void Awake()
         {
-
-            //  this.saver = SaveData.SaveAtPath("/Resources/Profiles");
-           // this.loader = LoadData.LoadFromPath("/Resources/Profiles");
-
+            defaultProfileName = GetGlobalDefaultProfile();
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
             CodeControl.Message.AddListener<EditProfileEvent>(this.OnProfileEdited);
         }
@@ -30,7 +27,6 @@ namespace Hyperbridge.Profile
             var message = new UpdateProfilesEvent();
             message.profiles = this.profiles;
             message.activeProfile = this.activeProfile;
-            message.activeProfile.notifications = new List<Notification>();
             CodeControl.Message.Send<UpdateProfilesEvent>(message);
         }
 
@@ -44,15 +40,16 @@ namespace Hyperbridge.Profile
         }
         public List<ProfileData> LoadProfiles()
         {
-          StartCoroutine(  Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles)=>
-            {
-                this.profiles = profiles;
-                this.UpdateProfileNameDisplay();
+            Debug.Log("Loading Profiles");
+            StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
+              {
+                  this.profiles = profiles;
+                  this.UpdateActiveProfile();
 
-                this.DispatchUpdateEvent();
-                
-            }));
-            
+                  this.DispatchUpdateEvent();
+
+              }));
+
 
             return this.profiles;
         }
@@ -67,7 +64,7 @@ namespace Hyperbridge.Profile
                 uuid = System.Guid.NewGuid().ToString()
             };
             this.profiles.Add(newData);
-            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid,newData.name, newData);
+            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
 
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
@@ -82,26 +79,24 @@ namespace Hyperbridge.Profile
             var editedData = new ProfileData
             {
                 name = message.name,
-                isDefault = message.makeDefault,
+                isDefault = false,
                 imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid,
                 notifications = message.notifications
             };
             yield return new WaitForSeconds(1);
 
-            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid,editedData.name, editedData);
+            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid, editedData.name, editedData);
 
             yield return new WaitForSeconds(0.25f);
 
             this.profiles.Add(editedData);
-            this.UpdateProfileNameDisplay(editedData);
-
-            this.DispatchUpdateEvent();
+            this.UpdateActiveProfile();
         }
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles/"+dataToDelete.uuid);
+            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid);
 
             this.profiles.Remove(dataToDelete);
 
@@ -113,35 +108,76 @@ namespace Hyperbridge.Profile
         }
 
         // TODO: How does this happen? Seems like it should just use above <- This is the only way to use a button, buttons can't pass abstract info
-        
+
         public void DeleteEditingProfileData()
         {
             this.DeleteProfileData(currentlyEditingProfile);
         }
 
-        public void UpdateProfileNameDisplay(ProfileData newDefault = null)
+        public void UpdateActiveProfile()
         {
-            foreach (ProfileData data in this.profiles)
+            ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
+            if (updatedActiveProfile == null)
             {
-                if (newDefault != null && newDefault == data)
-                {
-                    profileNameDisplay.text = data.name;
-                    profileNameDisplayBase.text = data.name;
-                    activeProfile = data;
-                }
-                else if (newDefault == null && data.isDefault)
-                {
-                    profileNameDisplay.text = data.name;
-                    profileNameDisplayBase.text = data.name;
-                    activeProfile = data;
-                }
-                else
-                {
-                    data.isDefault = false;
-                }
+                activeProfile = this.profiles[0];
+            }
+            else
+            {
+                activeProfile = FindProfileByName(GetGlobalDefaultProfile());
+
+            }
+
+
+            profileNameDisplay.text = activeProfile.name;
+            profileNameDisplayBase.text = activeProfile.name;
+
+            this.DispatchUpdateEvent();
+
+        }
+
+
+        string GetGlobalDefaultProfile()
+        {
+            if (PlayerPrefs.HasKey("DefaultProfile"))
+            {
+                return PlayerPrefs.GetString("DefaultProfile");
+            }
+            else
+            {
+                return "";
             }
         }
 
-      
+        public void SetGlobalDefaultProfile(string name)
+        {
+            PlayerPrefs.SetString("DefaultProfile", name);
+            PlayerPrefs.Save();
+            defaultProfileName = name;
+            UpdateActiveProfile();
+        }
+
+        ProfileData FindProfileByName(string name)
+        {
+            bool profileFound = false;
+            ProfileData requiredData = new ProfileData();
+            foreach (ProfileData data in this.profiles)
+            {
+                if (name == data.name)
+                {
+                    profileFound = true;
+                    requiredData = data;
+                }
+
+            }
+            if (profileFound)
+            {
+                return requiredData;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }

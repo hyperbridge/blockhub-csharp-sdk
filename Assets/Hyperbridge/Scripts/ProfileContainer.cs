@@ -9,6 +9,7 @@ public class ProfileContainer : MonoBehaviour
 {
     public Image image;
     public Text text;
+    public Button makeDefaultButton;
 
     private Button button;
     private ProfileData data;
@@ -27,6 +28,11 @@ public class ProfileContainer : MonoBehaviour
         this.button.onClick.AddListener(() =>
         {
             AppManager.instance.profileManager._manageProfilesView.ShowEditProfileView(this.data); // TODO: please no
+        });
+
+        this.makeDefaultButton.onClick.AddListener(() =>
+        {
+            AppManager.instance.profileManager.SetGlobalDefaultProfile(name);
         });
     }
 }

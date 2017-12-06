@@ -144,7 +144,6 @@ namespace Hyperbridge.Wallet
             while (!processDone)
             {
                 rounds++;
-                Debug.Log(rounds);
                 yield return new WaitForSeconds(wait);
                 wait = 10;
                 EthGetBalanceUnityRequest balanceRequest = new EthGetBalanceUnityRequest("https://mainnet.infura.io");

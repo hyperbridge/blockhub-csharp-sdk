@@ -63,6 +63,7 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator LoadWallets()
         {
+            Debug.Log("[Loading Wallets]...");
             List<WalletInfo> loadedData = new List<WalletInfo>();
             if (!Directory.Exists(CurrentWalletPath)) yield break;
 
