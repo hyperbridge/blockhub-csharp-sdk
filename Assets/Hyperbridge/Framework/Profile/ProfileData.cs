@@ -7,6 +7,6 @@ namespace Hyperbridge.Profile
         public string name;
         public string imageLocation;
         public string uuid;
-        public List<Notification> notifications;
+        public List<Notification> notifications = new List<Notification>();
     }
 }

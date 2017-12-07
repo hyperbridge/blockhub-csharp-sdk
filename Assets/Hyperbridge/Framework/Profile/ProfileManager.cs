@@ -74,7 +74,22 @@ namespace Hyperbridge.Profile
 
             this.DispatchUpdateEvent();
         }
-
+        public void AddNotification()
+        {
+            EditProfileEvent message = new EditProfileEvent();
+            message.notifications = new List<Notification>();
+            message.deleteProfile = false;
+            message.name = activeProfile.name;  
+            if(activeProfile.notifications != null)
+            {
+                foreach (Notification n in activeProfile.notifications)
+                {
+                    message.notifications.Add(n);
+                }
+            }
+            message.notifications.Add(new Notification { index = message.notifications.Count, text = "Sim Notification #"+message.notifications.Count, date = System.DateTime.Now.ToString(),type = "Sim"});
+            CodeControl.Message.Send<EditProfileEvent>(message);
+        }
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
             if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
@@ -140,6 +155,7 @@ namespace Hyperbridge.Profile
                 if (updatedActiveProfile == null)
                 {
                     activeProfile = this.profiles[0];
+                    SetGlobalDefaultProfile(this.profiles[0].name);
                 }
                 else
                 {
@@ -173,7 +189,6 @@ namespace Hyperbridge.Profile
             PlayerPrefs.SetString("DefaultProfile", name);
             PlayerPrefs.Save();
             defaultProfileName = name;
-            UpdateActiveProfile();
         }
 
         ProfileData FindProfileByName(string name)

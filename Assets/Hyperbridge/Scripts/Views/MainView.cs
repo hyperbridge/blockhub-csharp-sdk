@@ -17,6 +17,15 @@ namespace Hyperbridge.UI
 
         void OnProfileUpdated(UpdateProfilesEvent e)
         {
+            if (e.activeProfile == null) return;
+            if (e.activeProfile.notifications == null)
+            {
+                notificationAmountText.text = "0";
+
+                return;
+
+            }
+
             notificationAmountText.text = e.activeProfile.notifications.Count.ToString();
         }
     }
