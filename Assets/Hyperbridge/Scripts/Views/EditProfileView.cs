@@ -32,6 +32,7 @@ public class EditProfileView : MonoBehaviour
         var message = new EditProfileEvent();
         message.imageLocation = null;
         message.name = this.nameInput.text;
+        message.deleteProfile = true;
         CodeControl.Message.Send<EditProfileEvent>(message);
     }
 }

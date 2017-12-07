@@ -6,6 +6,7 @@ namespace Hyperbridge.Profile
     {
         public string imageLocation;
         public string name;
+        public bool deleteProfile;
         public List<Notification> notifications;
     }
 }

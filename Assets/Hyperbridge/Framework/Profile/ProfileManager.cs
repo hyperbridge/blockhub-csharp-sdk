@@ -64,7 +64,7 @@ namespace Hyperbridge.Profile
             };
             this.profiles.Add(newData);
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
-            if(GetGlobalDefaultProfile() == "")
+            if (GetGlobalDefaultProfile() == "")
             {
                 SetGlobalDefaultProfile(newData.name);
             }
@@ -77,7 +77,7 @@ namespace Hyperbridge.Profile
 
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
-
+            if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
             var editedData = new ProfileData
             {
                 name = message.name,
@@ -89,8 +89,8 @@ namespace Hyperbridge.Profile
 
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid, editedData.name, editedData);
 
-            yield return new WaitForSeconds(0.25f);
-           
+            yield return new WaitForEndOfFrame();
+
 
             this.profiles.Add(editedData);
 
@@ -98,13 +98,9 @@ namespace Hyperbridge.Profile
             {
                 SetGlobalDefaultProfile(editedData.name);
             }
-            DeleteProfileData(currentlyEditingProfile);
+            if (message.deleteProfile) DeleteProfileData(currentlyEditingProfile);
 
             this.UpdateActiveProfile();
-
-            yield return new WaitForEndOfFrame();
-
-
 
         }
 
@@ -132,12 +128,12 @@ namespace Hyperbridge.Profile
         public void UpdateActiveProfile()
         {
             ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
-            if(this.profiles.Count <= 0)
+            if (this.profiles.Count <= 0)
             {
                 activeProfile = new ProfileData();
                 activeProfile.name = "Create a Profile";
-                if(GetGlobalDefaultProfile() != "")  SetGlobalDefaultProfile("");
-                
+                if (GetGlobalDefaultProfile() != "") SetGlobalDefaultProfile("");
+
             }
             else
             {
@@ -151,8 +147,6 @@ namespace Hyperbridge.Profile
 
                 }
             }
-        
-
 
             profileNameDisplay.text = activeProfile.name;
             profileNameDisplayBase.text = activeProfile.name;

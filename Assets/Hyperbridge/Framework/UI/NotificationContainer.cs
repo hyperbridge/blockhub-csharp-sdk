@@ -40,7 +40,7 @@ public class NotificationContainer : MonoBehaviour
         EditProfileEvent message = new EditProfileEvent();
         message.name = profile.name;
         message.imageLocation = profile.imageLocation;
-
+        message.deleteProfile = false;
         profile.notifications.RemoveAt(this.index);
         message.notifications = profile.notifications;
 
