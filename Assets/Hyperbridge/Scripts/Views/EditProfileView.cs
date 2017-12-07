@@ -9,7 +9,6 @@ public class EditProfileView : MonoBehaviour
 {
     public Button saveEditButton;
     public InputField nameInput;
-    public Toggle makeDefault;
 
     // TODO: Again, we need a way to load images
 
@@ -26,7 +25,6 @@ public class EditProfileView : MonoBehaviour
         AppManager.instance.profileManager.currentlyEditingProfile = data;
 
         this.nameInput.text = data.name;
-        this.makeDefault.isOn = data.isDefault;
     }
 
     void DispatchUpdatedProfileEvent()
@@ -34,7 +32,6 @@ public class EditProfileView : MonoBehaviour
         var message = new EditProfileEvent();
         message.imageLocation = null;
         message.name = this.nameInput.text;
-        message.makeDefault = this.makeDefault.isOn;
         CodeControl.Message.Send<EditProfileEvent>(message);
     }
 }

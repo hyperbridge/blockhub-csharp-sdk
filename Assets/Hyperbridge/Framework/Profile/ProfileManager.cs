@@ -59,13 +59,15 @@ namespace Hyperbridge.Profile
             var newData = new ProfileData
             {
                 name = profileName,
-                isDefault = makeDefault,
                 imageLocation = imageLocation,
                 uuid = System.Guid.NewGuid().ToString()
             };
             this.profiles.Add(newData);
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
-
+            if(GetGlobalDefaultProfile() == "")
+            {
+                SetGlobalDefaultProfile(newData.name);
+            }
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
 #endif
@@ -75,11 +77,10 @@ namespace Hyperbridge.Profile
 
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
-            if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
+
             var editedData = new ProfileData
             {
                 name = message.name,
-                isDefault = false,
                 imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid,
                 notifications = message.notifications
@@ -89,14 +90,28 @@ namespace Hyperbridge.Profile
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid, editedData.name, editedData);
 
             yield return new WaitForSeconds(0.25f);
+           
 
             this.profiles.Add(editedData);
+
+            if (currentlyEditingProfile == activeProfile)
+            {
+                SetGlobalDefaultProfile(editedData.name);
+            }
+            DeleteProfileData(currentlyEditingProfile);
+
             this.UpdateActiveProfile();
+
+            yield return new WaitForEndOfFrame();
+
+
+
         }
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid);
+
+            StartCoroutine(AppManager.instance.saveDataManager.DeleteSpecificJSON(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid));
 
             this.profiles.Remove(dataToDelete);
 
@@ -117,15 +132,26 @@ namespace Hyperbridge.Profile
         public void UpdateActiveProfile()
         {
             ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
-            if (updatedActiveProfile == null)
+            if(this.profiles.Count <= 0)
             {
-                activeProfile = this.profiles[0];
+                activeProfile = new ProfileData();
+                activeProfile.name = "Create a Profile";
+                if(GetGlobalDefaultProfile() != "")  SetGlobalDefaultProfile("");
+                
             }
             else
             {
-                activeProfile = FindProfileByName(GetGlobalDefaultProfile());
+                if (updatedActiveProfile == null)
+                {
+                    activeProfile = this.profiles[0];
+                }
+                else
+                {
+                    activeProfile = FindProfileByName(GetGlobalDefaultProfile());
 
+                }
             }
+        
 
 
             profileNameDisplay.text = activeProfile.name;

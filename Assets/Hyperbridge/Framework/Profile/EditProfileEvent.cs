@@ -6,7 +6,6 @@ namespace Hyperbridge.Profile
     {
         public string imageLocation;
         public string name;
-        public bool makeDefault;
         public List<Notification> notifications;
     }
 }

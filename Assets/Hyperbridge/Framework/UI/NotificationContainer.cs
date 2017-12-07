@@ -39,7 +39,6 @@ public class NotificationContainer : MonoBehaviour
         ProfileData profile = AppManager.instance.profileManager.activeProfile;
         EditProfileEvent message = new EditProfileEvent();
         message.name = profile.name;
-        message.makeDefault = profile.isDefault;
         message.imageLocation = profile.imageLocation;
 
         profile.notifications.RemoveAt(this.index);

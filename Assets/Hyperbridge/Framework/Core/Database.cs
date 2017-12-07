@@ -91,7 +91,7 @@ namespace Hyperbridge.Core
         public static T LoadJSONFile<T>(string path, string fileName)
         {
             FileInfo file = new FileInfo(Application.dataPath + "/" + path + "/" + fileName + ".json");
-            string fileToLoad = file.OpenText().ReadToEnd();
+            string fileToLoad = File.ReadAllText(file.FullName);
 
             return JsonConvert.DeserializeObject<T>(fileToLoad);
         }
@@ -108,11 +108,11 @@ namespace Hyperbridge.Core
             {
                 FileInfo[] info = subDir.GetFiles("*.json");
 
-                if (info.Length == 0) yield break;
+                if (info.Length == 0) { subDir.Delete(); }
 
                 foreach (FileInfo file in info)
                 {
-                    string fileToLoad = file.OpenText().ReadToEnd();
+                    string fileToLoad = File.ReadAllText(file.FullName);
 
                     if (fileToLoad == null)
                     {
@@ -148,7 +148,7 @@ namespace Hyperbridge.Core
 
                 foreach (FileInfo file in info)
                 {
-                    string fileToLoad = file.OpenText().ReadToEnd();
+                    string fileToLoad = File.ReadAllText(file.FullName);
 
                     if (fileToLoad == null)
                     {
@@ -166,6 +166,11 @@ namespace Hyperbridge.Core
             }
             callback(returnList);
             yield return default(T);
+        }
+
+        public static void DeleteFolder(string path)
+        {
+            Directory.Delete(path);
         }
     }
 }
