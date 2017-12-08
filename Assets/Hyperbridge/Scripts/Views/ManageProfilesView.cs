@@ -16,6 +16,10 @@ public class ManageProfilesView : MonoBehaviour
 
     private void Awake()
     {
+        foreach (Transform child in this.listView.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+
         CodeControl.Message.AddListener<UpdateProfilesEvent>(this.OnUpdateProfiles);
     }
 
