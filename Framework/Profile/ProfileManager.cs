@@ -59,27 +59,43 @@ namespace Hyperbridge.Profile
             var newData = new ProfileData
             {
                 name = profileName,
-                isDefault = makeDefault,
                 imageLocation = imageLocation,
                 uuid = System.Guid.NewGuid().ToString()
             };
             this.profiles.Add(newData);
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
-
+            if (GetGlobalDefaultProfile() == "")
+            {
+                SetGlobalDefaultProfile(newData.name);
+            }
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
 #endif
 
             this.DispatchUpdateEvent();
         }
-
+        public void AddNotification()
+        {
+            EditProfileEvent message = new EditProfileEvent();
+            message.notifications = new List<Notification>();
+            message.deleteProfile = false;
+            message.name = activeProfile.name;  
+            if(activeProfile.notifications != null)
+            {
+                foreach (Notification n in activeProfile.notifications)
+                {
+                    message.notifications.Add(n);
+                }
+            }
+            message.notifications.Add(new Notification { index = message.notifications.Count, text = "Sim Notification #"+message.notifications.Count, date = System.DateTime.Now.ToString(),type = "Sim"});
+            CodeControl.Message.Send<EditProfileEvent>(message);
+        }
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
             if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
             var editedData = new ProfileData
             {
                 name = message.name,
-                isDefault = false,
                 imageLocation = message.imageLocation,
                 uuid = this.currentlyEditingProfile.uuid,
                 notifications = message.notifications
@@ -88,15 +104,25 @@ namespace Hyperbridge.Profile
 
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid, editedData.name, editedData);
 
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForEndOfFrame();
+
 
             this.profiles.Add(editedData);
+
+            if (currentlyEditingProfile == activeProfile)
+            {
+                SetGlobalDefaultProfile(editedData.name);
+            }
+            if (message.deleteProfile) DeleteProfileData(currentlyEditingProfile);
+
             this.UpdateActiveProfile();
+
         }
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-            AppManager.instance.saveDataManager.DeleteSpecificSave(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid);
+
+            StartCoroutine(AppManager.instance.saveDataManager.DeleteSpecificJSON(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid));
 
             this.profiles.Remove(dataToDelete);
 
@@ -117,16 +143,26 @@ namespace Hyperbridge.Profile
         public void UpdateActiveProfile()
         {
             ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
-            if (updatedActiveProfile == null)
+            if (this.profiles.Count <= 0)
             {
-                activeProfile = this.profiles[0];
+                activeProfile = new ProfileData();
+                activeProfile.name = "Create a Profile";
+                if (GetGlobalDefaultProfile() != "") SetGlobalDefaultProfile("");
+
             }
             else
             {
-                activeProfile = FindProfileByName(GetGlobalDefaultProfile());
+                if (updatedActiveProfile == null)
+                {
+                    activeProfile = this.profiles[0];
+                    SetGlobalDefaultProfile(this.profiles[0].name);
+                }
+                else
+                {
+                    activeProfile = FindProfileByName(GetGlobalDefaultProfile());
 
+                }
             }
-
 
             profileNameDisplay.text = activeProfile.name;
             profileNameDisplayBase.text = activeProfile.name;
@@ -153,7 +189,6 @@ namespace Hyperbridge.Profile
             PlayerPrefs.SetString("DefaultProfile", name);
             PlayerPrefs.Save();
             defaultProfileName = name;
-            UpdateActiveProfile();
         }
 
         ProfileData FindProfileByName(string name)
