@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e87d8dffc16813d4ab88b568c007c40c
+labels:
+- Tutorial
+- Creator
+- EditorExtension
+- Custom
+- Inspector
+timeCreated: 1451560643
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
