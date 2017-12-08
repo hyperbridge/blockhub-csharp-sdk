@@ -10,22 +10,30 @@ public class NotificationContainer : MonoBehaviour
 
     public Text descriptionText, dateText;
     public Image type;
-
+    public bool hasPopupBeenDismissed;
     public int index;
     bool alreadyPressed;
+    public GameObject popup;
     void Start()
     {
 
     }
 
     //TODO: Types
-    public void SetupContainer(string text, string type, string date, int index)
+    public void SetupContainer(string descriptionText, string type, string date, bool hasPopupBeenDismissed,int index)
     {
-        descriptionText.text = text;
+        this.descriptionText.text = descriptionText;
         dateText.text = date;
+        this.hasPopupBeenDismissed = hasPopupBeenDismissed;
         this.index = index;
+      
     }
-
+   
+    public void PopupDisabled()
+    {
+        hasPopupBeenDismissed = true;
+        DispatchEditProfileEvent();
+    }
     public void RemoveNotification()
     {
         if (alreadyPressed) return;
@@ -39,6 +47,7 @@ public class NotificationContainer : MonoBehaviour
         ProfileData profile = AppManager.instance.profileManager.activeProfile;
         EditProfileEvent message = new EditProfileEvent();
         message.name = profile.name;
+        message.hasPopupBeenDismissed = this.hasPopupBeenDismissed;
         message.imageLocation = profile.imageLocation;
         message.deleteProfile = false;
         profile.notifications.RemoveAt(this.index);

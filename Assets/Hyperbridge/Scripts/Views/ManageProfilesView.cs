@@ -38,8 +38,6 @@ public class ManageProfilesView : MonoBehaviour
         }
 
         foreach (ProfileData info in profiles) {
-            Debug.Log(info.name);
-
             GameObject go = GameObject.Instantiate(displayPrefab);
 
             var container = go.GetComponent<ProfileContainer>();
