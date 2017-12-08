@@ -80,6 +80,7 @@ namespace Hyperbridge.Profile
             message.notifications = new List<Notification>();
             message.deleteProfile = false;
             message.name = activeProfile.name;  
+
             if(activeProfile.notifications != null)
             {
                 foreach (Notification n in activeProfile.notifications)
@@ -87,7 +88,7 @@ namespace Hyperbridge.Profile
                     message.notifications.Add(n);
                 }
             }
-            message.notifications.Add(new Notification { index = message.notifications.Count, text = "Sim Notification #"+message.notifications.Count, date = System.DateTime.Now.ToString(),type = "Sim"});
+            message.notifications.Add(new Notification { index = message.notifications.Count, text = "Sim Notification #" + message.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false });
             CodeControl.Message.Send<EditProfileEvent>(message);
         }
         public IEnumerator EditProfileData(EditProfileEvent message)
