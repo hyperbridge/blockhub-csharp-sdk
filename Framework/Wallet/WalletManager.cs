@@ -32,7 +32,8 @@ namespace Hyperbridge.Wallet
 
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
         }
-        void OnSettingsLoaded(SettingsLoadedEvent e)
+
+        private void OnSettingsLoaded(SettingsLoadedEvent e)
         {
             walletPath = e.loadedSettings.walletSavingDirectory;
             if (walletPath == "")
@@ -43,6 +44,7 @@ namespace Hyperbridge.Wallet
             this.RefreshWalletList();
 
         }
+
         public void OnAppInitialized(AppInitializedEvent e)
         {
         }
@@ -63,18 +65,14 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator LoadWallets()
         {
-            Debug.Log("[Loading Wallets]...");
+            Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
             List<WalletInfo> loadedData = new List<WalletInfo>();
             if (!Directory.Exists(CurrentWalletPath)) yield break;
 
             StartCoroutine(Database.LoadAllJSONFilesFromExternalSubFolders<WalletInfo>(CurrentWalletPath, (wallets) =>
-             {
-                 var message = new UpdateWalletsEvent();
-                 message.wallets = wallets;
-                 CodeControl.Message.Send<UpdateWalletsEvent>(message);
-             }));
-
-
+            {
+                CodeControl.Message.Send<UpdateWalletsEvent>(new UpdateWalletsEvent { wallets = wallets });
+            }));
 
             yield return wallets;
         }

@@ -16,9 +16,10 @@ public class CreateWalletView : MonoBehaviour
     public Button createWalletButton;
     public GameObject loadingModal;
     public Toggle ethereumToggle, bitcoinToggle;
-    Coroutine createWalletRoutine;
-    bool waitingForWallet;
-    float waitingTimer;
+    private Coroutine createWalletRoutine;
+    private bool waitingForWallet;
+    private float waitingTimer;
+
     void Start()
     {
         waitingTimer = 0;
@@ -43,12 +44,13 @@ public class CreateWalletView : MonoBehaviour
             }
         });
     }
+
     private void Update()
     {
         if (waitingForWallet)
         {
             waitingTimer += Time.deltaTime;
-            if (waitingTimer >= 16)
+            if (waitingTimer >= 30)
             {
                 StopCoroutine(createWalletRoutine);
                 WalletCreationTimedOut();
@@ -56,6 +58,7 @@ public class CreateWalletView : MonoBehaviour
             }
         }
     }
+
     public IEnumerator CreateWallet()
     {
         yield return new WaitForSeconds(0.2f);
@@ -114,7 +117,6 @@ public class CreateWalletView : MonoBehaviour
         this.StartCoroutine(AppManager.instance.walletManager.LoadWallets());
     }
 
-
     public void CancelWalletCreation()
     {
         StopCoroutine(this.createWalletRoutine);
@@ -122,6 +124,7 @@ public class CreateWalletView : MonoBehaviour
         validationText.text = "Process has been stopped by user";
 
     }
+
     public void WalletCreationTimedOut()
     {
         this.loadingModal.SetActive(false);

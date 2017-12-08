@@ -16,6 +16,11 @@ public class WalletsView : MonoBehaviour
 
     private void Awake()
     {
+        foreach (Transform child in this.listView.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         CodeControl.Message.AddListener<UpdateWalletsEvent>(UpdateList);
     }
 

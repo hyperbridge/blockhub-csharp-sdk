@@ -20,6 +20,10 @@ public class ExtensionsView : MonoBehaviour
 
     private void Awake()
     {
+        foreach (Transform child in this.extensionInfoOrganizer.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
         this.extensionChecker = new ExtensionChecker();
 

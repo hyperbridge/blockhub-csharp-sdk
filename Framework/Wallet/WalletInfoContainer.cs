@@ -34,6 +34,7 @@ namespace Hyperbridge.Wallet
             {
                 AppManager.instance.walletManager.infoView.SetupView(this.wallet);
             });
+
             this.StartCoroutine(AppManager.instance.walletService.GetAccountBalance(this.wallet.address, (balance) =>
             {
                 this.walletContents.text = balance.ToString();
