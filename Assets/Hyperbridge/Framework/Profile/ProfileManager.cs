@@ -15,7 +15,6 @@ namespace Hyperbridge.Profile
         public Text profileNameDisplay, profileNameDisplayBase;
         public ProfileData currentlyEditingProfile, activeProfile;
         string defaultProfileName;
-        bool firstLoad;
 
         private void Awake()
         {
@@ -41,7 +40,6 @@ namespace Hyperbridge.Profile
         }
         public void OnAppInitialized(AppInitializedEvent e)
         {
-            firstLoad = true;
             this.LoadProfiles();
         }
         public void OnProfileEdited(EditProfileEvent e)
@@ -54,9 +52,8 @@ namespace Hyperbridge.Profile
             StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
               {
                   this.profiles = profiles;
-                  Debug.Log(profiles.Count);
                   this.UpdateActiveProfile();
-              
+
 
               }));
 
@@ -87,49 +84,26 @@ namespace Hyperbridge.Profile
         public void AddNotification()
         {
             EditProfileEvent message = new EditProfileEvent();
-            message.notifications = new List<Notification>();
-            message.deleteProfile = false;
-            message.name = activeProfile.name;
+            message.profileToEdit = activeProfile;
 
-            if (activeProfile.notifications != null)
-            {
-                foreach (Notification n in activeProfile.notifications)
-                {
-                    message.notifications.Add(n);
-                }
-            }
-            Notification newNotif = new Notification { index = message.notifications.Count, text = "Sim Notification #" + message.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false };
-            message.notifications.Add(newNotif);
+            message.deleteProfile = false;
+
+            Notification newNotif = new Notification { index = message.profileToEdit.notifications.Count, text = "Sim Notification #" + message.profileToEdit.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false };
+            message.profileToEdit.notifications.Add(newNotif);
             NotificationReceivedEvent notificationReceivedEvent = new NotificationReceivedEvent { notification = newNotif };
             CodeControl.Message.Send<NotificationReceivedEvent>(notificationReceivedEvent);
             CodeControl.Message.Send<EditProfileEvent>(message);
         }
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
-            if (currentlyEditingProfile == null) currentlyEditingProfile = activeProfile;
-            var editedData = new ProfileData
+            if (message.deleteProfile)
             {
-                name = message.name,
-                imageLocation = message.imageLocation,
-                uuid = this.currentlyEditingProfile.uuid,
-                notifications = message.notifications
-            };
-            yield return new WaitForSeconds(1);
-
-            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + editedData.uuid, editedData.name, editedData);
+                DeleteProfileData(FindProfileByName(message.profileToEdit.name));
+                yield break;
+            }
+            Database.SaveJSON<ProfileData>("/Resources/Profiles/" + message.profileToEdit.uuid, message.profileToEdit.name, message.profileToEdit);
 
             yield return new WaitForEndOfFrame();
-
-
-            this.profiles.Add(editedData);
-
-            if (currentlyEditingProfile == activeProfile)
-            {
-                SetGlobalDefaultProfile(editedData.name);
-            }
-            if (message.deleteProfile) DeleteProfileData(currentlyEditingProfile);
-
-            this.UpdateActiveProfile();
 
         }
 
@@ -145,13 +119,6 @@ namespace Hyperbridge.Profile
 #endif
 
             this.DispatchUpdateEvent();
-        }
-
-        // TODO: How does this happen? Seems like it should just use above <- This is the only way to use a button, buttons can't pass abstract info
-
-        public void DeleteEditingProfileData()
-        {
-            this.DeleteProfileData(currentlyEditingProfile);
         }
 
         public void UpdateActiveProfile()
@@ -180,15 +147,9 @@ namespace Hyperbridge.Profile
 
             profileNameDisplay.text = activeProfile.name;
             profileNameDisplayBase.text = activeProfile.name;
-            if (firstLoad)
-            {
-                this.DispatchProfileInitializedEvent();
-                firstLoad = false;
-            }
-            else
-            {
-                this.DispatchUpdateEvent();
-            }
+
+            this.DispatchProfileInitializedEvent();
+
 
         }
 
@@ -216,19 +177,19 @@ namespace Hyperbridge.Profile
         ProfileData FindProfileByName(string name)
         {
             bool profileFound = false;
-            ProfileData requiredData = new ProfileData();
+            ProfileData profileData = new ProfileData();
             foreach (ProfileData data in this.profiles)
             {
                 if (name == data.name)
                 {
                     profileFound = true;
-                    requiredData = data;
+                    profileData = data;
                 }
 
             }
             if (profileFound)
             {
-                return requiredData;
+                return profileData;
             }
             else
             {
