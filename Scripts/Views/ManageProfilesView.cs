@@ -16,7 +16,8 @@ public class ManageProfilesView : MonoBehaviour
 
     private void Awake()
     {
-        foreach (Transform child in this.listView.transform) {
+        foreach (Transform child in this.listView.transform)
+        {
             GameObject.Destroy(child.gameObject);
         }
 
@@ -51,8 +52,6 @@ public class ManageProfilesView : MonoBehaviour
     }
     void RefreshProfilesListDisplay(List<ProfileData> profiles)
     {
-        Debug.Log(profiles.Count);
-
         foreach (Transform child in this.listView.transform)
         {
             GameObject.Destroy(child.gameObject);

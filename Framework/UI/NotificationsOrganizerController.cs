@@ -10,19 +10,8 @@ public class NotificationsOrganizerController : MonoBehaviour
     public GridLayoutGroup grid;
     public GameObject notificationContainerPrefab, popupPrefab;
     public GameObject parent;
-    private void Awake()
-    {
-       // CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
-    }
 
-    void OnProfilesUpdated(ProfileInitializedEvent e)
-    {
-
-        ClearNotifications();
-
-    }
-
-    public void GenerateNotification(Notification n,System.Action<NotificationContainer> callback)
+    public void GenerateNotification(Notification n, System.Action<NotificationContainer> callback)
     {
         GameObject newNotification = Instantiate(notificationContainerPrefab, columns[0].transform);
         newNotification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date, n.hasPopupBeenDismissed, n.index);
@@ -39,6 +28,6 @@ public class NotificationsOrganizerController : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-        
+
     }
 }

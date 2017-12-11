@@ -9,7 +9,7 @@ public class EditProfileView : MonoBehaviour
 {
     public Button saveEditButton;
     public InputField nameInput;
-
+    ProfileData editingProfile;
     // TODO: Again, we need a way to load images
 
     void Start()
@@ -23,15 +23,14 @@ public class EditProfileView : MonoBehaviour
     public void StartEditingProfile(ProfileData data)
     {
         AppManager.instance.profileManager.currentlyEditingProfile = data;
-
+        editingProfile = data;
         this.nameInput.text = data.name;
     }
 
     void DispatchUpdatedProfileEvent()
     {
         var message = new EditProfileEvent();
-        message.imageLocation = null;
-        message.name = this.nameInput.text;
+        message.profileToEdit = editingProfile;
         message.deleteProfile = true;
         CodeControl.Message.Send<EditProfileEvent>(message);
     }

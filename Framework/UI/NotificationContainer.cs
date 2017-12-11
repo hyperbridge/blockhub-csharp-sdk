@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Hyperbridge.Profile;
-using Hyperbridge.Core; 
+using Hyperbridge.Core;
 
 public class NotificationContainer : MonoBehaviour
 {
@@ -20,15 +20,15 @@ public class NotificationContainer : MonoBehaviour
     }
 
     //TODO: Types
-    public void SetupContainer(string descriptionText, string type, string date, bool hasPopupBeenDismissed,int index)
+    public void SetupContainer(string descriptionText, string type, string date, bool hasPopupBeenDismissed, int index)
     {
         this.descriptionText.text = descriptionText;
         dateText.text = date;
         this.hasPopupBeenDismissed = hasPopupBeenDismissed;
         this.index = index;
-      
+
     }
-   
+
     public void PopupDisabled()
     {
         hasPopupBeenDismissed = true;
@@ -47,26 +47,26 @@ public class NotificationContainer : MonoBehaviour
     {
         ProfileData profile = AppManager.instance.profileManager.activeProfile;
         EditProfileEvent message = new EditProfileEvent();
-        message.name = profile.name;
-        message.hasPopupBeenDismissed = this.hasPopupBeenDismissed;
-        message.imageLocation = profile.imageLocation;
+        message.profileToEdit = profile;
+
         message.deleteProfile = false;
         Notification target = new Notification();
-        if (removeNotification)
-        {
-            foreach(Notification n in profile.notifications)
-            {
-                if(n.index == this.index)
-                {
-                    target = n;
 
-                }
+        foreach (Notification n in profile.notifications)
+        {
+            if (n.index == this.index)
+            {
+                target = n;
+
             }
-            if (target != null) 
-            profile.notifications.Remove(target);
+        }
+        if (target != null)
+        {
+            if(removeNotification) profile.notifications.Remove(target);
+            target.hasPopupBeenDismissed = this.hasPopupBeenDismissed;
 
         }
-        message.notifications = profile.notifications;
+
 
         CodeControl.Message.Send<EditProfileEvent>(message);
 

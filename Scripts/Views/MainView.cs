@@ -9,14 +9,41 @@ namespace Hyperbridge.UI
     {
 
         public Text notificationAmountText;
-        // Use this for initialization
+        ProfileData activeProfile;
+
         void Awake()
         {
-            CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfileUpdated);
+            CodeControl.Message.AddListener<EditProfileEvent>(OnProfileEdited);
+            CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
         }
 
-        void OnProfileUpdated(UpdateProfilesEvent e)
+        void OnProfileEdited(EditProfileEvent e)
         {
+            if (e == null)
+            {
+                throw new System.ArgumentNullException(nameof(e));
+            }
+
+            if (activeProfile == null) return;
+            if (activeProfile.notifications == null)
+            {
+                notificationAmountText.text = "0";
+
+                return;
+
+            }
+
+            UpdateNotificationsText(activeProfile.notifications.Count.ToString());
+        }
+
+        void OnProfileInitialized(ProfileInitializedEvent e)
+        {
+
+            if (e == null)
+            {
+                throw new System.ArgumentNullException(nameof(e));
+            }
+
             if (e.activeProfile == null) return;
             if (e.activeProfile.notifications == null)
             {
@@ -25,8 +52,14 @@ namespace Hyperbridge.UI
                 return;
 
             }
+            UpdateNotificationsText(e.activeProfile.notifications.Count.ToString());
+            activeProfile = e.activeProfile;
+        }
 
-            notificationAmountText.text = e.activeProfile.notifications.Count.ToString();
+        void UpdateNotificationsText(string amount)
+        {
+            notificationAmountText.text = amount;
+
         }
     }
 }

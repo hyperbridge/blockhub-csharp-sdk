@@ -14,14 +14,15 @@ public class NotificationManager : MonoBehaviour
         CodeControl.Message.AddListener<NotificationReceivedEvent>(OnNotificationReceived);
         CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
     }
-    void OnProfileInitialized(ProfileInitializedEvent e)
+    public void OnProfileInitialized(ProfileInitializedEvent e)
     {
+        notificationsOrganizerController.ClearNotifications();
         foreach(Notification n in e.activeProfile.notifications)
         {
             notificationsOrganizerController.GenerateNotification(n, GeneratePopup);
         }
     }
-    void OnNotificationReceived(NotificationReceivedEvent e)
+    public void OnNotificationReceived(NotificationReceivedEvent e)
     {
 
         AddNotification(e.notification);
@@ -38,7 +39,6 @@ public class NotificationManager : MonoBehaviour
 
     void AddNotification(Notification notification)
     {
-        AppManager.instance.profileManager.activeProfile.notifications.Add(notification);
         notificationsOrganizerController.GenerateNotification(notification, GeneratePopup);
 
     }
