@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using Hyperbridge.Core;
 using SFB;
+using Hyperbridge.Profile;
 
 namespace Hyperbridge.Wallet
 {
@@ -30,11 +31,12 @@ namespace Hyperbridge.Wallet
         {
             CodeControl.Message.AddListener<SettingsLoadedEvent>(this.OnSettingsLoaded);
 
-            CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
         }
 
         private void OnSettingsLoaded(SettingsLoadedEvent e)
         {
+            if (walletPath == e.loadedSettings.walletSavingDirectory) return;
+
             walletPath = e.loadedSettings.walletSavingDirectory;
             if (walletPath == "")
             {
@@ -43,10 +45,6 @@ namespace Hyperbridge.Wallet
             }
             this.RefreshWalletList();
 
-        }
-
-        public void OnAppInitialized(AppInitializedEvent e)
-        {
         }
 
         public void RefreshWalletList()
@@ -65,7 +63,7 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator LoadWallets()
         {
-          //  Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
+            Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
             List<WalletInfo> loadedData = new List<WalletInfo>();
             if (!Directory.Exists(CurrentWalletPath)) yield break;
 

@@ -12,21 +12,22 @@ public class NotificationsOrganizerController : MonoBehaviour
     public GameObject parent;
     private void Awake()
     {
-        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
+       // CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
     }
 
-    void OnProfilesUpdated(UpdateProfilesEvent e)
+    void OnProfilesUpdated(ProfileInitializedEvent e)
     {
 
         ClearNotifications();
 
     }
 
-    public void GenerateNotification(Notification n)
+    public void GenerateNotification(Notification n,System.Action<NotificationContainer> callback)
     {
         GameObject newNotification = Instantiate(notificationContainerPrefab, columns[0].transform);
         newNotification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date, n.hasPopupBeenDismissed, n.index);
-     
+
+        callback(newNotification.GetComponent<NotificationContainer>());
     }
 
     public void ClearNotifications()
