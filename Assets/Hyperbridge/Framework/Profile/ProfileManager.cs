@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Hyperbridge.Core;
+using Hyperbridge.Wallet;
 
 
 namespace Hyperbridge.Profile
@@ -14,6 +15,7 @@ namespace Hyperbridge.Profile
         public Text profileNameDisplay, profileNameDisplayBase;
         public ProfileData currentlyEditingProfile, activeProfile;
         string defaultProfileName;
+        bool firstLoad;
 
         private void Awake()
         {
@@ -30,8 +32,16 @@ namespace Hyperbridge.Profile
             CodeControl.Message.Send<UpdateProfilesEvent>(message);
         }
 
+        public void DispatchProfileInitializedEvent()
+        {
+            var message = new ProfileInitializedEvent();
+            message.activeProfile = this.activeProfile;
+            message.profiles = this.profiles;
+            CodeControl.Message.Send<ProfileInitializedEvent>(message);
+        }
         public void OnAppInitialized(AppInitializedEvent e)
         {
+            firstLoad = true;
             this.LoadProfiles();
         }
         public void OnProfileEdited(EditProfileEvent e)
@@ -44,9 +54,9 @@ namespace Hyperbridge.Profile
             StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
               {
                   this.profiles = profiles;
+                  Debug.Log(profiles.Count);
                   this.UpdateActiveProfile();
-
-                  this.DispatchUpdateEvent();
+              
 
               }));
 
@@ -79,16 +89,19 @@ namespace Hyperbridge.Profile
             EditProfileEvent message = new EditProfileEvent();
             message.notifications = new List<Notification>();
             message.deleteProfile = false;
-            message.name = activeProfile.name;  
+            message.name = activeProfile.name;
 
-            if(activeProfile.notifications != null)
+            if (activeProfile.notifications != null)
             {
                 foreach (Notification n in activeProfile.notifications)
                 {
                     message.notifications.Add(n);
                 }
             }
-            message.notifications.Add(new Notification { index = message.notifications.Count, text = "Sim Notification #" + message.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false });
+            Notification newNotif = new Notification { index = message.notifications.Count, text = "Sim Notification #" + message.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false };
+            message.notifications.Add(newNotif);
+            NotificationReceivedEvent notificationReceivedEvent = new NotificationReceivedEvent { notification = newNotif };
+            CodeControl.Message.Send<NotificationReceivedEvent>(notificationReceivedEvent);
             CodeControl.Message.Send<EditProfileEvent>(message);
         }
         public IEnumerator EditProfileData(EditProfileEvent message)
@@ -167,8 +180,15 @@ namespace Hyperbridge.Profile
 
             profileNameDisplay.text = activeProfile.name;
             profileNameDisplayBase.text = activeProfile.name;
-
-            this.DispatchUpdateEvent();
+            if (firstLoad)
+            {
+                this.DispatchProfileInitializedEvent();
+                firstLoad = false;
+            }
+            else
+            {
+                this.DispatchUpdateEvent();
+            }
 
         }
 
@@ -190,6 +210,7 @@ namespace Hyperbridge.Profile
             PlayerPrefs.SetString("DefaultProfile", name);
             PlayerPrefs.Save();
             defaultProfileName = name;
+            UpdateActiveProfile();
         }
 
         ProfileData FindProfileByName(string name)

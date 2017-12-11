@@ -11,7 +11,7 @@ public class SettingsManager : MonoBehaviour
     void Start()
     {
         CodeControl.Message.AddListener<UpdateSettingsEvent>(OnSettingsUpdated);
-        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfileUpdated);
+        CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
 
     }
 
@@ -24,9 +24,10 @@ public class SettingsManager : MonoBehaviour
         s = e.loadedSettings;
 
         Database.SaveJSON<Settings>("/Resources/Profiles/" + s.profileID + "/Settings", "settings", s);
+        DispatchSettingsLoadedEvent();
     }
 
-    void OnProfileUpdated(UpdateProfilesEvent e)
+    void OnProfileInitialized(ProfileInitializedEvent e)
     {
 
         StartCoroutine(LoadSettings(e.activeProfile.uuid));
@@ -36,8 +37,6 @@ public class SettingsManager : MonoBehaviour
     {
         if (File.Exists("/Resources/Profiles/" + ID + "/Settings/settings.json"))
         {
-
-
             yield return currentSettings = Database.LoadJSONByName<Settings>("/Resources/Profiles/" + ID + "/Settings", "settings");
             this.DispatchSettingsLoadedEvent();
         }
@@ -55,20 +54,15 @@ public class SettingsManager : MonoBehaviour
             this.DispatchSettingsLoadedEvent();
 
         }
+
         yield return null;
     }
 
     void DispatchSettingsLoadedEvent()
     {
         SettingsLoadedEvent message = new SettingsLoadedEvent();
-        Settings s = new Settings();
-        s.allowThirdPartyExtensions = currentSettings.allowThirdPartyExtensions;
-        s.chromeDataAggregation = currentSettings.chromeDataAggregation;
-        s.chromeExtensionIntegration = currentSettings.chromeExtensionIntegration;
-        s.enableVPN = currentSettings.enableVPN;
-        s.extensionSavingDirectory = currentSettings.extensionSavingDirectory;
-        s.walletSavingDirectory = currentSettings.walletSavingDirectory;
-        s.profileID = currentSettings.profileID;
+        Settings s = currentSettings;
+
         message.loadedSettings = s;
         CodeControl.Message.Send<SettingsLoadedEvent>(message);
     }

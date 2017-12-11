@@ -11,7 +11,7 @@ public class MainMenuView : MonoBehaviour
     void Awake()
     {
         CodeControl.Message.AddListener<MenuEvent>(this.OnMenuEvent);
-        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
+        CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfilesUpdated);
     }
 
     public void OnMenuEvent(MenuEvent e)
@@ -26,7 +26,7 @@ public class MainMenuView : MonoBehaviour
         }
     }
 
-    void OnProfilesUpdated(UpdateProfilesEvent e)
+    void OnProfilesUpdated(ProfileInitializedEvent e)
     {
         foreach (Text t in activeProfileNameTexts)
         {
