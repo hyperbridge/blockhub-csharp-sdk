@@ -65,7 +65,12 @@ namespace Hyperbridge.Wallet
         {
             Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
             List<WalletInfo> loadedData = new List<WalletInfo>();
-            if (!Directory.Exists(CurrentWalletPath)) yield break;
+            if (!Directory.Exists(CurrentWalletPath))
+            {
+                CodeControl.Message.Send<UpdateWalletsEvent>(null);
+                yield break;
+
+            }
 
             StartCoroutine(Database.LoadAllJSONFilesFromExternalSubFolders<WalletInfo>(CurrentWalletPath, (wallets) =>
             {
