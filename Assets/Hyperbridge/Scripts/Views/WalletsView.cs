@@ -13,25 +13,23 @@ public class WalletsView : MonoBehaviour
 {
     public GameObject displayPrefab, listView;
     public WalletInfoView infoView;
+    public Text noWalletsText;
+    string noWalletsMessage;
 
     private void Awake()
     {
-        foreach (Transform child in this.listView.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
+        CleanWalletDisplay();
+        noWalletsMessage = "This profile doesn't have any Wallets associated to it. \nPlease create a Wallet.";
         CodeControl.Message.AddListener<UpdateWalletsEvent>(UpdateList);
     }
 
     public void UpdateList(UpdateWalletsEvent e)
     {
+        Debug.Log("Updating Wallet Display List...");
+        CleanWalletDisplay();
+        if (e == null) return;
+        noWalletsText.text = "";
         var wallets = e.wallets;
-
-        foreach (Transform child in this.listView.transform)
-        {
-            Destroy(child.gameObject);
-        }
 
         foreach (WalletInfo info in wallets)
         {
@@ -47,4 +45,12 @@ public class WalletsView : MonoBehaviour
         }
     }
 
+    void CleanWalletDisplay()
+    {
+        noWalletsText.text = noWalletsMessage;
+        foreach (Transform child in this.listView.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }
