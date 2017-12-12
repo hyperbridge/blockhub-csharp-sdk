@@ -7,9 +7,11 @@ public class NotificationsOrganizerController : MonoBehaviour
 {
 
     public VerticalLayoutGroup[] columns;
-    public GridLayoutGroup grid;
     public GameObject notificationContainerPrefab, popupPrefab;
     public GameObject parent;
+    private void Awake()
+    {
+    }
 
     public void GenerateNotification(Notification n, System.Action<NotificationContainer> callback)
     {
@@ -30,4 +32,6 @@ public class NotificationsOrganizerController : MonoBehaviour
         }
 
     }
+
+   
 }

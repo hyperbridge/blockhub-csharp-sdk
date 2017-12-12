@@ -14,9 +14,14 @@ public class NotificationContainer : MonoBehaviour
     public int index;
     bool alreadyPressed;
     public GameObject popup;
+    Button button;
     void Start()
     {
-
+        button = GetComponent<Button>();
+        button.onClick.AddListener(() =>
+        {
+            DispatchShowNotificationPopupRequest();
+        });
     }
 
     //TODO: Types
@@ -62,7 +67,7 @@ public class NotificationContainer : MonoBehaviour
         }
         if (target != null)
         {
-            if(removeNotification) profile.notifications.Remove(target);
+            if (removeNotification) profile.notifications.Remove(target);
             target.hasPopupBeenDismissed = this.hasPopupBeenDismissed;
 
         }
@@ -71,6 +76,14 @@ public class NotificationContainer : MonoBehaviour
         CodeControl.Message.Send<EditProfileEvent>(message);
 
 
+    }
+
+    void DispatchShowNotificationPopupRequest()
+    {
+        hasPopupBeenDismissed = false;
+        ShowNotificationRequest message = new ShowNotificationRequest { notificationContainer = this };
+
+        CodeControl.Message.Send<ShowNotificationRequest>(message);
     }
 
 }
