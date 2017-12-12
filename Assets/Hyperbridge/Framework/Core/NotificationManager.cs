@@ -11,8 +11,10 @@ public class NotificationManager : MonoBehaviour
 
     private void Awake()
     {
+        CodeControl.Message.AddListener<ShowNotificationRequest>(OnNotificationShowRequested);
         CodeControl.Message.AddListener<NotificationReceivedEvent>(OnNotificationReceived);
         CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
+        CodeControl.Message.AddListener<ErrorEvent>(OnErrorRaised);
     }
     public void OnProfileInitialized(ProfileInitializedEvent e)
     {
@@ -28,6 +30,13 @@ public class NotificationManager : MonoBehaviour
         AddNotification(e.notification);
 
     }
+    public void OnErrorRaised(ErrorEvent e)
+    {
+        GameObject popup = Instantiate(notificationPopup, uiParent.transform);
+        popup.GetComponent<NotificationPopup>().SetupPopup(e.errorMessage, e.errorDate, null);
+
+    }
+
     void GeneratePopup(NotificationContainer notificationContainer)
     {
         if (notificationContainer.hasPopupBeenDismissed) return;
@@ -41,5 +50,10 @@ public class NotificationManager : MonoBehaviour
     {
         notificationsOrganizerController.GenerateNotification(notification, GeneratePopup);
 
+    }
+
+    void OnNotificationShowRequested(ShowNotificationRequest request)
+    {
+        GeneratePopup(request.notificationContainer);
     }
 }

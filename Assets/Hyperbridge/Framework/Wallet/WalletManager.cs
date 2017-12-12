@@ -67,6 +67,8 @@ namespace Hyperbridge.Wallet
             List<WalletInfo> loadedData = new List<WalletInfo>();
             if (!Directory.Exists(CurrentWalletPath))
             {
+                ErrorEvent message = new ErrorEvent { errorMessage = "No wallets Found", errorDate = System.DateTime.Now.Year + " " + System.DateTime.Now.Month + " " + System.DateTime.Now.Day, errorType = "Folder Not Found" };
+                CodeControl.Message.Send<ErrorEvent>(message);
                 CodeControl.Message.Send<UpdateWalletsEvent>(null);
                 yield break;
 

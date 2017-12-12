@@ -53,4 +53,6 @@ public class WalletsView : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
+    
 }

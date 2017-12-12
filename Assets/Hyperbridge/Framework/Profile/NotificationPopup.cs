@@ -16,7 +16,8 @@ public class NotificationPopup : MonoBehaviour {
         {
             b.onClick.AddListener(() => 
             {
-                notificationContainer.PopupDisabled();
+                if(notificationContainer!=null) notificationContainer.PopupDisabled();
+
                 this.gameObject.SetActive(false);
             });
         }
