@@ -10,27 +10,28 @@ public class EditProfileView : MonoBehaviour
     public Button saveEditButton;
     public InputField nameInput;
     ProfileData editingProfile;
-    // TODO: Again, we need a way to load images
+    // TODO: We need a way to load images
 
     void Start()
     {
         this.saveEditButton.onClick.AddListener(() =>
         {
-            DispatchUpdatedProfileEvent();
+            DispatchEditedProfileEvent();
         });
     }
 
     public void StartEditingProfile(ProfileData data)
     {
-        AppManager.instance.profileManager.currentlyEditingProfile = data;
         editingProfile = data;
         this.nameInput.text = data.name;
     }
 
-    void DispatchUpdatedProfileEvent()
+    void DispatchEditedProfileEvent()
     {
         var message = new EditProfileEvent();
+        message.originalProfileName = editingProfile.name;
         message.profileToEdit = editingProfile;
+        message.newProfileName = this.nameInput.text; 
         message.deleteProfile = true;
         CodeControl.Message.Send<EditProfileEvent>(message);
     }

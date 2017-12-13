@@ -56,7 +56,7 @@ public class ManageProfilesView : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-
+        Debug.Log(profiles.Count);
         foreach (ProfileData info in profiles)
         {
             GameObject go = GameObject.Instantiate(displayPrefab);
