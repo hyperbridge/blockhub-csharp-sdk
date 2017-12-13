@@ -8,10 +8,12 @@ public class NotificationManager : MonoBehaviour
 {
     public GameObject notificationPopup, uiParent;
     public NotificationsOrganizerController notificationsOrganizerController;
+    public GameObject notificationContainerPrefab;
+
 
     private void Awake()
     {
-        CodeControl.Message.AddListener<ShowNotificationRequest>(OnNotificationShowRequested);
+        CodeControl.Message.AddListener<ShowNotificationPopupRequest>(OnNotificationPopupShowRequested);
         CodeControl.Message.AddListener<NotificationReceivedEvent>(OnNotificationReceived);
         CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
         CodeControl.Message.AddListener<ErrorEvent>(OnErrorRaised);
@@ -21,12 +23,12 @@ public class NotificationManager : MonoBehaviour
         notificationsOrganizerController.ClearNotifications();
         foreach(Notification n in e.activeProfile.notifications)
         {
-            notificationsOrganizerController.GenerateNotification(n, GeneratePopup);
+            notificationsOrganizerController.GenerateNotification(n);
         }
     }
     public void OnNotificationReceived(NotificationReceivedEvent e)
     {
-
+        Debug.Log("123123");
         AddNotification(e.notification);
 
     }
@@ -46,13 +48,14 @@ public class NotificationManager : MonoBehaviour
 
     }
 
+
     void AddNotification(Notification notification)
     {
-        notificationsOrganizerController.GenerateNotification(notification, GeneratePopup);
+        notificationsOrganizerController.GenerateNotification(notification);
 
     }
 
-    void OnNotificationShowRequested(ShowNotificationRequest request)
+    void OnNotificationPopupShowRequested(ShowNotificationPopupRequest request)
     {
         GeneratePopup(request.notificationContainer);
     }

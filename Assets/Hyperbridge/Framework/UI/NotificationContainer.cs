@@ -21,6 +21,7 @@ public class NotificationContainer : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             DispatchShowNotificationPopupRequest();
+            RemoveNotification();
         });
     }
 
@@ -52,6 +53,7 @@ public class NotificationContainer : MonoBehaviour
     {
         ProfileData profile = AppManager.instance.profileManager.activeProfile;
         EditProfileEvent message = new EditProfileEvent();
+        message.originalProfileName = profile.name;
         message.profileToEdit = profile;
 
         message.deleteProfile = false;
@@ -81,9 +83,9 @@ public class NotificationContainer : MonoBehaviour
     void DispatchShowNotificationPopupRequest()
     {
         hasPopupBeenDismissed = false;
-        ShowNotificationRequest message = new ShowNotificationRequest { notificationContainer = this };
+        ShowNotificationPopupRequest message = new ShowNotificationPopupRequest { notificationContainer = this };
 
-        CodeControl.Message.Send<ShowNotificationRequest>(message);
+        CodeControl.Message.Send<ShowNotificationPopupRequest>(message);
     }
 
 }
