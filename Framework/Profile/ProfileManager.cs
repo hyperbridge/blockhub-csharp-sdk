@@ -83,6 +83,7 @@ namespace Hyperbridge.Profile
         }
         public void AddNotification()
         {
+
             EditProfileEvent message = new EditProfileEvent();
             message.profileToEdit = activeProfile;
 
@@ -97,11 +98,17 @@ namespace Hyperbridge.Profile
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
             ProfileData profileData = FindProfileByName(message.originalProfileName);
-            DeleteProfileData(profileData);
-            message.profileToEdit.name = message.newProfileName;
+
+            if (message.deleteProfile)
+            {
+                DeleteProfileData(profileData);
+                message.profileToEdit.name = message.newProfileName;
+                this.profiles.Add(message.profileToEdit);
+
+            }
+
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + message.profileToEdit.uuid, message.profileToEdit.name, message.profileToEdit);
 
-            this.profiles.Add(message.profileToEdit);
             if (GetGlobalDefaultProfile() == message.originalProfileName)
             {
                 SetGlobalDefaultProfile(message.profileToEdit.name);
@@ -183,10 +190,10 @@ namespace Hyperbridge.Profile
         ProfileData FindProfileByName(string name)
         {
             foreach (ProfileData data in this.profiles)
-            {              
+            {
                 if (name == data.name)
                 {
-                  
+
                     return data;
                 }
 

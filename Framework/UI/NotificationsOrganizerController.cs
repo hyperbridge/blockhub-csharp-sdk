@@ -13,13 +13,13 @@ public class NotificationsOrganizerController : MonoBehaviour
     {
     }
 
-    public void GenerateNotification(Notification n, System.Action<NotificationContainer> callback)
+    public void GenerateNotification(Notification n)
     {
         GameObject newNotification = Instantiate(notificationContainerPrefab, columns[0].transform);
         newNotification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date, n.hasPopupBeenDismissed, n.index);
-
-        callback(newNotification.GetComponent<NotificationContainer>());
     }
+
+   
 
     public void ClearNotifications()
     {
