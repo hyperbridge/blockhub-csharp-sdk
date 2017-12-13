@@ -13,7 +13,7 @@ namespace Hyperbridge.Profile
         public List<ProfileData> profiles = new List<ProfileData>();
         public ManageProfilesView _manageProfilesView;
         public Text profileNameDisplay, profileNameDisplayBase;
-        public ProfileData currentlyEditingProfile, activeProfile;
+        public ProfileData activeProfile;
         string defaultProfileName;
 
         private void Awake()
@@ -96,20 +96,26 @@ namespace Hyperbridge.Profile
         }
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
-            if (message.deleteProfile)
-            {
-                DeleteProfileData(FindProfileByName(message.profileToEdit.name));
-                yield break;
-            }
+            ProfileData profileData = FindProfileByName(message.originalProfileName);
+            DeleteProfileData(profileData);
+            message.profileToEdit.name = message.newProfileName;
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + message.profileToEdit.uuid, message.profileToEdit.name, message.profileToEdit);
 
+            this.profiles.Add(message.profileToEdit);
+            if (GetGlobalDefaultProfile() == message.originalProfileName)
+            {
+                SetGlobalDefaultProfile(message.profileToEdit.name);
+            }
+            else
+            {
+                DispatchUpdateEvent();
+            }
             yield return new WaitForEndOfFrame();
 
         }
 
         public void DeleteProfileData(ProfileData dataToDelete)
         {
-
             StartCoroutine(AppManager.instance.saveDataManager.DeleteSpecificJSON(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid));
 
             this.profiles.Remove(dataToDelete);
@@ -124,7 +130,7 @@ namespace Hyperbridge.Profile
         public void UpdateActiveProfile()
         {
             ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
-            if (this.profiles.Count <= 0)
+            if (this.profiles.Count == 0)
             {
                 activeProfile = new ProfileData();
                 activeProfile.name = "Create a Profile";
@@ -176,25 +182,17 @@ namespace Hyperbridge.Profile
 
         ProfileData FindProfileByName(string name)
         {
-            bool profileFound = false;
-            ProfileData profileData = new ProfileData();
             foreach (ProfileData data in this.profiles)
-            {
+            {              
                 if (name == data.name)
                 {
-                    profileFound = true;
-                    profileData = data;
+                  
+                    return data;
                 }
 
             }
-            if (profileFound)
-            {
-                return profileData;
-            }
-            else
-            {
-                return null;
-            }
+
+            return null;
 
         }
     }
