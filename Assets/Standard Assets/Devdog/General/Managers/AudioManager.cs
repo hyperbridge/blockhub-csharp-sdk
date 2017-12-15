@@ -22,7 +22,7 @@ namespace Devdog.General
             StartCoroutine(WaitFramesAndEnable(5));
             enabled = false; // Set to enabled at start, initialize, then enable (to avoid playing sound during initialization)
 
-            _audioQueue = new Queue<AudioClipInfo>(GeneralSettingsManager.instance.settings.reserveAudioSources);
+          //TODO why does this line fuck up?  _audioQueue = new Queue<AudioClipInfo>(GeneralSettingsManager.instance.settings.reserveAudioSources);
             CreateAudioSourcePool();
         }
 
