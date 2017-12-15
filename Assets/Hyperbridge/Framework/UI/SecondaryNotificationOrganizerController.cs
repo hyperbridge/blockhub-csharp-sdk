@@ -19,7 +19,7 @@ namespace Hyperbridge.Profile
         {
             StartCoroutine(GenerateSecondaryNotification(e.notification));
         }
-
+   
         IEnumerator GenerateSecondaryNotification(Notification n)
         {
             GameObject newNotification = Instantiate(notificationContainerPrefab, showcase.transform);

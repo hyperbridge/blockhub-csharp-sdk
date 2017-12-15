@@ -28,7 +28,6 @@ public class NotificationManager : MonoBehaviour
     }
     public void OnNotificationReceived(NotificationReceivedEvent e)
     {
-        Debug.Log("123123");
         AddNotification(e.notification);
 
     }

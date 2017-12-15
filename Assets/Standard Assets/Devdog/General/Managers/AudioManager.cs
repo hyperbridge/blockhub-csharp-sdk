@@ -72,6 +72,10 @@ namespace Devdog.General
 
         private static AudioSource GetNextAudioSource()
         {
+            if(_audioSources == null)
+            {
+                return null;
+            }
             foreach (var audioSource in _audioSources)
             {
                 if (audioSource.isPlaying == false)
