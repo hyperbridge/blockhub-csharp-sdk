@@ -20,11 +20,6 @@ public class ExtensionsView : MonoBehaviour
 
     private void Awake()
     {
-        foreach (Transform child in this.extensionInfoOrganizer.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
         this.extensionChecker = new ExtensionChecker();
 
         CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
@@ -86,7 +81,6 @@ public class ExtensionsView : MonoBehaviour
             if (child.name.Contains("Container"))
             {
                 Destroy(child.gameObject);
-
             }
         }
 
@@ -99,7 +93,7 @@ public class ExtensionsView : MonoBehaviour
             container.SetActive(true);
         }
 
-        communityExtensionsHeading.transform.SetSiblingIndex(transform.parent.childCount - 1);
+        this.communityExtensionsHeading.transform.SetSiblingIndex(transform.parent.childCount - 1);
 
         foreach (ExtensionInfo extension in AppManager.instance.extensionManager.extensionList.communityExtensions)
         {
@@ -109,10 +103,6 @@ public class ExtensionsView : MonoBehaviour
                 if (ext.uuid == extension.uuid)
                 {
                     found = true;
-                }
-                else
-                {
-
                 }
             }
 

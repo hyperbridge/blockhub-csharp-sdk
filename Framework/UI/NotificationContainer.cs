@@ -8,84 +8,87 @@ using Hyperbridge.Core;
 public class NotificationContainer : MonoBehaviour
 {
 
-    public Text descriptionText, dateText;
+    public Text subjectText, descriptionText, dateText;
     public Image type;
     public bool hasPopupBeenDismissed, removeNotification;
     public int index;
-    bool alreadyPressed;
     public GameObject popup;
-    Button button;
-    void Start()
+
+    private bool alreadyPressed;
+    private Button button;
+
+    private void Start()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(() =>
+        this.button = GetComponent<Button>();
+        this.button.onClick.AddListener(() =>
         {
-            DispatchShowNotificationPopupRequest();
-            RemoveNotification();
+            this.DispatchShowNotificationPopupRequest();
+            this.RemoveNotification();
         });
     }
 
     //TODO: Types
-    public void SetupContainer(string descriptionText, string type, string date, bool hasPopupBeenDismissed, int index)
+    public void SetupContainer(string subjectText, string descriptionText, string type, string date, bool hasPopupBeenDismissed, int index)
     {
+        this.subjectText.text = subjectText;
         this.descriptionText.text = descriptionText;
-        dateText.text = date;
+        this.dateText.text = date;
         this.hasPopupBeenDismissed = hasPopupBeenDismissed;
         this.index = index;
-
     }
 
     public void PopupDisabled()
     {
-        hasPopupBeenDismissed = true;
-        DispatchEditProfileEvent();
+        this.hasPopupBeenDismissed = true;
+        this.DispatchEditProfileEvent();
     }
+
     public void RemoveNotification()
     {
         if (alreadyPressed) return;
-        removeNotification = true;
-        DispatchEditProfileEvent();
-        alreadyPressed = true;
+
+        this.removeNotification = true;
+
+        this.DispatchEditProfileEvent();
+
+        this.alreadyPressed = true;
+
         Destroy(gameObject, 0.25f);
     }
 
-    void DispatchEditProfileEvent()
+    private void DispatchEditProfileEvent()
     {
         ProfileData profile = AppManager.instance.profileManager.activeProfile;
-        EditProfileEvent message = new EditProfileEvent();
-        message.originalProfileName = profile.name;
-        message.profileToEdit = profile;
-
-        message.deleteProfile = false;
         Notification target = new Notification();
+
+        EditProfileEvent message = new EditProfileEvent {
+            originalProfileName = profile.name,
+            profileToEdit = profile,
+            deleteProfile = false
+        };
 
         foreach (Notification n in profile.notifications)
         {
             if (n.index == this.index)
             {
                 target = n;
-
             }
         }
+
         if (target != null)
         {
-            if (removeNotification) profile.notifications.Remove(target);
+            if (this.removeNotification) profile.notifications.Remove(target);
             target.hasPopupBeenDismissed = this.hasPopupBeenDismissed;
-
         }
 
-
         CodeControl.Message.Send<EditProfileEvent>(message);
-
-
     }
 
-    void DispatchShowNotificationPopupRequest()
+    private void DispatchShowNotificationPopupRequest()
     {
-        hasPopupBeenDismissed = false;
-        ShowNotificationPopupRequest message = new ShowNotificationPopupRequest { notificationContainer = this };
+        this.hasPopupBeenDismissed = false;
 
-        CodeControl.Message.Send<ShowNotificationPopupRequest>(message);
+        CodeControl.Message.Send<ShowNotificationPopupRequest>(new ShowNotificationPopupRequest { notificationContainer = this });
     }
 
 }

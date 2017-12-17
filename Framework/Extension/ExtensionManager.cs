@@ -9,6 +9,7 @@ using System;
 using Hyperbridge.ExtensionInterface;
 using Hyperbridge.Core;
 using Hyperbridge.UI;
+using Hyperbridge.Profile;
 
 namespace Hyperbridge.Extension
 {
@@ -110,9 +111,7 @@ namespace Hyperbridge.Extension
             Debug.Log("Loading mod: " + modPath);
 
             DirectoryInfo newDirectory = new DirectoryInfo(modPath);
-
             ModPath loadFromPath = new ModPath(newDirectory);
-
             ModHost host = Mod.Load(loadFromPath, false);
 
             if (host.IsModLoaded == true)
@@ -126,8 +125,20 @@ namespace Hyperbridge.Extension
                 ModLoadedEvent message = new ModLoadedEvent();
                 message.host = host;
                 CodeControl.Message.Send<ModLoadedEvent>(message);
+            } else {
+                CodeControl.Message.Send<NotificationReceivedEvent>(new NotificationReceivedEvent
+                {
+                    notification = new Notification
+                    {
+                        index = UnityEngine.Random.Range(0, 99999),
+                        subject = "System Error",
+                        text = "Extension could not be loaded (Error #21).",
+                        date = System.DateTime.Now.ToString(),
+                        type = "System",
+                        hasPopupBeenDismissed = false
+                    }
+                });
             }
-
 
             return host;
         }
@@ -155,8 +166,23 @@ namespace Hyperbridge.Extension
 
         public IEnumerator UninstallMod(ExtensionInfo extension)
         {
-            extension.mod.DestroyModObjects();
-            extension.mod.UnloadMod();
+            try {
+                extension.mod.DestroyModObjects();
+                extension.mod.UnloadMod();
+            } catch (Exception e) {
+                CodeControl.Message.Send<NotificationReceivedEvent>(new NotificationReceivedEvent
+                {
+                    notification = new Notification
+                    {
+                        index = UnityEngine.Random.Range(0, 99999),
+                        subject = "System Error",
+                        text = "Extension could not be unloaded (Error #22).",
+                        date = System.DateTime.Now.ToString(),
+                        type = "System",
+                        hasPopupBeenDismissed = false
+                    }
+                });
+            }
 
             for (int i = 0; i < extensionList.installedExtensions.Count; i++)
             {
@@ -194,13 +220,10 @@ namespace Hyperbridge.Extension
         private IEnumerator OnModLoadComplete()
         {
             yield return new WaitForSeconds(1);
+
             Debug.Log("Mod loaded");
-            NavigateEvent message = new NavigateEvent();
-            message.path = "/main/home";
-            CodeControl.Message.Send<NavigateEvent>(message);
 
-
-
+            CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/home" });
         }
 
         public List<ExtensionInfo> GetInstalledExtensions()

@@ -13,26 +13,33 @@ namespace Hyperbridge.Profile
         private void Awake()
         {
             CodeControl.Message.AddListener<NotificationReceivedEvent>(OnNotificationReceived);
+
+            this.CleanDisplay();
         }
 
-        void OnNotificationReceived(NotificationReceivedEvent e)
+        private void OnNotificationReceived(NotificationReceivedEvent e)
         {
             StartCoroutine(GenerateSecondaryNotification(e.notification));
         }
    
-        IEnumerator GenerateSecondaryNotification(Notification n)
+        private IEnumerator GenerateSecondaryNotification(Notification n)
         {
             GameObject newNotification = Instantiate(notificationContainerPrefab, showcase.transform);
-            newNotification.GetComponent<NotificationContainer>().SetupContainer(n.text, n.type, n.date, n.hasPopupBeenDismissed, n.index);
+            newNotification.GetComponent<NotificationContainer>().SetupContainer(n.subject, n.text, n.type, n.date, n.hasPopupBeenDismissed, n.index);
+
             yield return new WaitForSeconds(2);
 
             Destroy(newNotification);
 
             yield return null;
+        }
 
+        private void CleanDisplay()
+        {
+            foreach (Transform child in this.gameObject.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
-
-
-
 }
