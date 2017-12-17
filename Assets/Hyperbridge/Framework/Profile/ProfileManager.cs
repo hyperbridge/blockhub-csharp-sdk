@@ -14,7 +14,7 @@ namespace Hyperbridge.Profile
         public ManageProfilesView _manageProfilesView;
         public Text profileNameDisplay, profileNameDisplayBase;
         public ProfileData activeProfile;
-        string defaultProfileName;
+        private string defaultProfileName;
 
         private void Awake()
         {
@@ -38,14 +38,17 @@ namespace Hyperbridge.Profile
             message.profiles = this.profiles;
             CodeControl.Message.Send<ProfileInitializedEvent>(message);
         }
+
         public void OnAppInitialized(AppInitializedEvent e)
         {
             this.LoadProfiles();
         }
+
         public void OnProfileEdited(EditProfileEvent e)
         {
             StartCoroutine(EditProfileData(e));
         }
+
         public List<ProfileData> LoadProfiles()
         {
             Debug.Log("Loading Profiles");
@@ -53,10 +56,7 @@ namespace Hyperbridge.Profile
               {
                   this.profiles = profiles;
                   this.UpdateActiveProfile();
-
-
               }));
-
 
             return this.profiles;
         }
@@ -69,32 +69,39 @@ namespace Hyperbridge.Profile
                 imageLocation = imageLocation,
                 uuid = System.Guid.NewGuid().ToString()
             };
+
             this.profiles.Add(newData);
+
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
+
             if (GetGlobalDefaultProfile() == "")
             {
                 SetGlobalDefaultProfile(newData.name);
             }
+
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
 #endif
 
             this.DispatchUpdateEvent();
         }
+
         public void AddNotification()
         {
 
             EditProfileEvent message = new EditProfileEvent();
             message.profileToEdit = activeProfile;
-
             message.deleteProfile = false;
 
-            Notification newNotif = new Notification { index = message.profileToEdit.notifications.Count, text = "Sim Notification #" + message.profileToEdit.notifications.Count, date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false };
+            Notification newNotif = new Notification { index = message.profileToEdit.notifications.Count, subject = "Sim Notification #" + message.profileToEdit.notifications.Count, text = "Dummy text", date = System.DateTime.Now.ToString(), type = "Sim", hasPopupBeenDismissed = false };
             message.profileToEdit.notifications.Add(newNotif);
+
             NotificationReceivedEvent notificationReceivedEvent = new NotificationReceivedEvent { notification = newNotif };
+
             CodeControl.Message.Send<NotificationReceivedEvent>(notificationReceivedEvent);
             CodeControl.Message.Send<EditProfileEvent>(message);
         }
+
         public IEnumerator EditProfileData(EditProfileEvent message)
         {
             ProfileData profileData = FindProfileByName(message.originalProfileName);
@@ -104,7 +111,6 @@ namespace Hyperbridge.Profile
                 DeleteProfileData(profileData);
                 message.profileToEdit.name = message.newProfileName;
                 this.profiles.Add(message.profileToEdit);
-
             }
 
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + message.profileToEdit.uuid, message.profileToEdit.name, message.profileToEdit);
@@ -117,8 +123,8 @@ namespace Hyperbridge.Profile
             {
                 DispatchUpdateEvent();
             }
-            yield return new WaitForEndOfFrame();
 
+            yield return new WaitForEndOfFrame();
         }
 
         public void DeleteProfileData(ProfileData dataToDelete)
@@ -136,36 +142,33 @@ namespace Hyperbridge.Profile
 
         public void UpdateActiveProfile()
         {
-            ProfileData updatedActiveProfile = FindProfileByName(defaultProfileName);
+            ProfileData updatedActiveProfile = this.FindProfileByName(defaultProfileName);
+
             if (this.profiles.Count == 0)
             {
-                activeProfile = new ProfileData();
-                activeProfile.name = "Create a Profile";
-                if (GetGlobalDefaultProfile() != "") SetGlobalDefaultProfile("");
+                this.activeProfile = new ProfileData();
+                this.activeProfile.name = "Create a Profile";
 
+                if (this.GetGlobalDefaultProfile() != "") this.SetGlobalDefaultProfile("");
             }
             else
             {
                 if (updatedActiveProfile == null)
                 {
-                    activeProfile = this.profiles[0];
-                    SetGlobalDefaultProfile(this.profiles[0].name);
+                    this.activeProfile = this.profiles[0];
+                    this.SetGlobalDefaultProfile(this.profiles[0].name);
                 }
                 else
                 {
-                    activeProfile = FindProfileByName(GetGlobalDefaultProfile());
-
+                    this.activeProfile = this.FindProfileByName(this.GetGlobalDefaultProfile());
                 }
             }
 
-            profileNameDisplay.text = activeProfile.name;
-            profileNameDisplayBase.text = activeProfile.name;
+            this.profileNameDisplay.text = activeProfile.name;
+            this.profileNameDisplayBase.text = activeProfile.name;
 
             this.DispatchProfileInitializedEvent();
-
-
         }
-
 
         string GetGlobalDefaultProfile()
         {
@@ -173,18 +176,18 @@ namespace Hyperbridge.Profile
             {
                 return PlayerPrefs.GetString("DefaultProfile");
             }
-            else
-            {
-                return "";
-            }
+
+            // TODO: shouldnt this be an error?
+            return "";
         }
 
         public void SetGlobalDefaultProfile(string name)
         {
             PlayerPrefs.SetString("DefaultProfile", name);
             PlayerPrefs.Save();
-            defaultProfileName = name;
-            UpdateActiveProfile();
+
+            this.defaultProfileName = name;
+            this.UpdateActiveProfile();
         }
 
         ProfileData FindProfileByName(string name)
@@ -193,14 +196,11 @@ namespace Hyperbridge.Profile
             {
                 if (name == data.name)
                 {
-
                     return data;
                 }
-
             }
 
             return null;
-
         }
     }
 }

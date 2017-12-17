@@ -11,6 +11,7 @@ namespace Hyperbridge.Extension
         public float rating;
         public bool enabled;
         public List<Capability> capabilities = new List<Capability>();
+        [Newtonsoft.Json.JsonIgnore]
         public ModHost mod;
     }
 }
