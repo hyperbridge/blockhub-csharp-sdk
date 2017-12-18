@@ -126,7 +126,7 @@ namespace Hyperbridge.Wallet
         {
             var newWallet = new WalletInfo();
             string uuid = Guid.NewGuid().ToString();
-            newWallet.Setup(AppManager.instance.walletManager.CurrentWalletPath + "/" + walletName + ".json", walletName, address, privateKey, uuid, coin);
+            newWallet.Setup(AppManager.instance.walletManager.CurrentWalletPath + "/"+uuid+"/" + walletName + ".json", walletName, address, privateKey, uuid, coin);
 
             Database.SaveJSONToExternal<WalletInfo>(AppManager.instance.walletManager.CurrentWalletPath + "/" + uuid, walletName, newWallet);
 
@@ -257,18 +257,18 @@ namespace Hyperbridge.Wallet
             // ecKey.GetPublicAddress() and ecKey.GetPrivateKeyAsBytes()
             // (so it return it as bytes to be encrypted)
             var address = ecKey.GetPublicAddress();
-            var privateKey = ecKey.GetPrivateKeyAsBytes();
+            var privateKey = ecKey.GetPrivateKey();
 
             // Then we define a new KeyStore service
             var keystoreservice = new Nethereum.KeyStore.KeyStoreService();
 
             // And we can proceed to define encryptedJson with EncryptAndGenerateDefaultKeyStoreAsJson(),
             // and send it the password, the private key and the address to be encrypted.
-            var encryptedJson = keystoreservice.EncryptAndGenerateDefaultKeyStoreAsJson(password, privateKey, address);
+            var encryptedJson = keystoreservice.EncryptAndGenerateDefaultKeyStoreAsJson(password, ecKey.GetPrivateKeyAsBytes(), address);
             // Finally we execute the callback and return our public address and the encrypted json.
             // (you will only be able to decrypt the json with the password used to encrypt it)
 
-            callback(address, privateKey.ToString(), encryptedJson);
+            callback(address, privateKey, encryptedJson);
         }
 
         bool KeystoreValidate(string text, Text validationText)

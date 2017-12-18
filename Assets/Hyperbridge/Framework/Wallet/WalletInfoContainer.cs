@@ -41,5 +41,7 @@ namespace Hyperbridge.Wallet
                 Debug.Log(balance);
             }));
         }
+
+
     }
 }
