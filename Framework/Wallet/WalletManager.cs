@@ -5,6 +5,7 @@ using System.IO;
 using Hyperbridge.Core;
 using SFB;
 using Hyperbridge.Profile;
+using System;
 
 namespace Hyperbridge.Wallet
 {
@@ -30,6 +31,20 @@ namespace Hyperbridge.Wallet
         private void Awake()
         {
             CodeControl.Message.AddListener<SettingsLoadedEvent>(this.OnSettingsLoaded);
+            CodeControl.Message.AddListener<EditWalletEvent>(this.OnWalletEdited);
+
+        }
+
+        private void OnWalletEdited(EditWalletEvent e)
+        {
+
+            string previousWalletName = e.wallet.title;
+            WalletInfo editedWallet = new WalletInfo { title = e.editedName, coinType = e.wallet.coinType, uuid = e.wallet.uuid, privateKey = e.wallet.privateKey, secret = e.wallet.secret , address = e.wallet.address , info = e.wallet.info } ;
+            editedWallet._path = AppManager.instance.walletManager.CurrentWalletPath + "/" + editedWallet.uuid + "/" + editedWallet.title +".json";
+            wallets.Add(editedWallet);
+            Database.SaveJSONToExternal<WalletInfo>(AppManager.instance.walletManager.CurrentWalletPath + "/" + editedWallet.uuid, editedWallet.title, editedWallet);
+            DeleteWallet(e.wallet, RefreshWalletList);
+            this.RefreshWalletList();
 
         }
 
@@ -40,7 +55,7 @@ namespace Hyperbridge.Wallet
             walletPath = e.loadedSettings.walletSavingDirectory;
             if (walletPath == "")
             {
-                walletPath = Application.persistentDataPath + "/" + e.loadedSettings.profileID + "/Wallets";
+                walletPath = Application.persistentDataPath + "/" + e.loadedSettings.profileID + "/Wallets/";
 
             }
             this.RefreshWalletList();
@@ -52,13 +67,12 @@ namespace Hyperbridge.Wallet
             this.StartCoroutine(this.LoadWallets());
         }
 
-        public void DeleteWallet(WalletInfo wallet)
+        public void DeleteWallet(WalletInfo wallet, Action callback)
         {
             this.wallets.Remove(wallet);
-
             File.Delete(wallet._path);
 
-            this.StartCoroutine(this.LoadWallets());
+            callback();
         }
 
         public IEnumerator LoadWallets()
@@ -91,6 +105,19 @@ namespace Hyperbridge.Wallet
 
 
 
+        }
+
+        WalletInfo FindWalletByID(string uuid)
+        {
+            foreach (WalletInfo w in this.wallets)
+            {
+                if (name == w.uuid)
+                {
+                    return w;
+                }
+            }
+
+            return null;
         }
     }
 }

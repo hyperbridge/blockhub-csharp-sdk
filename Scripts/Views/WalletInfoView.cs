@@ -13,9 +13,8 @@ public class WalletInfoView : MonoBehaviour
     public Text title, info, address, secondaryAddress, privateKey;
     public InputField walletNameForEditing, walletNameForCopying;
     public Image walletImage;
-    public Button deleteWalletButton;
+    public Button deleteWalletButton, saveWalletChangesButton;
     public Image QRCodeContainer;
-
     private QRGenerator qrGen;
     private string currentWalletAddress;
 
@@ -34,10 +33,13 @@ public class WalletInfoView : MonoBehaviour
 
         this.deleteWalletButton.onClick.AddListener(() =>
         {
-            AppManager.instance.walletManager.DeleteWallet(wallet);
+            AppManager.instance.walletManager.DeleteWallet(wallet, null);
             this.GetComponent<UIWindowPage>().Hide();
         });
-
+        this.saveWalletChangesButton.onClick.AddListener(() =>
+        {
+            DispatchWalletEditEvent(wallet);
+        });
         StartCoroutine(PlaceQRCode(wallet.address));
     }
 
@@ -62,5 +64,12 @@ public class WalletInfoView : MonoBehaviour
         this.QRCodeContainer.sprite = qrCodeSprite;
 
         yield return null;
+    }
+
+    void DispatchWalletEditEvent(WalletInfo walletInfo)
+    {
+        EditWalletEvent message = new EditWalletEvent { wallet = walletInfo, editedName = this.walletNameForEditing.text };
+
+        CodeControl.Message.Send<EditWalletEvent>(message);
     }
 }

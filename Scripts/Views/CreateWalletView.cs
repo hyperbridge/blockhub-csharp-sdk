@@ -114,7 +114,7 @@ public class CreateWalletView : MonoBehaviour
 
         CodeControl.Message.Send<NavigateEvent>(new NavigateEvent { path = "/main/wallets" });
 
-        this.StartCoroutine(AppManager.instance.walletManager.LoadWallets());
+        AppManager.instance.walletManager.RefreshWalletList();
     }
 
     public void CancelWalletCreation()
