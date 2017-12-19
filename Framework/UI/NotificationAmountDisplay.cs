@@ -23,21 +23,26 @@ namespace Hyperbridge.UI
 
         private void OnProfileUpdated(UpdateProfilesEvent e)
         {
+            if (e.activeProfile == null)
+            {
+                UpdateNotificationsDisplay(null);
+                return;
+            }
             UpdateNotificationsDisplay(e.activeProfile.notifications);
         }
 
         private void OnProfileInitialized(ProfileInitializedEvent e)
         {
+            if (e.activeProfile == null)
+            {
+                UpdateNotificationsDisplay(null);
+                return;
+            }
             UpdateNotificationsDisplay(e.activeProfile.notifications);
         }
 
         private void UpdateNotificationsDisplay(List<Notification> notifications)
         {
-            if (notifications == null)
-            {
-                throw new System.ArgumentNullException(nameof(notifications));
-            }
-
             if (notifications == null || notifications.Count == 0)
             {
                 this.notificationAmountText.text = "";
@@ -45,7 +50,7 @@ namespace Hyperbridge.UI
                 return;
             }
 
-            if(this.background.color != this.baseColor)
+            if (this.background.color != this.baseColor)
             {
                 this.background.color = this.baseColor;
             }

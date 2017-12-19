@@ -39,8 +39,8 @@ namespace Hyperbridge.Wallet
         {
 
             string previousWalletName = e.wallet.title;
-            WalletInfo editedWallet = new WalletInfo { title = e.editedName, coinType = e.wallet.coinType, uuid = e.wallet.uuid, privateKey = e.wallet.privateKey, secret = e.wallet.secret , address = e.wallet.address , info = e.wallet.info } ;
-            editedWallet._path = AppManager.instance.walletManager.CurrentWalletPath + "/" + editedWallet.uuid + "/" + editedWallet.title +".json";
+            WalletInfo editedWallet = new WalletInfo { title = e.editedName, coinType = e.wallet.coinType, uuid = e.wallet.uuid, privateKey = e.wallet.privateKey, secret = e.wallet.secret, address = e.wallet.address, info = e.wallet.info };
+            editedWallet._path = AppManager.instance.walletManager.CurrentWalletPath + "/" + editedWallet.uuid + "/" + editedWallet.title + ".json";
             wallets.Add(editedWallet);
             Database.SaveJSONToExternal<WalletInfo>(AppManager.instance.walletManager.CurrentWalletPath + "/" + editedWallet.uuid, editedWallet.title, editedWallet);
             DeleteWallet(e.wallet, RefreshWalletList);
@@ -77,7 +77,7 @@ namespace Hyperbridge.Wallet
 
         public IEnumerator LoadWallets()
         {
-            Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
+            //    Debug.Log("[WalletManager] Loading wallets... Path: " + CurrentWalletPath);
             List<WalletInfo> loadedData = new List<WalletInfo>();
             if (!Directory.Exists(CurrentWalletPath))
             {

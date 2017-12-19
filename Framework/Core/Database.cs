@@ -172,6 +172,16 @@ namespace Hyperbridge.Core
         {
             Directory.Delete(path);
         }
+
+        public static bool CheckFileExistence(string path)
+        {
+            if (File.Exists(path))
+            {
+                return true;
+            }
+            return false;
+
+        }
     }
 }
 
