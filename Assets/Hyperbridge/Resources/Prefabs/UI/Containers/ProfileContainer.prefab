@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 114482330941482324}
   - component: {fileID: 114234827333907374}
   m_Layer: 5
-  m_Name: MakeDefaultButton
+  m_Name: MakeActiveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 114713280015562292}
   text: {fileID: 114997505745462110}
-  makeDefaultButton: {fileID: 114234827333907374}
+  makeActiveProfileButton: {fileID: 114234827333907374}
 --- !u!114 &114695617887169110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -391,7 +391,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Set as Default
+  m_Text: Use Profile
 --- !u!114 &114850628891973148
 MonoBehaviour:
   m_ObjectHideFlags: 1

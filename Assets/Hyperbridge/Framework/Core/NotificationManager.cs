@@ -21,6 +21,7 @@ public class NotificationManager : MonoBehaviour
     public void OnProfileInitialized(ProfileInitializedEvent e)
     {
         notificationsOrganizerController.ClearNotifications();
+        if (e.activeProfile == null) return;
         foreach(Notification n in e.activeProfile.notifications)
         {
             notificationsOrganizerController.GenerateNotification(n);

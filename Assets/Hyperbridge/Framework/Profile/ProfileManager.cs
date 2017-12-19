@@ -13,37 +13,58 @@ namespace Hyperbridge.Profile
         public List<ProfileData> profiles = new List<ProfileData>();
         public ManageProfilesView _manageProfilesView;
         public Text profileNameDisplay, profileNameDisplayBase;
-        public ProfileData activeProfile;
-        private string defaultProfileName;
+        public ProfileData activeProfile, defaultProfile;
 
         private void Awake()
         {
-            defaultProfileName = GetGlobalDefaultProfile();
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
+            CodeControl.Message.AddListener<ApplicationSettingsUpdatedEvent>(this.OnApplicationSettingsUpdated);
             CodeControl.Message.AddListener<EditProfileEvent>(this.OnProfileEdited);
         }
 
-        public void DispatchUpdateEvent()
-        {
-            var message = new UpdateProfilesEvent();
-            message.profiles = this.profiles;
-            message.activeProfile = this.activeProfile;
-            CodeControl.Message.Send<UpdateProfilesEvent>(message);
-        }
-
-        public void DispatchProfileInitializedEvent()
-        {
-            var message = new ProfileInitializedEvent();
-            message.activeProfile = this.activeProfile;
-            message.profiles = this.profiles;
-            CodeControl.Message.Send<ProfileInitializedEvent>(message);
-        }
 
         public void OnAppInitialized(AppInitializedEvent e)
         {
             this.LoadProfiles();
         }
 
+        public void OnApplicationSettingsUpdated(ApplicationSettingsUpdatedEvent e)
+        {
+            if (this.LoadProfiles() != null)
+            {
+                foreach (ProfileData profile in this.LoadProfiles())
+                {
+                    if (e.applicationSettings.activeProfile != null)
+                    {
+                        if (profile.uuid == e.applicationSettings.activeProfile.uuid)
+                        {
+                            activeProfile = profile;
+                        }
+                    }
+                    if (e.applicationSettings.defaultProfile != null)
+                    {
+                        if (profile.uuid == e.applicationSettings.defaultProfile.uuid)
+                        {
+                            defaultProfile = profile;
+                        }
+                    }
+
+                }
+
+            }
+
+            UpdateDefaultProfile(defaultProfile);
+
+            if (e.firstLoad || activeProfile == null)
+            {
+                UpdateActiveProfile(defaultProfile);
+            }
+            else
+            {
+                UpdateActiveProfile(activeProfile);
+
+            }
+        }
         public void OnProfileEdited(EditProfileEvent e)
         {
             StartCoroutine(EditProfileData(e));
@@ -51,11 +72,10 @@ namespace Hyperbridge.Profile
 
         public List<ProfileData> LoadProfiles()
         {
-            Debug.Log("Loading Profiles");
+            //    Debug.Log("Loading Profiles");
             StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
               {
                   this.profiles = profiles;
-                  this.UpdateActiveProfile();
               }));
 
             return this.profiles;
@@ -74,9 +94,10 @@ namespace Hyperbridge.Profile
 
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + newData.uuid, newData.name, newData);
 
-            if (GetGlobalDefaultProfile() == "")
+            if (defaultProfile == null)
             {
-                SetGlobalDefaultProfile(newData.name);
+                UpdateDefaultProfile(newData);
+                UpdateActiveProfile(newData);
             }
 
 #if UNITY_EDITOR
@@ -114,10 +135,10 @@ namespace Hyperbridge.Profile
             }
 
             Database.SaveJSON<ProfileData>("/Resources/Profiles/" + message.profileToEdit.uuid, message.profileToEdit.name, message.profileToEdit);
-
-            if (GetGlobalDefaultProfile() == message.originalProfileName)
+            if (defaultProfile.name == message.originalProfileName)
             {
-                SetGlobalDefaultProfile(message.profileToEdit.name);
+                defaultProfile = message.profileToEdit;
+                UpdateActiveProfile(defaultProfile);
             }
             else
             {
@@ -130,8 +151,16 @@ namespace Hyperbridge.Profile
         public void DeleteProfileData(ProfileData dataToDelete)
         {
             StartCoroutine(AppManager.instance.saveDataManager.DeleteSpecificJSON(dataToDelete.name, "/Resources/Profiles/" + dataToDelete.uuid));
-
+            if (dataToDelete.uuid == activeProfile.uuid)
+            {
+                UpdateActiveProfile(null);
+            }
+            if (dataToDelete.uuid == defaultProfile.uuid)
+            {
+                defaultProfile = null;
+            }
             this.profiles.Remove(dataToDelete);
+
 
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
@@ -139,58 +168,77 @@ namespace Hyperbridge.Profile
 
             this.DispatchUpdateEvent();
         }
-
-        public void UpdateActiveProfile()
+        public void UpdateDefaultProfile(ProfileData data)
         {
-            ProfileData updatedActiveProfile = this.FindProfileByName(defaultProfileName);
-
-            if (this.profiles.Count == 0)
+            if (data == null)
             {
-                this.activeProfile = new ProfileData();
-                this.activeProfile.name = "Create a Profile";
 
-                if (this.GetGlobalDefaultProfile() != "") this.SetGlobalDefaultProfile("");
+                return;
+
+            }
+            if (defaultProfile == null)
+            {
+                SetAsDefaultProfile(data);
+                return;
+            }
+            else if (defaultProfile.uuid != data.uuid)
+            {
+
+                SetAsDefaultProfile(data);
+                return;
+
+            }
+
+        }
+        public void UpdateActiveProfile(ProfileData data)
+        {
+            if (defaultProfile != null && activeProfile == null)
+            {
+                this.activeProfile = defaultProfile;
+            }
+            if (data == null)
+            {
+                this.activeProfile = null;
+                this.profileNameDisplay.text = "Create a Profile";
+                this.profileNameDisplayBase.text = "Create a Profile";
             }
             else
             {
-                if (updatedActiveProfile == null)
-                {
-                    this.activeProfile = this.profiles[0];
-                    this.SetGlobalDefaultProfile(this.profiles[0].name);
-                }
-                else
-                {
-                    this.activeProfile = this.FindProfileByName(this.GetGlobalDefaultProfile());
-                }
-            }
+                this.activeProfile = data;
+                this.profileNameDisplay.text = activeProfile.name;
+                this.profileNameDisplayBase.text = activeProfile.name;
 
-            this.profileNameDisplay.text = activeProfile.name;
-            this.profileNameDisplayBase.text = activeProfile.name;
+            }
 
             this.DispatchProfileInitializedEvent();
         }
 
-        string GetGlobalDefaultProfile()
+        public void DispatchUpdateEvent()
         {
-            if (PlayerPrefs.HasKey("DefaultProfile"))
-            {
-                return PlayerPrefs.GetString("DefaultProfile");
-            }
-
-            // TODO: shouldnt this be an error?
-            return "";
+            var message = new UpdateProfilesEvent();
+            message.profiles = this.LoadProfiles();
+            message.activeProfile = this.activeProfile;
+            CodeControl.Message.Send<UpdateProfilesEvent>(message);
         }
 
-        public void SetGlobalDefaultProfile(string name)
+        public void DispatchProfileInitializedEvent()
         {
-            PlayerPrefs.SetString("DefaultProfile", name);
-            PlayerPrefs.Save();
-
-            this.defaultProfileName = name;
-            this.UpdateActiveProfile();
+            var message = new ProfileInitializedEvent();
+            message.activeProfile = this.activeProfile;
+            message.profiles = this.LoadProfiles();
+            CodeControl.Message.Send<ProfileInitializedEvent>(message);
+        }
+        public void SetAsDefaultProfile(ProfileData data)
+        {
+            if (data == null) return;
+            ApplicationSettingsUpdatedEvent message = new ApplicationSettingsUpdatedEvent();
+            message.applicationSettings.defaultProfile = data;
+            message.applicationSettings.activeProfile = this.activeProfile;
+            message.firstLoad = false;
+            CodeControl.Message.Send<ApplicationSettingsUpdatedEvent>(message);
         }
 
-        ProfileData FindProfileByName(string name)
+        public ProfileData FindProfileByName(string name)
         {
             foreach (ProfileData data in this.profiles)
             {

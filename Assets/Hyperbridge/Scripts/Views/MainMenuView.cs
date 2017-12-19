@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hyperbridge.UI;
 using Hyperbridge.Profile;
+using System;
 
 public class MainMenuView : MonoBehaviour
 {
@@ -11,7 +12,19 @@ public class MainMenuView : MonoBehaviour
     void Awake()
     {
         CodeControl.Message.AddListener<MenuEvent>(this.OnMenuEvent);
-        CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfilesUpdated);
+        CodeControl.Message.AddListener<ProfileInitializedEvent>(OnProfileInitialized);
+        CodeControl.Message.AddListener<UpdateProfilesEvent>(OnProfilesUpdated);
+    }
+
+    private void OnProfilesUpdated(UpdateProfilesEvent e)
+    {
+        if(e.activeProfile == null)
+        {
+            ChangeProfileNameTexts(null);
+            return;
+        }
+        ChangeProfileNameTexts(e.activeProfile);
+
     }
 
     public void OnMenuEvent(MenuEvent e)
@@ -26,11 +39,25 @@ public class MainMenuView : MonoBehaviour
         }
     }
 
-    void OnProfilesUpdated(ProfileInitializedEvent e)
+    void OnProfileInitialized(ProfileInitializedEvent e)
     {
+        ChangeProfileNameTexts(e.activeProfile);
+    }
+
+    void ChangeProfileNameTexts(ProfileData activeProfile)
+    {
+        Debug.Log(activeProfile);
         foreach (Text t in activeProfileNameTexts)
         {
-            t.text = e.activeProfile.name;
+            if (activeProfile != null)
+            {
+                t.text = activeProfile.name;
+
+            }
+            else
+            {
+                t.text = "Create a Profile";
+            }
 
         }
     }

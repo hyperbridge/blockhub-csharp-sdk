@@ -35,13 +35,13 @@ namespace Hyperbridge.Core
         public IEnumerator DeleteSpecificJSON(string saveName, string path)
         {
             FileInfo file = new FileInfo(Application.dataPath + path + "/" + saveName + ".json");
-            Debug.Log(IsFileLocked(file));
-            while (IsFileLocked(file))
+            //Debug.Log(IsFileLocked(file));
+          /*  while (IsFileLocked(file)) For testing purposes
             {
                 Debug.Log("Waiting");
                 yield return new WaitForSeconds(0.5f);
             }
-
+            */
 
             if (File.Exists(Application.dataPath + path + "/" + saveName + ".json"))
             {
@@ -51,11 +51,11 @@ namespace Hyperbridge.Core
             }
             else
             {
-              //  deleted(false);
+                //  deleted(false);
                 throw new FileNotFoundException();
 
             }
-          
+            yield return null;
         }
 
         protected virtual bool IsFileLocked(FileInfo file)
