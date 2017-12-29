@@ -17,11 +17,12 @@ namespace Hyperbridge.Profile
 
         private void Awake()
         {
+            // Let's consider decoupling from CodeControl, if possible
+            // This would give us control over synchronization (sync vs async) if we need to change
             CodeControl.Message.AddListener<AppInitializedEvent>(this.OnAppInitialized);
             CodeControl.Message.AddListener<ApplicationSettingsUpdatedEvent>(this.OnApplicationSettingsUpdated);
             CodeControl.Message.AddListener<EditProfileEvent>(this.OnProfileEdited);
         }
-
 
         public void OnAppInitialized(AppInitializedEvent e)
         {
@@ -30,9 +31,11 @@ namespace Hyperbridge.Profile
 
         public void OnApplicationSettingsUpdated(ApplicationSettingsUpdatedEvent e)
         {
-            if (this.LoadProfiles() != null)
+            var profiles = this.LoadProfiles();
+
+            if (profiles != null)
             {
-                foreach (ProfileData profile in this.LoadProfiles())
+                foreach (ProfileData profile in profiles)
                 {
                     if (e.applicationSettings.activeProfile != null)
                     {
@@ -72,11 +75,16 @@ namespace Hyperbridge.Profile
 
         public List<ProfileData> LoadProfiles()
         {
-            //    Debug.Log("Loading Profiles");
-            StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
-              {
-                  this.profiles = profiles;
-              }));
+            // ?? Can't find the reason for using this asynchronously. Looks like it will cause more issues ??
+            // StartCoroutine(Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
+            //   {
+            //       this.profiles = profiles;
+            //   }));
+
+            Database.LoadAllJSONFilesFromSubFolders<ProfileData>("/Resources/Profiles/", (profiles) =>
+            {
+                this.profiles = profiles;
+            });
 
             return this.profiles;
         }
