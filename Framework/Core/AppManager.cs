@@ -72,7 +72,10 @@ namespace Hyperbridge.Core
             if (instance == null)
                 instance = this;
             else
+                // ?? Should this throw an exception instead to stop execution ??
                 Debug.LogError("More than one AppManager");
+
+            // TODO: At this point, setup any dependency injection needs
 
             this.EnableForegroundMode();
 

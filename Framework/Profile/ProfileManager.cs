@@ -30,9 +30,11 @@ namespace Hyperbridge.Profile
 
         public void OnApplicationSettingsUpdated(ApplicationSettingsUpdatedEvent e)
         {
-            if (this.LoadProfiles() != null)
+            var profiles = this.LoadProfiles();
+
+            if (profiles != null)
             {
-                foreach (ProfileData profile in this.LoadProfiles())
+                foreach (ProfileData profile in profiles)
                 {
                     if (e.applicationSettings.activeProfile != null)
                     {

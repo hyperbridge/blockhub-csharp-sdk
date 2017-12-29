@@ -6,8 +6,6 @@ namespace Hyperbridge.Core
 {
     public static class Database
     {
-
-
         public static void SaveJSONToExternal<T>(string externalPath, string saveName, T objectToSave)
         {
             if (!Directory.Exists(externalPath))
