@@ -25,3 +25,5 @@ the wallet to produce a single type of account for a given
 blockchain implementation. This ensures the wallet doesn't cause
 issues during cross-blockchain transactions.
 
+### `WalletAddressNotFoundException`
+Exception thrown when an address is not found in the wallet.

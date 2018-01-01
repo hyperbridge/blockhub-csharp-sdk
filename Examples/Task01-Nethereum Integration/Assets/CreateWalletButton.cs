@@ -17,6 +17,9 @@ public class CreateWalletButton : MonoBehaviour {
     void OnButtonClick()
     {
         // Every click of the button, creates a new account (or shows it based on index).
+
+        // The key for the wallet should be dynamic and come from an app configuration or
+        // user secret.
         IWallet<NethereumAccount> wallet = new NethereumHdWallet("brass bus same payment express already energy direct type have venture afraid");
         IAccount account = wallet.GetAccount(_Index);
 
