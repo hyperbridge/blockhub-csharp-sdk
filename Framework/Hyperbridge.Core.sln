@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbridge.Core", "Hyperbridge.Core\Hyperbridge.Core.csproj", "{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbridge.Nethereum", "Hyperbridge.Nethereum\Hyperbridge.Nethereum.csproj", "{7ED43DCD-3E9C-4772-82D3-D910B61112F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task01-Nethereum Integration", "..\Examples\Task01-Nethereum Integration\Task01-Nethereum Integration.csproj", "{D17607E2-084C-C0D0-11F0-2C01B2B275B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0CB8B96F-A5DD-497E-9787-C45897B1AB54}
+	EndGlobalSection
+EndGlobal
