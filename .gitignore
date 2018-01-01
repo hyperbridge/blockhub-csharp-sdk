@@ -32,3 +32,8 @@ sysinfo.txt
 *.unitypackage
 
 .vs
+/Framework/Hyperbridge.Core/packages
+/Framework/Hyperbridge.Core/obj/Debug
+/Framework/Hyperbridge.Nethereum/bin/Debug
+/Framework/Hyperbridge.Nethereum/obj/Debug
+/Framework/packages
