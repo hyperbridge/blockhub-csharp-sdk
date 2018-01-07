@@ -45,7 +45,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wallet\IAccount.cs" />
+    <Compile Include="Wallet\ISeedGenerator.cs" />
     <Compile Include="Wallet\IWallet.cs" />
+    <Compile Include="Wallet\StaticInMemorySeedGenerator.cs" />
     <Compile Include="Wallet\WalletAddressNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>

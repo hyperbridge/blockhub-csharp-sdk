@@ -1,7 +1,7 @@
 ﻿# Hyperbridge.Nethereum Library
 This library contains the Nethereum implementation details.
 
-# Library
+## Library
 
 ### `NethereumAccount`
 The Nethereum account implementation. Requires an `Nethereum.Web3.Accounts.Account`
@@ -26,3 +26,6 @@ passed in as the seed key.
 var wallet = new NetherumWallet("...seed word list...");
 ```
 
+## Adding Nethereum to a Project
+install the NuGet package `Nethereum.Web3` by calling
+`Install-Package Nethereum.Web3`
