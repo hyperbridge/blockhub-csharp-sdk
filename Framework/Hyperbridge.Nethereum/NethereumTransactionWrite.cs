@@ -2,9 +2,8 @@
 using Hyperbridge.Ethereum;
 using Hyperbridge.Transaction;
 using System.Threading.Tasks;
-using N = Nethereum;
-using Nethereum.Web3;
 using System;
+using N = Nethereum.Web3;
 
 namespace Hyperbridge.Nethereum
 {
@@ -20,7 +19,7 @@ namespace Hyperbridge.Nethereum
 
         public async Task<TransactionSentResponse<Ether>> SendTransactionAsync(IAccount<Ether> fromAccount, IAccount<Ether> toAccount, ICoin<Ether> amount)
         {
-            var wei = Web3.Convert.ToWei(amount.ToTransactionAmount());
+            var wei = N.Web3.Convert.ToWei(amount.ToTransactionAmount());
 
             var client = GetClient(fromAccount);
             var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAccount.Address, new N.Hex.HexTypes.HexBigInteger(wei));
@@ -30,10 +29,10 @@ namespace Hyperbridge.Nethereum
             return new TransactionSentResponse<Ether>(fromAccount, toAccount, amount, hash);
         }
 
-        private Web3 GetClient(IAccount<Ether> fromAccount)
+        private N.Web3 GetClient(IAccount<Ether> fromAccount)
         {
-            var account = new N.Web3.Accounts.Account(fromAccount.PrivateKey);
-            return new Web3(account, Url);
+            var account = new N.Accounts.Account(fromAccount.PrivateKey);
+            return new N.Web3(account, Url);
         }
     }
 }
