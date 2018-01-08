@@ -21,7 +21,7 @@ namespace Hyperbridge.Wallet
         }
     }
 
-    public class WalletAddressNotFoundException<T> : WalletAddressNotFoundException where T : IAccount
+    public class WalletAddressNotFoundException<T> : WalletAddressNotFoundException where T : ICoinCurrency
     {
         public IWallet<T> Wallet { get; }
 

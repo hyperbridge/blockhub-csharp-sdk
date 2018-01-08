@@ -2,13 +2,14 @@
 using System.Linq;
 using NWallet = Nethereum.HdWallet;
 using Hyperbridge.Wallet;
+using Hyperbridge.Ethereum;
 
 namespace Hyperbridge.Nethereum
 {
     /// <summary>
     /// Nethereum wallet implementation
     /// </summary>
-    public class NethereumHdWallet : IWallet<NethereumAccount>
+    public class NethereumHdWallet : IWallet<Ether>
     {
         private NWallet.Wallet NetherumWallet { get; }
         private int MaxIndexSearch { get; }
@@ -23,7 +24,7 @@ namespace Hyperbridge.Nethereum
             MaxIndexSearch = maxIndexSearch;
         }
 
-        public NethereumAccount[] GenerateAccounts(int count, int startIndex = 0)
+        public IAccount<Ether>[] GenerateAccounts(int count, int startIndex = 0)
         {
             if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex), "Index must be 0 or greater to generate an account based on index.");
 
@@ -31,7 +32,7 @@ namespace Hyperbridge.Nethereum
             return indices.Select(x => new NethereumAccount(NetherumWallet.GetAccount(x))).ToArray();
         }
 
-        public NethereumAccount GetAccount(string address)
+        public IAccount<Ether> GetAccount(string address)
         {
             // TODO: The need to specify the maximum index search may need to be refactored one day
             //       into a separate search class in the event we discover people creating hundreds or thousands of 
@@ -41,12 +42,12 @@ namespace Hyperbridge.Nethereum
             // NOTE: This is also indicative of a decision about the maximum number of accounts for a given wallet that 
             //       should be allowed (if a limit should be enforced)
             var foundAccount = NetherumWallet.GetAccount(address, MaxIndexSearch);
-            if (foundAccount == null) throw new WalletAddressNotFoundException<NethereumAccount>(this, address);
+            if (foundAccount == null) throw new WalletAddressNotFoundException<Ether>(this, address);
 
             return new NethereumAccount(foundAccount);
         }
 
-        public NethereumAccount GetAccount(int index)
+        public IAccount<Ether> GetAccount(int index)
         {
             if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Index must be 0 or greater to generate an account based on index.");
             return new NethereumAccount(NetherumWallet.GetAccount(index));

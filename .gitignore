@@ -40,3 +40,6 @@ sysinfo.txt
 /Examples/Task01-Nethereum Integration/Temp
 /Framework/Hyperbridge.Tests/bin/Debug
 /Framework/Hyperbridge.Tests/obj/Debug
+/Framework/Hyperbridge.Data/obj/Debug
+/Framework/Hyperbridge.Data/bin/Debug
+/Framework/Hyperbridge.Ethereum/obj/Debug
