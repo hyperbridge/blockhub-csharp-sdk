@@ -1,5 +1,4 @@
-﻿using Hyperbridge.Transaction;
-using Hyperbridge.Wallet;
+﻿using Hyperbridge.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

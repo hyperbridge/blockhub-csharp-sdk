@@ -1,0 +1,11 @@
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\obj\Debug\Hyperbridge.EtherScan.csprojResolveAssemblyReference.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\obj\Debug\Hyperbridge.EtherScan.csproj.CoreCompileInputs.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.EtherScan.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.EtherScan.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.Core.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.Ethereum.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.Core.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\bin\Debug\Hyperbridge.Ethereum.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\obj\Debug\Hyperbridge.EtherScan.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.EtherScan\obj\Debug\Hyperbridge.EtherScan.pdb

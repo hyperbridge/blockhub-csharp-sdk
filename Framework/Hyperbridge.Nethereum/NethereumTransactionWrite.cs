@@ -4,6 +4,7 @@ using Hyperbridge.Transaction;
 using System.Threading.Tasks;
 using System;
 using N = Nethereum.Web3;
+using H = Nethereum.Hex.HexTypes;
 
 namespace Hyperbridge.Nethereum
 {
@@ -22,7 +23,7 @@ namespace Hyperbridge.Nethereum
             var wei = N.Web3.Convert.ToWei(amount.ToTransactionAmount());
 
             var client = GetClient(fromAccount);
-            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAccount.Address, new N.Hex.HexTypes.HexBigInteger(wei));
+            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAccount.Address, new H.HexBigInteger(wei));
 
             // TODO: Can we ask ask for the Transaction Receipt immediately or do we have to wait?
 

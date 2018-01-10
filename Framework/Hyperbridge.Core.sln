@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbridge.Data", "Hyperbr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbridge.Ethereum", "Hyperbridge.Ethereum\Hyperbridge.Ethereum.csproj", "{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyperbridge.EtherScan", "Hyperbridge.EtherScan\Hyperbridge.EtherScan.csproj", "{A661B2F8-7E5C-4214-9DE6-493117B069FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

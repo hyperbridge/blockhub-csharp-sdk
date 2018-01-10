@@ -1,4 +1,5 @@
 ﻿using Hyperbridge.Wallet;
+using System.Numerics;
 
 namespace Hyperbridge.Ethereum
 {
@@ -15,14 +16,14 @@ namespace Hyperbridge.Ethereum
         public decimal Amount { get; }
         public Ether BaseCurrency => Ether.Instance;
 
-        public decimal ToTransactionAmount()
+        public BigInteger ToTransactionAmount()
         {
-            return Amount;
+            return new BigInteger(Amount * TO_WEI_MULTIPLIER);
         }
 
         public static implicit operator WeiCoin(EtherCoin ether)
         {
-            return new WeiCoin(ether.Amount * TO_WEI_MULTIPLIER);
+            return new WeiCoin((BigInteger) (ether.Amount * TO_WEI_MULTIPLIER));
         }
 
         public static implicit operator EtherCoin(WeiCoin wei)
@@ -52,12 +53,12 @@ namespace Hyperbridge.Ethereum
 
         public static WeiCoin operator +(WeiCoin left, EtherCoin right)
         {
-            return new WeiCoin(left.Amount + (right.Amount * TO_WEI_MULTIPLIER));
+            return new WeiCoin((BigInteger) (left.Amount + (right.Amount * TO_WEI_MULTIPLIER)));
         }
 
         public static WeiCoin operator -(WeiCoin left, EtherCoin right)
         {
-            return new WeiCoin(left.Amount - (right.Amount * TO_WEI_MULTIPLIER));
+            return new WeiCoin((BigInteger) (left.Amount - (right.Amount * TO_WEI_MULTIPLIER)));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Hyperbridge.Wallet
 {
@@ -7,6 +8,6 @@ namespace Hyperbridge.Wallet
         decimal Amount { get; }
         T BaseCurrency { get; }
 
-        decimal ToTransactionAmount();
+        BigInteger ToTransactionAmount();
     }
 }

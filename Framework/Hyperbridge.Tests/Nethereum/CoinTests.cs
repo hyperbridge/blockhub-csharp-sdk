@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Hyperbridge.Ethereum;
 using Hyperbridge.Transaction;
 using Hyperbridge.Wallet;
@@ -21,7 +22,7 @@ namespace Hyperbridge.Nethereum
         [TestMethod]
         public void SingleWeiToEther()
         {
-            var weiCoin = new WeiCoin(1M);
+            var weiCoin = new WeiCoin((BigInteger)1M);
             var etherCoin = (EtherCoin)weiCoin;
 
             Assert.AreEqual(1E-18M, etherCoin.Amount);
