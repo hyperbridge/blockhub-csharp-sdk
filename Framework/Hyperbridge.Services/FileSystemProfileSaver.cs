@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Hyperbridge.Data;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hyperbridge.Profile;
-using Newtonsoft.Json;
 
-namespace Hyperbridge.Data.FileSystem
+namespace Hyperbridge.Services
 {
-    public class FileSystemProfileSaver : ISaver<Profile.Profile>
+    public class FileSystemProfileSaver : ISaver<Profile>
     {
         private string RootDirectory { get; }
 
@@ -19,7 +19,7 @@ namespace Hyperbridge.Data.FileSystem
             RootDirectory = rootDirectory;
         }
 
-        public string Save(Profile.Profile model)
+        public string Save(Profile model)
         {
             var directoryPath = Path.Combine(RootDirectory, model.Id);
 

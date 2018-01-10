@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hyperbridge.Profile
+namespace Hyperbridge.Services
 {
     public class Notification
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Profile
+namespace Hyperbridge.Services
 {
     public class Profile
     {
@@ -28,16 +28,8 @@ namespace Hyperbridge.Profile
         public List<Notification> Notifications { get; set; }
 
         /// <summary>
-        /// List of wallets this profile currently holds
+        /// Contains all wallet information for this profile
         /// </summary>
-        public List<ProfileWallet> Wallets { get; set; }
-    }
-
-    public class ProfileWallet
-    {
-        public string Id { get; set; }
-        public string Type { get; set; }
-
-        public Dictionary<string, string> Parameters { get; set; }
+        public List<Wallet> Wallets { get; set; }
     }
 }
