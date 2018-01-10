@@ -20,13 +20,12 @@ namespace Hyperbridge.Nethereum
 
         public async Task<TransactionSentResponse<Ether>> SendTransactionAsync(IAccount<Ether> fromAccount, IAccount<Ether> toAccount, ICoin<Ether> amount)
         {
-            var wei = N.Web3.Convert.ToWei(amount.ToTransactionAmount());
+            var wei = amount.ToTransactionAmount();
 
             var client = GetClient(fromAccount);
             var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAccount.Address, new H.HexBigInteger(wei));
 
-            // TODO: Can we ask ask for the Transaction Receipt immediately or do we have to wait?
-
+            // TODO: Can we ask ask for the Transaction Receipt immediately or do we have to wait? Do we even need it?
             return new TransactionSentResponse<Ether>(fromAccount, toAccount, amount, hash);
         }
 

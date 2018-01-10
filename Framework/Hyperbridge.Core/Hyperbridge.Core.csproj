@@ -50,6 +50,7 @@
     <Compile Include="Transaction\ITransaction.cs" />
     <Compile Include="Transaction\ILastTransactionRead.cs" />
     <Compile Include="Transaction\ITransactionWrite.cs" />
+    <Compile Include="Wallet\IBalanceRead.cs" />
     <Compile Include="Wallet\ICoin.cs" />
     <Compile Include="Wallet\IAccount.cs" />
     <Compile Include="Wallet\ICoinCurrency.cs" />
