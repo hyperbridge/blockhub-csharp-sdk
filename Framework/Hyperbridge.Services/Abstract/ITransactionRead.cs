@@ -6,13 +6,8 @@ namespace Hyperbridge.Services.Abstract
 {
     public interface ITransactionRead
     {
-        Task<IEnumerable<Transaction>> GetLastTransactions(int page = 1, int limit = 25);
-        Task<IEnumerable<Transaction>> GetLastSentTransactions(int page = 1, int limit = 25);
-        Task<IEnumerable<Transaction>> GetLastReceivedTransactions(int page = 1, int limit = 25);
-    }
-
-    public interface ITransactionWrite
-    {
-        Task SendTransaction(Transaction transaction);
+        Task<IEnumerable<Transaction>> GetLastTransactions(Account account, int page = 1, int limit = 25);
+        Task<IEnumerable<SendTransaction>> GetLastSentTransactions(Account account, int page = 1, int limit = 25);
+        Task<IEnumerable<ReceiveTransaction>> GetLastReceivedTransactions(Account account, int page = 1, int limit = 25);
     }
 }

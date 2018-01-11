@@ -1,4 +1,5 @@
 ﻿using System;
+using Hyperbridge.Ethereum;
 using Hyperbridge.Wallet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,7 +30,7 @@ namespace Hyperbridge.Services
             switch (jsonObject["BlockchainType"].Value<string>())
             {
                 case "ETHER":
-                    currency = Ethereum.Ether.Instance;
+                    currency = Ether.Instance;
                     break;
                 default:
                     throw new InvalidOperationException("Invalid Blockchain type provided.");
@@ -43,7 +44,7 @@ namespace Hyperbridge.Services
         {
             JToken token = JToken.FromObject(value);
 
-            if (typeof(Ethereum.Ether) == value.GetType())
+            if (typeof(Ether) == value.GetType())
             {
                 JObject o = (JObject)token;
                 o.AddFirst(new JProperty("BlockchainType", "ETHER"));

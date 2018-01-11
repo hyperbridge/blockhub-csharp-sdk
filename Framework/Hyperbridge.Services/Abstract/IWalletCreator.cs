@@ -8,6 +8,7 @@ namespace Hyperbridge.Services.Abstract
 {
     public interface IWalletCreator
     {
+        ICoinCurrency Currency { get; }
         Wallet CreateWallet(string secret, string name, string password);
     }
 }

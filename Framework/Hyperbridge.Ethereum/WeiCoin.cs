@@ -14,7 +14,12 @@ namespace Hyperbridge.Ethereum
 
         // HACK: Need a way to safely convert from a BigInteger if it goes outside the bounds of decimal
         public decimal Amount => (decimal) _InternalAmount;
+        public string Unit => "WEI";
+        public string Name => "Wei";
+
         public Ether BaseCurrency => Ether.Instance;
+
+        
 
         public BigInteger ToTransactionAmount()
         {

@@ -1,5 +1,4 @@
 ﻿using Hyperbridge.Wallet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,9 @@ namespace Hyperbridge.Ethereum
     {
         protected Ether() { }
 
-        public virtual string Code => "ETH";
+        public string Code => "ETH";
+        public string Name => "Ethereum";
+        public string Description => "General-purpose Contract-based blockchain based on Ether.";
 
         private static Ether _Instance;
         public static Ether Instance => _Instance ?? (_Instance = new Ether());

@@ -27,7 +27,10 @@ namespace Hyperbridge.Services
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
             var filePath = Path.Combine(directoryPath, $"{model.Id}.json");
-            var json = JsonConvert.SerializeObject(model);
+            var json = JsonConvert.SerializeObject(model, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All
+            });
 
             File.WriteAllText(filePath, json);
 

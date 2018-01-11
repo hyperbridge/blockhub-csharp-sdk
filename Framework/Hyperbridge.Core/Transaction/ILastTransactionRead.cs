@@ -7,6 +7,6 @@ namespace Hyperbridge.Transaction
 {
     public interface ILastTransactionRead<T> where T : ITransaction
     {
-        Task<IEnumerable<T>> GetLastTransactions(string address, int startPage = 0, int limit = 100, CancellationToken cancelToken = default(CancellationToken));
+        Task<IEnumerable<T>> GetLastTransactions(string address, int startPage = 1, int limit = 100, CancellationToken cancelToken = default(CancellationToken));
     }
 }

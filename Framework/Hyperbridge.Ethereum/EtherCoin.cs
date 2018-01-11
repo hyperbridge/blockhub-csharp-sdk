@@ -14,6 +14,9 @@ namespace Hyperbridge.Ethereum
         }
 
         public decimal Amount { get; }
+        public string Unit => "ETH";
+        public string Name => "Ether";
+
         public Ether BaseCurrency => Ether.Instance;
 
         public BigInteger ToTransactionAmount()
