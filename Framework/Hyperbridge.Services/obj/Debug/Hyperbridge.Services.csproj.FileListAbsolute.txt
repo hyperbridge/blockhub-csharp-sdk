@@ -3,7 +3,6 @@ C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\obj\Debu
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Services.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Services.pdb
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Core.dll
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Data.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Ethereum.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.EtherScan.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Nethereum.dll
@@ -23,7 +22,6 @@ C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debu
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Nethereum.ABI.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Nethereum.RLP.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Core.pdb
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Data.pdb
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Ethereum.pdb
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.EtherScan.pdb
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Nethereum.pdb
@@ -31,3 +29,4 @@ C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debu
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\NBitcoin.xml
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\obj\Debug\Hyperbridge.Services.dll
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\obj\Debug\Hyperbridge.Services.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Services\bin\Debug\Hyperbridge.Services.dll.config
