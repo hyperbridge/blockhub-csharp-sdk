@@ -21,7 +21,7 @@ namespace Hyperbridge.Services
         private string TestDirectory { get; set; }
         private IResolver Resolver { get; set; }
         private IDependencyRoot ApplicationRoot { get; set; }
-        private const string WALLET_SECRET = "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
+        private const string WALLET_SECRET = "WALLET SECRET$";
 
         [TestInitialize]
         public void Initialize()
@@ -30,7 +30,7 @@ namespace Hyperbridge.Services
             ApplicationRoot = new ApplicationDependencyRoot(TestDirectory);
 
             var roots = new Dictionary<ICoinCurrency, IDependencyRoot>();
-            roots.Add(Ether.Instance, new EthereumDepedencyRoot("https://ropsten.infura.io/ixskS1fXylG7pA5lOOAK", "VYY443VRI78CT32DFB1TJVMR1KZPZK5B92"));
+            roots.Add(Ether.Instance, new EthereumDepedencyRoot("ROPSTEN CLIENT URL$", "$ETHERSCAN API KEY$"));
             Resolver = new DependencyRootResolver(roots);
         }
 
