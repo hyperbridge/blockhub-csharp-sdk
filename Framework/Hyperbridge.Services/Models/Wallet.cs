@@ -1,7 +1,5 @@
-﻿using Hyperbridge.Services.Abstract;
-using Hyperbridge.Wallet;
+﻿using Hyperbridge.Wallet;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace Hyperbridge.Services
@@ -30,34 +28,5 @@ namespace Hyperbridge.Services
 
         [JsonProperty]
         public List<Account> Accounts { get; } = new List<Account>();
-    }
-
-    public class InMemoryWalletCreator : IWalletCreator
-    {
-        private ISeedGenerator<string> Generator { get; }
-
-        public InMemoryWalletCreator(ICoinCurrency currency, ISeedGenerator<string> generator)
-        {
-            Currency = currency ?? throw new ArgumentNullException(nameof(currency));
-            Generator = generator ?? throw new ArgumentNullException(nameof(generator));
-        }
-
-        public ICoinCurrency Currency { get; }
-        public Wallet CreateWallet(string secret, string name, string password)
-        {
-            return new Wallet
-            {
-                BlockchainType = Currency,
-                Id = Guid.NewGuid().ToString(),
-                Name = name,
-                Secret = secret,
-                LastIndexUsed = 0
-            };
-        }
-
-        public Wallet CreateWallet(string name, string password)
-        {
-            return CreateWallet(Generator.Generate(), name, password);
-        }
     }
 }
