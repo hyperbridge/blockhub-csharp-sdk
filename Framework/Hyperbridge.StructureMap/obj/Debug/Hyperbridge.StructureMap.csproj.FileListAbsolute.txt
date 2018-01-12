@@ -29,7 +29,6 @@ C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\bin\
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\bin\Debug\Hyperbridge.Services.pdb
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\bin\Debug\StructureMap.xml
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\bin\Debug\NBitcoin.xml
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\obj\Debug\Hyperbridge.StructureMap.csprojResolveAssemblyReference.cache
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\obj\Debug\Hyperbridge.StructureMap.csproj.CoreCompileInputs.cache
 C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\obj\Debug\Hyperbridge.StructureMap.dll

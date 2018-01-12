@@ -43,6 +43,14 @@ namespace Hyperbridge.Services
             }
         }
 
+        [TestMethod]
+        public void GeneratePhraseWithWalletExample()
+        {
+            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet("Test Wallet", "");
+            Assert.IsNotNull(wallet.Secret);
+            Console.WriteLine($"Generator Seed: {wallet.Secret}");
+        }
+
         [TestMethod, Ignore]
         public void SavingProfileToDiskExample()
         {

@@ -34,9 +34,12 @@ namespace Hyperbridge.Services
 
     public class InMemoryWalletCreator : IWalletCreator
     {
-        public InMemoryWalletCreator(ICoinCurrency currency)
+        private ISeedGenerator<string> Generator { get; }
+
+        public InMemoryWalletCreator(ICoinCurrency currency, ISeedGenerator<string> generator)
         {
             Currency = currency ?? throw new ArgumentNullException(nameof(currency));
+            Generator = generator ?? throw new ArgumentNullException(nameof(generator));
         }
 
         public ICoinCurrency Currency { get; }
@@ -50,6 +53,11 @@ namespace Hyperbridge.Services
                 Secret = secret,
                 LastIndexUsed = 0
             };
+        }
+
+        public Wallet CreateWallet(string name, string password)
+        {
+            return CreateWallet(Generator.Generate(), name, password);
         }
     }
 }
