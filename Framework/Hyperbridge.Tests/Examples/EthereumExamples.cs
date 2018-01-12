@@ -18,7 +18,7 @@ namespace Hyperbridge.Services
     {
         private readonly ICoinCurrency Currency = Ether.Instance;
 
-        private string TestDirectory { get; set; }
+        private string ProfileDirectory { get; set; }
         private IResolver Resolver { get; set; }
         private IDependencyRoot ApplicationRoot { get; set; }
         private const string WALLET_SECRET = "WALLET SECRET$";
@@ -26,8 +26,8 @@ namespace Hyperbridge.Services
         [TestInitialize]
         public void Initialize()
         {
-            TestDirectory = System.IO.Path.GetFullPath("test\\");
-            ApplicationRoot = new ApplicationDependencyRoot(TestDirectory);
+            ProfileDirectory = System.IO.Path.GetFullPath("test\\");
+            ApplicationRoot = new ApplicationDependencyRoot(ProfileDirectory);
 
             var roots = new Dictionary<ICoinCurrency, IDependencyRoot>();
             roots.Add(Ether.Instance, new EthereumDepedencyRoot("ROPSTEN CLIENT URL$", "$ETHERSCAN API KEY$"));
@@ -37,9 +37,9 @@ namespace Hyperbridge.Services
         [TestCleanup]
         public void CleanUp()
         {
-            if (System.IO.Directory.Exists(TestDirectory))
+            if (System.IO.Directory.Exists(ProfileDirectory))
             {
-                System.IO.Directory.Delete(TestDirectory, true);
+                System.IO.Directory.Delete(ProfileDirectory, true);
             }
         }
 
