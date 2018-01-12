@@ -31,6 +31,8 @@ namespace Hyperbridge.Ethereum
             return $"{Amount} WEI";
         }
 
+
+
         public static WeiCoin operator +(WeiCoin left, WeiCoin right)
         {
             return new WeiCoin(left._InternalAmount + right._InternalAmount);

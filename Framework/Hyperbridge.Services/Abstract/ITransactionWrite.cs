@@ -4,6 +4,6 @@ namespace Hyperbridge.Services.Abstract
 {
     public interface ITransactionWrite
     {
-        Task SendTransaction(SendTransaction transaction);
+        Task<string> SendTransaction(SendTransaction transaction);
     }
 }

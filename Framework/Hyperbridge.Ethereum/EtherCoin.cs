@@ -29,14 +29,14 @@ namespace Hyperbridge.Ethereum
             return new WeiCoin((BigInteger) (ether.Amount * TO_WEI_MULTIPLIER));
         }
 
-        public static implicit operator EtherCoin(WeiCoin wei)
-        {
-            return new EtherCoin(wei.Amount * FROM_WEI_MULTIPLIER);
-        }
-
         public static EtherCoin operator +(EtherCoin left, EtherCoin right)
         {
             return new EtherCoin(left.Amount + right.Amount);
+        }
+
+        public static implicit operator EtherCoin(WeiCoin wei)
+        {
+            return new EtherCoin(wei.Amount * FROM_WEI_MULTIPLIER);
         }
 
         public static EtherCoin operator -(EtherCoin left, EtherCoin right)

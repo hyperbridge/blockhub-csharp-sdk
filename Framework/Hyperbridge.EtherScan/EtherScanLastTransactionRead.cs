@@ -36,7 +36,12 @@ namespace Hyperbridge.EtherScan
         public async Task<IEnumerable<EthereumTransaction>> GetLastTransactions(string address, int startPage = 1, int limit = 100, CancellationToken cancelToken = default(CancellationToken))
         {
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentNullException(nameof(address));
-            if (address.Length != 40) throw new ArgumentOutOfRangeException(nameof(address), "Invalid Address.");
+            
+            // This allows for a 40 character raw address to 
+            // be sent in and it will properly convert it as necessary
+            if (address.Length == 40) address = "0x" + address;
+
+            if (address.Length != 42) throw new ArgumentOutOfRangeException(nameof(address), "Invalid Address.");
 
             if (startPage < 1) throw new ArgumentOutOfRangeException(nameof(startPage), "Start Page must be greater than 0.");
             if (limit < 1) throw new ArgumentOutOfRangeException(nameof(limit), "Limit must be greater than 0.");

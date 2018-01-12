@@ -16,7 +16,7 @@ namespace Hyperbridge.Services.Ethereum
             TransactionWriter = transactionWriter ?? throw new ArgumentNullException(nameof(transactionWriter));
         }
 
-        public async Task SendTransaction(SendTransaction transaction)
+        public async Task<string> SendTransaction(SendTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (transaction.Currency == null || transaction.Currency != Ether.Instance) throw new InvalidOperationException("Must be Ether currency.");
@@ -48,7 +48,8 @@ namespace Hyperbridge.Services.Ethereum
                 }
             }
 
-            await TransactionWriter.SendTransactionAsync(fromAccount, toAccount, amount);
+            var response = await TransactionWriter.SendTransactionAsync(fromAccount, toAccount, amount);
+            return response.TransactionHash;
         }
     }
 }

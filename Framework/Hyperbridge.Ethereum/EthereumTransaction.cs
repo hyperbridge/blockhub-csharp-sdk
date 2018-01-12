@@ -10,7 +10,7 @@ namespace Hyperbridge.Ethereum
         public DateTime TransactionTime { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-        public ICoin<Ether> Coin { get; set; }
+        public WeiCoin Coin { get; set; }
         public BigInteger Amount => Coin.ToTransactionAmount();
 
         public ulong BlockNumber { get; set; }
