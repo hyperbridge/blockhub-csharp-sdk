@@ -23,7 +23,7 @@ namespace Hyperbridge.Services.Ethereum
                 WalletIndex = wallet.LastIndexUsed,
             };
 
-            wallet.Accounts = (wallet.Accounts.Concat(new[] { account })).ToArray();
+            wallet.Accounts.Add(account);
 
             return account;
         }

@@ -23,7 +23,10 @@ namespace Hyperbridge.Data.FileSystem
 
             // TODO: If the future shows we need to serialize differently, we should extract
             //       serialization/deserialization into other interfaces.
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
         }
     }
 }

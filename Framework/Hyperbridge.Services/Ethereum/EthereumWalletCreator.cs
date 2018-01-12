@@ -23,8 +23,7 @@ namespace Hyperbridge.Services.Ethereum
 
                 // Could potentially use password to encrypt password here, but this will require
                 // the password to create accounts
-                Secret = secret, 
-                Accounts = new Account[] { }
+                Secret = secret
             };
         }
     }

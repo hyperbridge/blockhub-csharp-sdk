@@ -48,7 +48,6 @@ namespace Hyperbridge.Services.Ethereum
                 }
             }
 
-
             await TransactionWriter.SendTransactionAsync(fromAccount, toAccount, amount);
         }
     }
