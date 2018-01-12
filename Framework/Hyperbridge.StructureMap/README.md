@@ -16,6 +16,10 @@ In order to implement a new blockchain, a number of things should happen:
 
 After doing this, the new coin currency should be available to the UI application.
 
+# Assemblies
+All assemblies needed for Unity are found in the output of this project. This means that this
+project is considered the most volatile of all the libraries and will change the most.
+
 # Library
 
 ### `ApplicationDependencyRoot : IDependencyRoot`
