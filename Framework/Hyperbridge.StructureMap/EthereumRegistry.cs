@@ -1,8 +1,10 @@
 ﻿using Hyperbridge.Ethereum;
+using Hyperbridge.Nethereum;
 using Hyperbridge.Services.Abstract;
 using Hyperbridge.Services.Ethereum;
 using Hyperbridge.Transaction;
 using Hyperbridge.Wallet;
+using NBitcoin;
 using StructureMap;
 
 namespace Hyperbridge.StructureMap
@@ -28,6 +30,10 @@ namespace Hyperbridge.StructureMap
                 .Singleton();
 
             For<IWalletCreator>().Use<EthereumWalletCreator>().Singleton();
+            For<ISeedGenerator<string>>().Use<Bip39SeedGenerator>()
+                .Ctor<Wordlist>().Is(Wordlist.English)
+                .Ctor<WordCount>().Is(WordCount.Twelve)
+                .Singleton();
         }
     }
 }

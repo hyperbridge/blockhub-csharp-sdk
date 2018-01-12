@@ -10,5 +10,6 @@ namespace Hyperbridge.Services.Abstract
     {
         ICoinCurrency Currency { get; }
         Wallet CreateWallet(string secret, string name, string password);
+        Wallet CreateWallet(string name, string password);
     }
 }

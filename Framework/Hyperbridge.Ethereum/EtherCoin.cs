@@ -19,6 +19,11 @@ namespace Hyperbridge.Ethereum
 
         public Ether BaseCurrency => Ether.Instance;
 
+        public override string ToString()
+        {
+            return $"{Amount} {Unit}";
+        }
+
         public BigInteger ToTransactionAmount()
         {
             return new BigInteger(Amount * TO_WEI_MULTIPLIER);

@@ -11,6 +11,6 @@ namespace Hyperbridge.Ethereum
         }
 
         public string Address { get; }
-        public string PrivateKey => throw new NotImplementedException();
+        public string PrivateKey => throw new InvalidOperationException("Private key is not known for the receiving account.");
     }
 }

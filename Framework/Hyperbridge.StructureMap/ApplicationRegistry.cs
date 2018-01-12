@@ -15,7 +15,7 @@ namespace Hyperbridge.StructureMap
                 .Ctor<string>("rootDirectory").Is(profileDirectory)
                 .Singleton();
 
-            For(typeof(ILoader<>)).Use(typeof(FileSystemLoader<>)).Singleton();
+            For(typeof(ILoader<>)).Use(typeof(FileSystemJsonLoader<>)).Singleton();
             For<ICoinCurrency>().Use(Ether.Instance).Singleton();
         }
     }

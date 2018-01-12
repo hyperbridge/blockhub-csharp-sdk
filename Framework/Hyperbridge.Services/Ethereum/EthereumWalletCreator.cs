@@ -10,6 +10,12 @@ namespace Hyperbridge.Services.Ethereum
 {
     public class EthereumWalletCreator : IWalletCreator
     {
+        private ISeedGenerator<string> SeedGenerator { get; }
+        public EthereumWalletCreator(ISeedGenerator<string> seedGenerator)
+        {
+            SeedGenerator = seedGenerator ?? throw new ArgumentNullException(nameof(seedGenerator));
+        }
+
         public ICoinCurrency Currency => Ether.Instance;
         public Wallet CreateWallet(string secret, string name, string password)
         {
@@ -25,6 +31,12 @@ namespace Hyperbridge.Services.Ethereum
                 // the password to create accounts
                 Secret = secret
             };
+        }
+
+        public Wallet CreateWallet(string name, string password)
+        {
+            var generatedSeed = SeedGenerator.Generate();
+            return CreateWallet(generatedSeed, name, password);
         }
     }
 }

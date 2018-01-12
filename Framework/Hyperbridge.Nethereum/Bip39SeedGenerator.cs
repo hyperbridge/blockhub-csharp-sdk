@@ -19,7 +19,7 @@ namespace Hyperbridge.Nethereum
         {
             if (wordList == null) throw new ArgumentNullException(nameof(wordList));
             if (!Enum.IsDefined(typeof(WordCount), wordCount)) throw new ArgumentOutOfRangeException(nameof(wordCount));
-
+            
             WordList = wordList;
             WordCount = wordCount;
         }

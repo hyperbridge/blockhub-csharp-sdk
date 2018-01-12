@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hyperbridge.Data.FileSystem
 {
-    public class FileSystemLoader<T> : ILoader<T>
+    public class FileSystemJsonLoader<T> : ILoader<T>
     {
         public T Load(string uri)
         {

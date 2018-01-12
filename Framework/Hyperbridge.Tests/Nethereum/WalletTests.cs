@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NBitcoin;
 
 namespace Hyperbridge.Nethereum
 {
@@ -39,6 +40,18 @@ namespace Hyperbridge.Nethereum
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
             Assert.AreEqual(account.PrivateKey, foundAccount.PrivateKey, true);
+        }
+
+        [TestMethod]
+        public void Generate12WordMnemonicPhrase()
+        {
+            var generator = new Bip39SeedGenerator(NBitcoin.Wordlist.English, WordCount.Twelve);
+            var phrase = generator.Generate();
+
+            var words = phrase.Split(' ');
+            Assert.AreEqual(12, words.Length);
+
+            Console.WriteLine($"Phrase: {phrase}");
         }
     }
 }

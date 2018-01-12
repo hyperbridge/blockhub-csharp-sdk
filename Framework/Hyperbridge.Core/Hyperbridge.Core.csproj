@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\FileSystem\FileSystemLoader.cs" />
+    <Compile Include="Data\FileSystem\FileSystemJsonLoader.cs" />
     <Compile Include="Data\ILoader.cs" />
     <Compile Include="Data\InMemory\InMemoryDataStore.cs" />
     <Compile Include="Data\InMemory\InMemoryLoader.cs" />
@@ -57,6 +57,7 @@
     <Compile Include="Transaction\ITransaction.cs" />
     <Compile Include="Transaction\ILastTransactionRead.cs" />
     <Compile Include="Transaction\ITransactionWrite.cs" />
+    <Compile Include="Transaction\TransactionSentResponse.cs" />
     <Compile Include="Wallet\IBalanceRead.cs" />
     <Compile Include="Wallet\ICoin.cs" />
     <Compile Include="Wallet\IAccount.cs" />
