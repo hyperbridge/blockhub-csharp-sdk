@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Hyperbridge.Ethereum
 {
-    public class WeiCoin : IToken<Ether>
+    public class WeiCoin : IToken<Ethereum>
     {
         private readonly BigInteger _InternalAmount;
         public WeiCoin(BigInteger amount)
@@ -17,21 +17,22 @@ namespace Hyperbridge.Ethereum
         public string Unit => "WEI";
         public string Name => "Wei";
 
-        public Ether BaseCurrency => Ether.Instance;
-
-        
+        public Ethereum TokenType => Ethereum.Instance;
 
         public BigInteger ToTransactionAmount()
         {
             return new BigInteger(Amount);
         }
 
-        public override string ToString()
+        public string ToDisplayAmount()
         {
-            return $"{Amount} WEI";
+            return ToString();
         }
 
-
+        public override string ToString()
+        {
+            return $"{Amount} {Unit}";
+        }
 
         public static WeiCoin operator +(WeiCoin left, WeiCoin right)
         {

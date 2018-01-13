@@ -7,7 +7,6 @@ namespace Hyperbridge.Services
     public class Wallet
     {
         [JsonProperty]
-        [JsonConverter(typeof(ITokenSourceConverter))]
         public ITokenSource BlockchainType { get; internal set; }
 
         [JsonProperty]

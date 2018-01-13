@@ -8,6 +8,6 @@ namespace Hyperbridge.Transaction
 {
     public interface ITransactionWrite<T> where T : ITokenSource
     {
-        Task<TransactionSentResponse<T>> SendTransactionAsync(IAccount<T> fromAccount, IAccount<T> toAccount, IToken<T> amount);
+        Task<TransactionSentResponse<T>> SendTransactionAsync(IAccount<T> fromAccount, string toAddress, IToken<T> amount);
     }
 }

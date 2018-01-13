@@ -1,0 +1,2 @@
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\obj\Debug\Blockhub.UnityBridge.csprojResolveAssemblyReference.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.StructureMap\obj\Debug\Blockhub.UnityBridge.csproj.CoreCompileInputs.cache

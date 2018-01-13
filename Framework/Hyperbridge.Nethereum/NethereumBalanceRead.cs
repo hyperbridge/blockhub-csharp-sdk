@@ -6,7 +6,7 @@ using N = Nethereum.Web3;
 
 namespace Hyperbridge.Nethereum
 {
-    public class NethereumBalanceRead : IBalanceRead<Ether>
+    public class NethereumBalanceRead : IBalanceRead<Ethereum.Ethereum>
     {
         private string Url { get; }
 
@@ -16,7 +16,7 @@ namespace Hyperbridge.Nethereum
             Url = url;
         }
 
-        public async Task<IToken<Ether>> GetBalance(IAccount<Ether> account)
+        public async Task<IToken<Ethereum.Ethereum>> GetBalance(IAccount<Ethereum.Ethereum> account)
         {
             if (account == null) throw new ArgumentNullException(nameof(account));
 
@@ -27,7 +27,7 @@ namespace Hyperbridge.Nethereum
             return new EtherCoin(ether);
         }
 
-        private N.Web3 GetClient(IAccount<Ether> account)
+        private N.Web3 GetClient(IAccount<Ethereum.Ethereum> account)
         {
             var nethereumAccount = new N.Accounts.Account(account.PrivateKey);
             return new N.Web3(nethereumAccount, Url);

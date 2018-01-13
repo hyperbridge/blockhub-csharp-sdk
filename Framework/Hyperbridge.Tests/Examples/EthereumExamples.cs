@@ -16,7 +16,7 @@ namespace Hyperbridge.Services
     [TestClass]
     public class Examples
     {
-        private readonly ITokenSource Currency = Ether.Instance;
+        private readonly ITokenSource Currency = Hyperbridge.Ethereum.Ethereum.Instance;
 
         private string ProfileDirectory { get; set; }
         private IResolver Resolver { get; set; }
@@ -30,7 +30,7 @@ namespace Hyperbridge.Services
             ApplicationRoot = new ApplicationDependencyRoot(ProfileDirectory);
 
             var roots = new Dictionary<ITokenSource, IDependencyRoot>();
-            roots.Add(Ether.Instance, new EthereumDepedencyRoot("ROPSTEN CLIENT URL$", "$ETHERSCAN API KEY$"));
+            roots.Add(Hyperbridge.Ethereum.Ethereum.Instance, new EthereumDepedencyRoot("ROPSTEN CLIENT URL$", "$ETHERSCAN API KEY$"));
             Resolver = new DependencyRootResolver(roots);
         }
 
@@ -131,7 +131,7 @@ namespace Hyperbridge.Services
             {
                 Amount = 100M,
                 Unit = "WEI",
-                Currency = Ether.Instance,
+                Currency = Hyperbridge.Ethereum.Ethereum.Instance,
                 FromAddress = account1,
                 ToAddress = account2.Address,
                 TimeStamp = DateTime.Now

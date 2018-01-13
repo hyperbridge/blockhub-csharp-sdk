@@ -23,14 +23,14 @@ namespace Hyperbridge.Wallet
 
     public class WalletAddressNotFoundException<T> : WalletAddressNotFoundException where T : ITokenSource
     {
-        public IWallet<T> Wallet { get; }
+        public IIndexedWalletManage<T> Wallet { get; }
 
-        public WalletAddressNotFoundException(IWallet<T> wallet, string address) : base(address)
+        public WalletAddressNotFoundException(IIndexedWalletManage<T> wallet, string address) : base(address)
         {
             Wallet = wallet ?? throw new ArgumentNullException(nameof(wallet));
         }
 
-        public WalletAddressNotFoundException(IWallet<T> wallet, string address, Exception innerException) : base(address, innerException)
+        public WalletAddressNotFoundException(IIndexedWalletManage<T> wallet, string address, Exception innerException) : base(address, innerException)
         {
             Wallet = wallet ?? throw new ArgumentNullException(nameof(wallet));
         }

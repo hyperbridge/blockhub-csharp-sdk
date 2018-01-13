@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NBitcoin;
 
@@ -10,20 +11,29 @@ namespace Hyperbridge.Nethereum
         private readonly string Seed = "candy maple cake bread pudding cream honey grace smooth crumble sweet blanket";
 
         [TestMethod]
-        public void WalletsFirstAddressIsConsistent()
+        public async Task WalletsFirstAddressIsConsistent()
         {
-            var wallet = new NethereumHdWallet(Seed);
+            var manager = new NethereumHdWalletManage();
+            var wallet = new EthereumWallet
+            {
+                Secret = Seed
+            };
 
-            var firstAccount = wallet.GetAccount(0);
+            var firstAccount = await manager.GetAccount(wallet, 0);
             Assert.AreEqual("0x0ae2415d3a45ea9b009a75643f99a7f88a40b2a3", firstAccount.Address, true);
         }
 
         [TestMethod]
-        public void GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
+        public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
         {
-            var wallet = new NethereumHdWallet(Seed);
-            var account = wallet.GetAccount(15);
-            var foundAccount = wallet.GetAccount(account.Address);
+            var manager = new NethereumHdWalletManage();
+            var wallet = new EthereumWallet
+            {
+                Secret = Seed
+            };
+
+            var account = await manager.GetAccount(wallet, 15);
+            var foundAccount = await manager.GetAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
             Assert.AreEqual(account.PrivateKey, foundAccount.PrivateKey, true);
@@ -32,11 +42,16 @@ namespace Hyperbridge.Nethereum
         // NOTE: This test takes longer than 10 seconds to run due to the large number of accounts to search.
         //       Can reduce the number as necessary.
         [TestMethod]
-        public void GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
+        public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
         {
-            var wallet = new NethereumHdWallet(Seed, 2000);
-            var account = wallet.GetAccount(1500);
-            var foundAccount = wallet.GetAccount(account.Address);
+            var manager = new NethereumHdWalletManage(2000);
+            var wallet = new EthereumWallet
+            {
+                Secret = Seed
+            };
+
+            var account = await manager.GetAccount(wallet, 1500);
+            var foundAccount = await manager.GetAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
             Assert.AreEqual(account.PrivateKey, foundAccount.PrivateKey, true);

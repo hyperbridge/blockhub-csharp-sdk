@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Hyperbridge.Ethereum
 {
-    public class EtherCoin : IToken<Ether>
+    public class EtherCoin : IToken<Ethereum>
     {
         private const decimal FROM_WEI_MULTIPLIER = 1E-18M;
         private const decimal TO_WEI_MULTIPLIER = 1E18M;
@@ -17,7 +17,12 @@ namespace Hyperbridge.Ethereum
         public string Unit => "ETH";
         public string Name => "Ether";
 
-        public Ether BaseCurrency => Ether.Instance;
+        public Ethereum TokenType => Ethereum.Instance;
+
+        public string ToDisplayAmount()
+        {
+            return ToString();
+        }
 
         public override string ToString()
         {
@@ -28,6 +33,8 @@ namespace Hyperbridge.Ethereum
         {
             return new BigInteger(Amount * TO_WEI_MULTIPLIER);
         }
+
+
 
         public static implicit operator WeiCoin(EtherCoin ether)
         {

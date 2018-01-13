@@ -8,7 +8,7 @@ using H = Nethereum.Hex.HexTypes;
 
 namespace Hyperbridge.Nethereum
 {
-    public class NethereumTransactionWrite : ITransactionWrite<Ether>
+    public class NethereumTransactionWrite : ITransactionWrite<Ethereum.Ethereum>
     {
         private string Url { get; }
 
@@ -18,18 +18,18 @@ namespace Hyperbridge.Nethereum
             Url = url;
         }
 
-        public async Task<TransactionSentResponse<Ether>> SendTransactionAsync(IAccount<Ether> fromAccount, IAccount<Ether> toAccount, IToken<Ether> amount)
+        public async Task<TransactionSentResponse<Ethereum.Ethereum>> SendTransactionAsync(IAccount<Ethereum.Ethereum> fromAccount, string toAddress, IToken<Ethereum.Ethereum> amount)
         {
             var wei = amount.ToTransactionAmount();
 
             var client = GetClient(fromAccount);
-            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAccount.Address, new H.HexBigInteger(wei));
+            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAddress, new H.HexBigInteger(wei));
 
             // TODO: Can we ask ask for the Transaction Receipt immediately or do we have to wait? Do we even need it?
-            return new TransactionSentResponse<Ether>(fromAccount, toAccount, amount, hash);
+            return new TransactionSentResponse<Ethereum.Ethereum>(fromAccount, toAddress, amount, hash);
         }
 
-        private N.Web3 GetClient(IAccount<Ether> fromAccount)
+        private N.Web3 GetClient(IAccount<Ethereum.Ethereum> fromAccount)
         {
             var account = new N.Accounts.Account(fromAccount.PrivateKey);
             return new N.Web3(account, Url);
