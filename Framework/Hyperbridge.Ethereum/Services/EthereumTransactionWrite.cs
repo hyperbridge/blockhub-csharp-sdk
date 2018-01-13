@@ -31,7 +31,7 @@ namespace Hyperbridge.Services.Ethereum
             var toAccount = new ToEthereumAccount(transaction.ToAddress);
 
             // Payment
-            ICoin<Ether> amount = new EtherCoin(0M);
+            IToken<Ether> amount = new EtherCoin(0M);
 
             if (transaction.Amount > 0M)
             {

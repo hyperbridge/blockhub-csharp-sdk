@@ -13,28 +13,7 @@ under the `Examples` folder.
 ## Abstract
 Abstractions that should be utilized by the UI.
 
-### `IAccountBalanceReader`
-Interface that retrieves the balance of an account
 
-### `IAccountCreator`
-Interface that creates an account for a given wallet and name for the account.
-
-### `IDependencyRoot`
-Interface that can be used to resolve depedencies on the fly
-(similar to the service locator pattern).
-
-### `IResolver`
-Interface that allows the consumer to resolve dependencies with an instance of `ICoinCurrency`.
-
-### `ITransactionRead`
-Interface that allows reading of the last x transactions for an account. Can retrieve specifically
-sent/received transasctions.
-
-### `ITransactionWrite`
-Interface that allows sending a basic coin transaction from one account to another.
-
-### `IWalletCreator`
-Interface that allows creating a wallet with / without a provided phrase (or secret seed).
 
 ## Application
 Application-level implementations that are indepedenct of blockchain

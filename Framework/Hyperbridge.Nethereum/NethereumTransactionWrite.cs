@@ -18,7 +18,7 @@ namespace Hyperbridge.Nethereum
             Url = url;
         }
 
-        public async Task<TransactionSentResponse<Ether>> SendTransactionAsync(IAccount<Ether> fromAccount, IAccount<Ether> toAccount, ICoin<Ether> amount)
+        public async Task<TransactionSentResponse<Ether>> SendTransactionAsync(IAccount<Ether> fromAccount, IAccount<Ether> toAccount, IToken<Ether> amount)
         {
             var wei = amount.ToTransactionAmount();
 

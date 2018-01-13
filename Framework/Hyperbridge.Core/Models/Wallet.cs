@@ -7,8 +7,8 @@ namespace Hyperbridge.Services
     public class Wallet
     {
         [JsonProperty]
-        [JsonConverter(typeof(ICoinCurrencyConverter))]
-        public ICoinCurrency BlockchainType { get; internal set; }
+        [JsonConverter(typeof(ITokenSourceConverter))]
+        public ITokenSource BlockchainType { get; internal set; }
 
         [JsonProperty]
         public string Id { get; internal set; }

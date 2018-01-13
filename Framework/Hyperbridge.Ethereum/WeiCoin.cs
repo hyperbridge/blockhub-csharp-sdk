@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Hyperbridge.Ethereum
 {
-    public class WeiCoin : ICoin<Ether>
+    public class WeiCoin : IToken<Ether>
     {
         private readonly BigInteger _InternalAmount;
         public WeiCoin(BigInteger amount)

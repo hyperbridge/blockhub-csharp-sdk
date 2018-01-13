@@ -16,7 +16,7 @@ namespace Hyperbridge.Nethereum
             Url = url;
         }
 
-        public async Task<ICoin<Ether>> GetBalance(IAccount<Ether> account)
+        public async Task<IToken<Ether>> GetBalance(IAccount<Ether> account)
         {
             if (account == null) throw new ArgumentNullException(nameof(account));
 

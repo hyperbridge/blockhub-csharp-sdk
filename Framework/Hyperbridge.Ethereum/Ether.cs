@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hyperbridge.Ethereum
 {
-    public class Ether : ICoinCurrency
+    public class Ether : ITokenSource
     {
         protected Ether() { }
 

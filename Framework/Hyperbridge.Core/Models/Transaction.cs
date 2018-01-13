@@ -6,8 +6,8 @@ namespace Hyperbridge.Services
 {
     public class Transaction
     {
-        [JsonConverter(typeof(ICoinCurrencyConverter))]
-        public ICoinCurrency Currency { get; set; }
+        [JsonConverter(typeof(ITokenSourceConverter))]
+        public ITokenSource Currency { get; set; }
 
         public DateTime TimeStamp { get; set; }
         public string FromAddress { get; set; }

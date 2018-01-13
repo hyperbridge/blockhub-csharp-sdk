@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Hyperbridge.Ethereum
 {
-    public class EtherCoin : ICoin<Ether>
+    public class EtherCoin : IToken<Ether>
     {
         private const decimal FROM_WEI_MULTIPLIER = 1E-18M;
         private const decimal TO_WEI_MULTIPLIER = 1E18M;

@@ -16,7 +16,7 @@ namespace Hyperbridge.StructureMap
                 .Singleton();
 
             For(typeof(ILoader<>)).Use(typeof(FileSystemJsonLoader<>)).Singleton();
-            For<ICoinCurrency>().Use(Ether.Instance).Singleton();
+            For<ITokenSource>().Use(Ether.Instance).Singleton();
         }
     }
 }

@@ -3,9 +3,9 @@ using System;
 
 namespace Hyperbridge.Transaction
 {
-    public class TransactionSentResponse<T> where T : ICoinCurrency
+    public class TransactionSentResponse<T> where T : ITokenSource
     {
-        public TransactionSentResponse(IAccount<T> from, IAccount<T> to, ICoin<T> amount, string transHash)
+        public TransactionSentResponse(IAccount<T> from, IAccount<T> to, IToken<T> amount, string transHash)
         {
             FromAccount = from ?? throw new ArgumentNullException(nameof(from));
             ToAccount = to ?? throw new ArgumentNullException(nameof(to));
@@ -15,7 +15,7 @@ namespace Hyperbridge.Transaction
 
         public IAccount<T> FromAccount { get; }
         public IAccount<T> ToAccount { get; }
-        public ICoin<T> Amount { get; }
+        public IToken<T> Amount { get; }
 
         public string TransactionHash { get; }
     }

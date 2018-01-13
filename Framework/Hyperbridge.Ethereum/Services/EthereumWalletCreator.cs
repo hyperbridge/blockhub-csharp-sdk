@@ -16,7 +16,7 @@ namespace Hyperbridge.Services.Ethereum
             SeedGenerator = seedGenerator ?? throw new ArgumentNullException(nameof(seedGenerator));
         }
 
-        public ICoinCurrency Currency => Ether.Instance;
+        public ITokenSource Currency => Ether.Instance;
         public Wallet CreateWallet(string secret, string name, string password)
         {
             // NOTE: Password isn't being used right now.

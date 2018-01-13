@@ -39,6 +39,31 @@ be used for testing various new UI features.
 Saves a model to memory that can be later retrieved. This class should mainly
 be used for testing various new UI features.
 
+## Service Interfaces
+
+### `IAccountBalanceReader`
+Interface that retrieves the balance of an account
+
+### `IAccountCreator`
+Interface that creates an account for a given wallet and name for the account.
+
+### `IDependencyRoot`
+Interface that can be used to resolve depedencies on the fly
+(similar to the service locator pattern).
+
+### `IResolver`
+Interface that allows the consumer to resolve dependencies with an instance of `ICoinCurrency`.
+
+### `ITransactionRead`
+Interface that allows reading of the last x transactions for an account. Can retrieve specifically
+sent/received transasctions.
+
+### `ITransactionWrite`
+Interface that allows sending a basic coin transaction from one account to another.
+
+### `IWalletCreator`
+Interface that allows creating a wallet with / without a provided phrase (or secret seed).
+
 ## Transaction Interfaces
 
 ### `ILastTransactionRead<T>`

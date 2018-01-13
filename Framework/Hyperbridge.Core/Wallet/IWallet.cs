@@ -10,7 +10,7 @@ namespace Hyperbridge.Wallet
     /// General blockchain wallet used to generate (or find) accounts.
     /// </summary>
     /// <typeparam name="T">Blockchain account type</typeparam>
-    public interface IWallet<out T> where T : ICoinCurrency
+    public interface IWallet<out T> where T : ITokenSource
     {
         /// <summary>
         /// Get an account by the address provided. An WalletAddressNotFoundException is thrown when it was not found.

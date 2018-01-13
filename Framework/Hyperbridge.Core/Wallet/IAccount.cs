@@ -8,7 +8,7 @@ namespace Hyperbridge.Wallet
     /// <summary>
     /// A general blockchain account with Address and Private Key funds can be sent to and from.
     /// </summary>
-    public interface IAccount<out T> where T : ICoinCurrency
+    public interface IAccount<out T> where T : ITokenSource
     {
         /// <summary>
         /// Public address of the blockchain account.

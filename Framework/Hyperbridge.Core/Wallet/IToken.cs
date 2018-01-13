@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Hyperbridge.Wallet
 {
-    public interface ICoin<out T> where T : ICoinCurrency
+    public interface IToken<out T> where T : ITokenSource
     {
         decimal Amount { get; }
         string Unit { get; }

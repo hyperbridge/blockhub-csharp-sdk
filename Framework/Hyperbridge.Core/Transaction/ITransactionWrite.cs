@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Hyperbridge.Transaction
 {
-    public interface ITransactionWrite<T> where T : ICoinCurrency
+    public interface ITransactionWrite<T> where T : ITokenSource
     {
-        Task<TransactionSentResponse<T>> SendTransactionAsync(IAccount<T> fromAccount, IAccount<T> toAccount, ICoin<T> amount);
+        Task<TransactionSentResponse<T>> SendTransactionAsync(IAccount<T> fromAccount, IAccount<T> toAccount, IToken<T> amount);
     }
 }

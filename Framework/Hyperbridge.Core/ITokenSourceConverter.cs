@@ -1,18 +1,17 @@
 ﻿using System;
-using Hyperbridge.Ethereum;
 using Hyperbridge.Wallet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Hyperbridge.Services
 {
-    public class ICoinCurrencyConverter : JsonConverter
+    public class ITokenSourceConverter : JsonConverter
     {
         public override bool CanRead => true;
         public override bool CanWrite => true;
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(ICoinCurrency);
+            return objectType == typeof(ITokenSource);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -26,7 +25,7 @@ namespace Hyperbridge.Services
                 return null;
             }
 
-            var currency = default(ICoinCurrency);
+            var currency = default(ITokenSource);
             switch (jsonObject["BlockchainType"].Value<string>())
             {
                 case "ETHER":

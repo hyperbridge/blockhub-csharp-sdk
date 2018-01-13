@@ -1,9 +1,8 @@
 ﻿namespace Hyperbridge.Wallet
 {
-    public interface ICoinCurrency
+    public interface ITokenSource
     {
         string Code { get; }
-
         string Name { get; }
         string Description { get; }
     }
