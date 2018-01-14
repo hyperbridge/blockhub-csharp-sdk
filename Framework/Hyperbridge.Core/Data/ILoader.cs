@@ -1,4 +1,6 @@
-﻿namespace Blockhub.Data
+﻿using System.Threading.Tasks;
+
+namespace Blockhub.Data
 {
     public interface ILoader<T>
     {
@@ -7,6 +9,6 @@
         /// </summary>
         /// <param name="uri">The uri to the resource</param>
         /// <returns>The loaded model</returns>
-        T Load(string uri);
+        Task<T> Load(string uri);
     }
 }

@@ -10,7 +10,7 @@ namespace Blockhub.Data.FileSystem
 {
     public class FileSystemJsonLoader<T> : ILoader<T>
     {
-        public T Load(string uri)
+        public async Task<T> Load(string uri)
         {
             var parsedUri = new Uri(uri);
             if (!parsedUri.Scheme.Equals("file", StringComparison.OrdinalIgnoreCase))

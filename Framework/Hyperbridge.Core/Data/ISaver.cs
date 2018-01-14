@@ -1,4 +1,6 @@
-﻿namespace Blockhub.Data
+﻿using System.Threading.Tasks;
+
+namespace Blockhub.Data
 {
     public interface ISaver<T>
     {
@@ -7,6 +9,6 @@
         /// </summary>
         /// <param name="model">The model to persist.</param>
         /// <returns>The uri to the resource</returns>
-        string Save(T model);
+        Task<string> Save(T model);
     }
 }

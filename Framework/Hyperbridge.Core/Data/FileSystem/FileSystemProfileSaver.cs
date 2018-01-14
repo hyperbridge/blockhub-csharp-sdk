@@ -18,7 +18,7 @@ namespace Blockhub.Services
             RootDirectory = rootDirectory;
         }
 
-        public string Save(Profile model)
+        public async Task<string> Save(Profile model)
         {
             var directoryPath = Path.Combine(RootDirectory, model.Id);
 

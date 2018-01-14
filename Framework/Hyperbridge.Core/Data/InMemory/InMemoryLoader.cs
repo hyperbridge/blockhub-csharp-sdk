@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Blockhub.Data
 {
     public class InMemoryLoader<T> : ILoader<T>
     {
-        public T Load(string uri)
+        public async Task<T> Load(string uri)
         {
             Uri parsedUri = new Uri(uri);
             if (!parsedUri.Scheme.Equals("mem", StringComparison.OrdinalIgnoreCase))

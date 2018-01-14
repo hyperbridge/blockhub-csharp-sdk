@@ -2,36 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hyperbridge.Data;
-using Hyperbridge.Data.FileSystem;
-using Hyperbridge.Ethereum;
-using Hyperbridge.Services.Abstract;
-using Hyperbridge.Services.Ethereum;
-using Hyperbridge.StructureMap;
-using Hyperbridge.Wallet;
+using Blockhub.Data.FileSystem;
+using Blockhub.Ethereum;
+using Blockhub.Nethereum;
+using Blockhub.Services.Abstract;
+using Blockhub.Wallet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hyperbridge.Services
+namespace Blockhub.Services
 {
     [TestClass]
     public class Examples
     {
-        private readonly ITokenSource Currency = Hyperbridge.Ethereum.Ethereum.Instance;
+        private readonly ITokenSource Currency = Blockhub.Ethereum.Ethereum.Instance;
 
         private string ProfileDirectory { get; set; }
-        private IResolver Resolver { get; set; }
-        private IDependencyRoot ApplicationRoot { get; set; }
-        private const string WALLET_SECRET = "WALLET SECRET$";
-
+        private const string WALLET_SECRET = "";
+        private const string CLIENT_URL = "";
+        private const string ETHER_SCAN_API_KEY = "";
         [TestInitialize]
         public void Initialize()
         {
             ProfileDirectory = System.IO.Path.GetFullPath("test\\");
-            ApplicationRoot = new ApplicationDependencyRoot(ProfileDirectory);
-
-            var roots = new Dictionary<ITokenSource, IDependencyRoot>();
-            roots.Add(Hyperbridge.Ethereum.Ethereum.Instance, new EthereumDepedencyRoot("ROPSTEN CLIENT URL$", "$ETHERSCAN API KEY$"));
-            Resolver = new DependencyRootResolver(roots);
         }
 
         [TestCleanup]
@@ -43,18 +35,55 @@ namespace Hyperbridge.Services
             }
         }
 
-        [TestMethod]
-        public void GeneratePhraseWithWalletExample()
+        #region Helpers
+        private Ethereum.EthereumWalletCreate WalletCreator()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet("Test Wallet", "");
+            return new Ethereum.EthereumWalletCreate(new Bip39SeedGenerator(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve));
+        }
+
+        private NethereumIndexedWalletManage WalletManager()
+        {
+            return new NethereumIndexedWalletManage();
+        }
+
+        private FileSystemProfileSaver ProfileSaver()
+        {
+            return new FileSystemProfileSaver(ProfileDirectory);
+        }
+
+        private FileSystemJsonLoader<T> Loader<T>()
+        {
+            return new FileSystemJsonLoader<T>();
+        }
+
+        private NethereumBalanceRead AccountBalance()
+        {
+            return new NethereumBalanceRead(CLIENT_URL);
+        }
+
+        private NethereumTransactionWrite TransactionWrite()
+        {
+            return new NethereumTransactionWrite(CLIENT_URL);
+        }
+
+        private EtherScan.EtherScanLastTransactionRead TransactionRead()
+        {
+            return new EtherScan.EtherScanLastTransactionRead(ETHER_SCAN_API_KEY);
+        }
+        #endregion
+
+        [TestMethod]
+        public async Task GeneratePhraseWithWalletExample()
+        {
+            var wallet = await WalletCreator().CreateWallet("Test Wallet", "");
             Assert.IsNotNull(wallet.Secret);
             Console.WriteLine($"Generator Seed: {wallet.Secret}");
         }
 
         [TestMethod, Ignore]
-        public void SavingProfileToDiskExample()
+        public async Task SavingProfileToDiskExample()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet("SecretTest", "Test Wallet", "");
+            var wallet = await WalletCreator().CreateWallet("SecretTest", "Test Wallet", "");
             
             var notification = new Notification
             {
@@ -73,26 +102,29 @@ namespace Hyperbridge.Services
                 Notifications = new System.Collections.Generic.List<Notification>
                 {
                     notification
-                },
-                Wallets = new System.Collections.Generic.List<Wallet>
-                {
-                    wallet
                 }
             };
 
-            var filePath = ApplicationRoot.Resolve<ISaver<Profile>>().Save(profile);
+            profile.ProfileObjects.Add(wallet);
+
+            var filePath = await ProfileSaver().Save(profile);
             Console.WriteLine($"Path: {filePath}");
 
             Assert.IsNotNull(filePath);
             Assert.IsTrue(System.IO.File.Exists(new Uri(filePath).AbsolutePath));
 
-            var loadedProfile = ApplicationRoot.Resolve<ILoader<Profile>>().Load(filePath);
+            var loadedProfile = await Loader<Profile>().Load(filePath);
 
             Assert.AreEqual(profile.Id, loadedProfile.Id);
             Assert.AreEqual(profile.ImageUri, loadedProfile.ImageUri);
             Assert.AreEqual(profile.Name, loadedProfile.Name);
             Assert.AreEqual(profile.Notifications.Count, loadedProfile.Notifications.Count);
-            Assert.AreEqual(profile.Wallets.Count, loadedProfile.Wallets.Count);
+
+            var expectedWallets = profile.GetWallets<Ethereum.Ethereum>().ToArray();
+            var loadedWallets = profile.GetWallets<Ethereum.Ethereum>().ToArray();
+            Assert.AreEqual(expectedWallets.Count(), loadedWallets.Count());
+            Assert.IsTrue(expectedWallets.Count() > 0);
+            Assert.IsTrue(loadedWallets.Count() > 0);
 
             Assert.AreEqual(profile.Notifications[0].HasBeenShown, loadedProfile.Notifications[0].HasBeenShown);
             Assert.AreEqual(profile.Notifications[0].Subject, loadedProfile.Notifications[0].Subject);
@@ -100,20 +132,18 @@ namespace Hyperbridge.Services
             Assert.AreEqual(profile.Notifications[0].TimeStamp, loadedProfile.Notifications[0].TimeStamp);
             Assert.AreEqual(profile.Notifications[0].Type, loadedProfile.Notifications[0].Type);
 
-            Assert.AreEqual(profile.Wallets[0].BlockchainType, loadedProfile.Wallets[0].BlockchainType);
-            Assert.AreEqual(profile.Wallets[0].Id, loadedProfile.Wallets[0].Id);
-            Assert.AreEqual(profile.Wallets[0].LastIndexUsed, loadedProfile.Wallets[0].LastIndexUsed);
-            Assert.AreEqual(profile.Wallets[0].Name, loadedProfile.Wallets[0].Name);
-            Assert.AreEqual(profile.Wallets[0].Secret, loadedProfile.Wallets[0].Secret);
-            Assert.AreEqual(profile.Wallets[0].Accounts.Count, loadedProfile.Wallets[0].Accounts.Count);
+            Assert.AreEqual(expectedWallets[0].Id, loadedWallets[0].Id);
+            Assert.AreEqual(expectedWallets[0].Name, loadedWallets[0].Name);
+            Assert.AreEqual(expectedWallets[0].Secret, loadedWallets[0].Secret);
+            Assert.AreEqual(expectedWallets[0].Accounts.Count, loadedWallets[0].Accounts.Count);
         }
 
         [TestMethod, Ignore]
         public async Task GetBalanceExample()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
-            var balance = await Resolver.Resolve<IAccountBalanceReader>(Currency).GetAccountBalance(account);
+            Wallet<Ethereum.Ethereum> wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
+            var account = await WalletManager().GetAccount(wallet, 0);
+            var balance = await AccountBalance().GetBalance(account);
 
             Console.WriteLine($"Balance: {balance}");
         }
@@ -121,84 +151,46 @@ namespace Hyperbridge.Services
         [TestMethod, Ignore]
         public async Task SendTransactionExample()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account1 = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
-            var account2 = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 2");
+            var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
+            var account1 = await WalletManager().GetAccount(wallet, 0);
+            var account2 = await WalletManager().GetAccount(wallet, 1);
 
             Assert.AreNotEqual(account1.Address, account2.Address, true);
 
-            var transactionHash = await Resolver.Resolve<ITransactionWrite>(Currency).SendTransaction(new SendTransaction
-            {
-                Amount = 100M,
-                Unit = "WEI",
-                Currency = Hyperbridge.Ethereum.Ethereum.Instance,
-                FromAddress = account1,
-                ToAddress = account2.Address,
-                TimeStamp = DateTime.Now
-            });
+            var response = await TransactionWrite().SendTransactionAsync(account1, account2.Address, new WeiCoin(100));
 
             Console.WriteLine($"From Address: {account1.Address}");
             Console.WriteLine($"To Address: {account2.Address}");
-            Console.WriteLine($"Transaction Hash: {transactionHash}");
+            Console.WriteLine($"Transaction Hash: {response.TransactionHash}");
         }
 
         [TestMethod, Ignore]
         public async Task ReadLast25TransactionsExample()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
+            var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
+            var account = await WalletManager().GetAccount(wallet, 0);
 
-            var transactions = await Resolver.Resolve<ITransactionRead>(Currency).GetLastTransactions(account);
+            var transactions = await TransactionRead().GetLastTransactions(account.Address, 1, 25);
 
             Console.WriteLine($"Total Transactions: {transactions.Count()}");
             foreach(var t in transactions)
             {
-                Console.WriteLine($"TimeStamp: {t.TimeStamp}, Amount: {t.Amount} {t.Unit}, From: {t.FromAddress}, To: {t.ToAddress}");
+                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.Amount} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
             }
         }
 
         [TestMethod, Ignore]
-        public async Task ReadLast25SentTransactionsExample()
+        public async Task ReadLast25Transactions_Page2_Example()
         {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
+            var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
+            var account = await WalletManager().GetAccount(wallet, 0);
 
-            var transactions = await Resolver.Resolve<ITransactionRead>(Currency).GetLastSentTransactions(account);
+            var transactions = await TransactionRead().GetLastTransactions(account.Address, 2, 25);
 
             Console.WriteLine($"Total Transactions: {transactions.Count()}");
             foreach (var t in transactions)
             {
-                Console.WriteLine($"TimeStamp: {t.TimeStamp}, Amount: {t.Amount} {t.Unit}, From: {t.FromAddress.Address}, To: {t.ToAddress}");
-            }
-        }
-
-        [TestMethod, Ignore]
-        public async Task ReadLast25ReceivedTransactionsExample()
-        {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
-
-            var transactions = await Resolver.Resolve<ITransactionRead>(Currency).GetLastReceivedTransactions(account);
-
-            Console.WriteLine($"Total Transactions: {transactions.Count()}");
-            foreach (var t in transactions)
-            {
-                Console.WriteLine($"TimeStamp: {t.TimeStamp}, Amount: {t.Amount} {t.Unit}, From: {t.FromAddress}, To: {t.ToAddress.Address}");
-            }
-        }
-
-        [TestMethod, Ignore]
-        public async Task ReadLast25ReceivedTransactions_Page2_Example()
-        {
-            var wallet = Resolver.Resolve<IWalletCreator>(Currency).CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = Resolver.Resolve<IAccountCreator>(Currency).CreateAccount(wallet, "Account 1");
-
-            var transactions = await Resolver.Resolve<ITransactionRead>(Currency).GetLastReceivedTransactions(account, 2);
-
-            Console.WriteLine($"Total Transactions: {transactions.Count()}");
-            foreach (var t in transactions)
-            {
-                Console.WriteLine($"TimeStamp: {t.TimeStamp}, Amount: {t.Amount} {t.Unit}, From: {t.FromAddress}, To: {t.ToAddress.Address}");
+                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.Amount} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
             }
         }
     }

@@ -19,6 +19,7 @@ namespace Blockhub.Services
     public class Wallet<T> : Wallet 
         where T : ITokenSource
     {
+        [JsonProperty]
         public ICollection<Account<T>> Accounts { get; } = new Collection<Account<T>>();
     }
 }
