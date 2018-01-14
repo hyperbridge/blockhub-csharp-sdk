@@ -25,7 +25,8 @@ namespace Blockhub.Data.FileSystem
             //       serialization/deserialization into other interfaces.
             return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
             {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                TypeNameHandling = TypeNameHandling.All
             });
         }
     }

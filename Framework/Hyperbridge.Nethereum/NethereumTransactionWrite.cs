@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using N = Nethereum.Web3;
 using H = Nethereum.Hex.HexTypes;
+using Blockhub.Services;
 
 namespace Blockhub.Nethereum
 {
@@ -18,7 +19,7 @@ namespace Blockhub.Nethereum
             Url = url;
         }
 
-        public async Task<TransactionSentResponse<Ethereum.Ethereum>> SendTransactionAsync(IAccount<Ethereum.Ethereum> fromAccount, string toAddress, IToken<Ethereum.Ethereum> amount)
+        public async Task<TransactionSentResponse<Ethereum.Ethereum>> SendTransactionAsync(Account<Ethereum.Ethereum> fromAccount, string toAddress, IToken<Ethereum.Ethereum> amount)
         {
             var wei = amount.ToTransactionAmount();
 
@@ -29,7 +30,7 @@ namespace Blockhub.Nethereum
             return new TransactionSentResponse<Ethereum.Ethereum>(fromAccount, toAddress, amount, hash);
         }
 
-        private N.Web3 GetClient(IAccount<Ethereum.Ethereum> fromAccount)
+        private N.Web3 GetClient(Account<Ethereum.Ethereum> fromAccount)
         {
             var account = new N.Accounts.Account(fromAccount.PrivateKey);
             return new N.Web3(account, Url);

@@ -3,6 +3,7 @@ using Blockhub.Wallet;
 using Blockhub.Ethereum;
 using System.Threading.Tasks;
 using N = Nethereum.Web3;
+using Blockhub.Services;
 
 namespace Blockhub.Nethereum
 {
@@ -16,7 +17,7 @@ namespace Blockhub.Nethereum
             Url = url;
         }
 
-        public async Task<IToken<Ethereum.Ethereum>> GetBalance(IAccount<Ethereum.Ethereum> account)
+        public async Task<IToken<Ethereum.Ethereum>> GetBalance(Account<Ethereum.Ethereum> account)
         {
             if (account == null) throw new ArgumentNullException(nameof(account));
 
@@ -27,7 +28,7 @@ namespace Blockhub.Nethereum
             return new EtherCoin(ether);
         }
 
-        private N.Web3 GetClient(IAccount<Ethereum.Ethereum> account)
+        private N.Web3 GetClient(Account<Ethereum.Ethereum> account)
         {
             var nethereumAccount = new N.Accounts.Account(account.PrivateKey);
             return new N.Web3(nethereumAccount, Url);

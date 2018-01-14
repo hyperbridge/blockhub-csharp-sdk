@@ -28,7 +28,8 @@ namespace Blockhub.Services
             var filePath = Path.Combine(directoryPath, $"{model.Id}.json");
             var json = JsonConvert.SerializeObject(model, new JsonSerializerSettings
             {
-                PreserveReferencesHandling = PreserveReferencesHandling.All
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                TypeNameHandling = TypeNameHandling.All
             });
 
             File.WriteAllText(filePath, json);

@@ -1,13 +1,13 @@
-﻿namespace Blockhub.Services
-{
-    public class Account
-    {
-        public string Id { get; set; }
-        public Wallet Wallet { get; set; }
+﻿using Blockhub.Wallet;
+using Newtonsoft.Json;
 
-        public int WalletIndex { get; set; }
-        public string Name { get; set; }
+namespace Blockhub.Services
+{
+    public class Account<T> : ProfileObject where T : ITokenSource
+    {
         public string Address { get; set; }
-        // NOTE: Do not store private key at all anywhere. This can be re-calculated
+
+        [JsonIgnore]
+        public string PrivateKey { get; set; }
     }
 }

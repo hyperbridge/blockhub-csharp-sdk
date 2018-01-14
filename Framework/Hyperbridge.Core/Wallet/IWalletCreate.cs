@@ -9,7 +9,7 @@ namespace Blockhub.Services.Abstract
 {
     public interface IWalletCreate<T> where T : ITokenSource
     {
-        Task<IWallet<T>> CreateWallet(string secret, string name, string password);
-        Task<IWallet<T>> CreateWallet(string name, string password);
+        Task<Wallet<T>> CreateWallet(string secret, string name, string password);
+        Task<Wallet<T>> CreateWallet(string name, string password);
     }
 }

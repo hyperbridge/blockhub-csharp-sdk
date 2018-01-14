@@ -1,4 +1,5 @@
-﻿using Blockhub.Services.Abstract;
+﻿using Blockhub.Services;
+using Blockhub.Services.Abstract;
 using Blockhub.Wallet;
 using System;
 using System.Collections.Generic;
@@ -29,17 +30,17 @@ namespace Blockhub.Wallet
             SearchCount = searchCount;
         }
 
-        public async Task<IWallet<T>> CreateWallet(string secret, string name, string password)
+        public async Task<Wallet<T>> CreateWallet(string secret, string name, string password)
         {
             return await SearchAndFillInAccounts(await WalletCreator.CreateWallet(secret, name, password));
         }
 
-        public async Task<IWallet<T>> CreateWallet(string name, string password)
+        public async Task<Wallet<T>> CreateWallet(string name, string password)
         {
             return await SearchAndFillInAccounts(await WalletCreator.CreateWallet(name, password));
         }
 
-        private async Task<IWallet<T>> SearchAndFillInAccounts(IWallet<T> wallet)
+        private async Task<Wallet<T>> SearchAndFillInAccounts(Wallet<T> wallet)
         {
             var accountsToSearch = await WalletManager.GenerateAccounts(wallet, SearchCount);
 
@@ -54,7 +55,7 @@ namespace Blockhub.Wallet
                     if (!wallet.Accounts.Any(x => x.Address.Equals(account.Address, StringComparison.OrdinalIgnoreCase)))
                     {
                         foundCount++;
-                        wallet.AddAccount(account);
+                        wallet.Accounts.Add(account);
                     }
                 }
             }

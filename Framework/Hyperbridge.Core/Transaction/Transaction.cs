@@ -16,7 +16,7 @@ namespace Blockhub.Services
     public class Transaction<T> : Transaction
         where T : ITokenSource
     {
-        public Transaction(DateTime timestamp, IAccount<T> account, string toAddress, IToken<T> amount) : base()
+        public Transaction(DateTime timestamp, Account<T> account, string toAddress, IToken<T> amount) : base()
         {
             TimeStamp = DateTime.UtcNow;
             Account = account ?? throw new ArgumentNullException(nameof(account));
@@ -30,6 +30,6 @@ namespace Blockhub.Services
 
         public override IToken Amount => TokenAmount;
         public IToken<T> TokenAmount { get; }
-        public IAccount<T> Account { get; }
+        public Account<T> Account { get; }
     }
 }

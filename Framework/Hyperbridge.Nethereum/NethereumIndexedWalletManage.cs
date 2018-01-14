@@ -4,6 +4,7 @@ using NWallet = Nethereum.HdWallet;
 using Blockhub.Wallet;
 using Blockhub.Ethereum;
 using System.Threading.Tasks;
+using Blockhub.Services;
 
 namespace Blockhub.Nethereum
 {
@@ -21,12 +22,12 @@ namespace Blockhub.Nethereum
             MaxIndexSearch = maxIndexSearch;
         }
 
-        private NWallet.Wallet CreateNetherumWallet(IWallet<Ethereum.Ethereum> wallet)
+        private NWallet.Wallet CreateNetherumWallet(Wallet<Ethereum.Ethereum> wallet)
         {
             return new NWallet.Wallet(wallet.Secret, null);
         }
 
-        public async Task<IAccount<Ethereum.Ethereum>[]> GenerateAccounts(IWallet<Ethereum.Ethereum> wallet, int count, int startIndex = 0)
+        public async Task<Account<Ethereum.Ethereum>[]> GenerateAccounts(Wallet<Ethereum.Ethereum> wallet, int count, int startIndex = 0)
         {
             if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex), "Index must be 0 or greater to generate an account based on index.");
 
@@ -35,16 +36,17 @@ namespace Blockhub.Nethereum
             return indices.Select(x =>
             {
                 var account = nethereumWallet.GetAccount(x);
-                return new EthereumAccount
+                return new Account<Ethereum.Ethereum>
                 {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "",
                     Address = account.Address,
-                    PrivateKey = account.PrivateKey,
-                    Wallet = wallet
+                    PrivateKey = account.PrivateKey
                 };
             }).ToArray();
         }
 
-        public async Task<IAccount<Ethereum.Ethereum>> GetAccount(IWallet<Ethereum.Ethereum> wallet, string address)
+        public async Task<Account<Ethereum.Ethereum>> GetAccount(Wallet<Ethereum.Ethereum> wallet, string address)
         {
             // TODO: The need to specify the maximum index search may need to be refactored one day
             //       into a separate search class in the event we discover people creating hundreds or thousands of 
@@ -56,23 +58,25 @@ namespace Blockhub.Nethereum
             var foundAccount = CreateNetherumWallet(wallet).GetAccount(address, MaxIndexSearch);
             if (foundAccount == null) throw new WalletAddressNotFoundException<Ethereum.Ethereum>(this, address);
 
-            return new EthereumAccount
+            return new Account<Ethereum.Ethereum>
             {
+                Id = Guid.NewGuid().ToString(),
+                Name = "",
                 Address = foundAccount.Address,
-                PrivateKey = foundAccount.PrivateKey,
-                Wallet = wallet
+                PrivateKey = foundAccount.PrivateKey
             };
         }
 
-        public async Task<IAccount<Ethereum.Ethereum>> GetAccount(IWallet<Ethereum.Ethereum> wallet, int index)
+        public async Task<Account<Ethereum.Ethereum>> GetAccount(Wallet<Ethereum.Ethereum> wallet, int index)
         {
             if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Index must be 0 or greater to generate an account based on index.");
             var account = CreateNetherumWallet(wallet).GetAccount(index);
-            return new EthereumAccount
+            return new Account<Ethereum.Ethereum>
             {
+                Id = Guid.NewGuid().ToString(),
+                Name = "",
                 Address = account.Address,
-                PrivateKey = account.PrivateKey,
-                Wallet = wallet
+                PrivateKey = account.PrivateKey
             };
         }
     }

@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Blockhub.Wallet;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Blockhub.Services
 {
-    public class Profile
+    public class Profile : ProfileObject
     {
-        /// <summary>
-        /// Unique Id of the profile
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Name of the Profile to be shown in the UI
-        /// </summary>
-        public string Name { get; set;  }
-
         /// <summary>
         /// Uri to the profile image to be shown in the UI
         /// </summary>
@@ -27,9 +19,15 @@ namespace Blockhub.Services
         /// </summary>
         public List<Notification> Notifications { get; set; }
 
-        /// <summary>
-        /// Contains all wallet information for this profile
-        /// </summary>
-        public List<Wallet> Wallets { get; set; }
+        [JsonProperty]
+        public ICollection<ProfileObject> ProfileObjects { get; } = new Collection<ProfileObject>();
+
+        public IEnumerable<T> GetObjects<T>() where T : ProfileObject
+        {
+            return ProfileObjects
+                .Where(x => x is T)
+                .Select(x => (T) x)
+                .ToArray();
+        }
     }
 }

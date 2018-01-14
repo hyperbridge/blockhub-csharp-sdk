@@ -4,6 +4,7 @@ using Blockhub.Services.Abstract;
 using System.Threading.Tasks;
 using Blockhub.Ethereum;
 using System.Linq;
+using Blockhub.Services;
 
 namespace Blockhub.Nethereum
 {
@@ -15,15 +16,17 @@ namespace Blockhub.Nethereum
             SeedGenerator = seedGenerator ?? throw new ArgumentNullException(nameof(seedGenerator));
         }
 
-        public async Task<IWallet<Ethereum.Ethereum>> CreateWallet(string secret, string name, string password)
+        public async Task<Wallet<Ethereum.Ethereum>> CreateWallet(string secret, string name, string password)
         {
-            return new EthereumWallet
+            return new Wallet<Ethereum.Ethereum>
             {
+                Id = Guid.NewGuid().ToString(),
+                Name = name,
                 Secret = secret
             };
         }
 
-        public Task<IWallet<Ethereum.Ethereum>> CreateWallet(string name, string password)
+        public Task<Wallet<Ethereum.Ethereum>> CreateWallet(string name, string password)
         {
             var seed = SeedGenerator.Generate();
             return CreateWallet(seed, name, password);

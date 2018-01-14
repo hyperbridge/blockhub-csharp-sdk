@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Blockhub.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NBitcoin;
 
@@ -14,7 +15,7 @@ namespace Blockhub.Nethereum
         public async Task WalletsFirstAddressIsConsistent()
         {
             var manager = new NethereumIndexedWalletManage();
-            var wallet = new EthereumWallet
+            var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
@@ -27,7 +28,7 @@ namespace Blockhub.Nethereum
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
         {
             var manager = new NethereumIndexedWalletManage();
-            var wallet = new EthereumWallet
+            var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
@@ -45,7 +46,7 @@ namespace Blockhub.Nethereum
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
         {
             var manager = new NethereumIndexedWalletManage(2000);
-            var wallet = new EthereumWallet
+            var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
