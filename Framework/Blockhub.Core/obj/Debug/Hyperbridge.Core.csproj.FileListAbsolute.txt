@@ -1,8 +1,0 @@
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Hyperbridge.Core.dll
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Hyperbridge.Core.pdb
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Hyperbridge.Core.csprojResolveAssemblyReference.cache
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Hyperbridge.Core.csproj.CoreCompileInputs.cache
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Hyperbridge.Core.dll
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Hyperbridge.Core.pdb
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Newtonsoft.Json.xml
