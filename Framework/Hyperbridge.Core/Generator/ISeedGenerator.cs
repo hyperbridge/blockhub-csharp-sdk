@@ -1,4 +1,4 @@
-﻿namespace Hyperbridge.Wallet
+﻿namespace Blockhub.Wallet
 {
     /// <summary>
     /// Generates a new seed based on an algorithm.

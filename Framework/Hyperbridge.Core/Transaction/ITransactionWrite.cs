@@ -1,10 +1,10 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Transaction
+namespace Blockhub.Transaction
 {
     public interface ITransactionWrite<T> where T : ITokenSource
     {

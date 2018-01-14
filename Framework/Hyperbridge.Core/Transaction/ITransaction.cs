@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Hyperbridge.Transaction
+namespace Blockhub.Transaction
 {
     public interface ITransaction
     {

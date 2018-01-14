@@ -1,7 +1,7 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using System;
 
-namespace Hyperbridge.Transaction
+namespace Blockhub.Transaction
 {
     public class TransactionSentResponse<T> where T : ITokenSource
     {

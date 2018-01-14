@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hyperbridge.Data
+namespace Blockhub.Data
 {
     /// <summary>
     /// Used strictly for in-memory storage of data

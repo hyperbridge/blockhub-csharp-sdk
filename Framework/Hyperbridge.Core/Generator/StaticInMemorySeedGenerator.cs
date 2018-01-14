@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hyperbridge.Wallet
+namespace Blockhub.Wallet
 {
     public class StaticInMemorySeedGenerator : ISeedGenerator<string>
     {

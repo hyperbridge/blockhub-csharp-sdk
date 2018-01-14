@@ -1,4 +1,4 @@
-﻿namespace Hyperbridge.Data
+﻿namespace Blockhub.Data
 {
     public interface IEntity
     {

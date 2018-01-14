@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hyperbridge.Services
+namespace Blockhub.Services
 {
     public class Notification
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Hyperbridge.Wallet
+namespace Blockhub.Wallet
 {
     public interface IBalanceRead<T> where T : ITokenSource
     {

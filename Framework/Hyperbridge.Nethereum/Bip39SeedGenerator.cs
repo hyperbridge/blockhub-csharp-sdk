@@ -1,8 +1,8 @@
 ﻿using System;
-using Hyperbridge.Wallet;
+using Blockhub.Wallet;
 using NBitcoin;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     /// TODO: This should really be pulled out of the Nethereum Implementation so that we can re-use it for
     ///       other wallets in the future without this set of depedencies.

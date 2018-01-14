@@ -1,10 +1,10 @@
 ﻿using System;
-using Hyperbridge.Wallet;
-using Hyperbridge.Ethereum;
+using Blockhub.Wallet;
+using Blockhub.Ethereum;
 using System.Threading.Tasks;
 using N = Nethereum.Web3;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     public class NethereumBalanceRead : IBalanceRead<Ethereum.Ethereum>
     {

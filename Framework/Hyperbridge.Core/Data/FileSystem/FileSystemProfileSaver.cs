@@ -1,4 +1,4 @@
-﻿using Hyperbridge.Data;
+﻿using Blockhub.Data;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Services
+namespace Blockhub.Services
 {
     public class FileSystemProfileSaver : ISaver<Profile>
     {

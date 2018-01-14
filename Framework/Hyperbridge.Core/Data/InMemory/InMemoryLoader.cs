@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hyperbridge.Data
+namespace Blockhub.Data
 {
     public class InMemoryLoader<T> : ILoader<T>
     {

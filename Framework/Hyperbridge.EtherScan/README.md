@@ -1,4 +1,4 @@
-﻿# Hyperbridge.EtherScan Library
+﻿# Blockhub.EtherScan Library
 The Hyperbridge EtherScan library is used to read recent transactions from
 the Ethereum blockchain. Since this requires reading the whole blockchain
 or storing it ourselves, we utilize EtherScan.io to do this for us

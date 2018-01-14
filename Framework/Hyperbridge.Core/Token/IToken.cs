@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Hyperbridge.Wallet
+namespace Blockhub.Wallet
 {
     public interface IToken
     {

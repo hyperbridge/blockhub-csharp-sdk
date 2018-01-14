@@ -1,5 +1,5 @@
-﻿using Hyperbridge.Services.Abstract;
-using Hyperbridge.Wallet;
+﻿using Blockhub.Services.Abstract;
+using Blockhub.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

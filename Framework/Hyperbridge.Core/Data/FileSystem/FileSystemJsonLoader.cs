@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Data.FileSystem
+namespace Blockhub.Data.FileSystem
 {
     public class FileSystemJsonLoader<T> : ILoader<T>
     {

@@ -1,10 +1,10 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Ethereum
+namespace Blockhub.Ethereum
 {
     public class Ethereum : ITokenSource
     {

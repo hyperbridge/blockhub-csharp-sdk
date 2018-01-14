@@ -1,5 +1,5 @@
-﻿using Hyperbridge.Ethereum;
-using Hyperbridge.Transaction;
+﻿using Blockhub.Ethereum;
+using Blockhub.Transaction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.EtherScan
+namespace Blockhub.EtherScan
 {
     public class EtherScanLastTransactionRead : ILastTransactionRead<EthereumTransaction>, IDisposable
     {

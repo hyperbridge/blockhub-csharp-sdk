@@ -1,11 +1,11 @@
 ﻿using System;
-using Hyperbridge.Wallet;
-using Hyperbridge.Services.Abstract;
+using Blockhub.Wallet;
+using Blockhub.Services.Abstract;
 using System.Threading.Tasks;
-using Hyperbridge.Ethereum;
+using Blockhub.Ethereum;
 using System.Linq;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     public class EthereumWalletCreate : IWalletCreate<Ethereum.Ethereum>
     {

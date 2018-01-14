@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NBitcoin;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     [TestClass]
     public class WalletTests
@@ -13,7 +13,7 @@ namespace Hyperbridge.Nethereum
         [TestMethod]
         public async Task WalletsFirstAddressIsConsistent()
         {
-            var manager = new NethereumHdWalletManage();
+            var manager = new NethereumIndexedWalletManage();
             var wallet = new EthereumWallet
             {
                 Secret = Seed
@@ -26,7 +26,7 @@ namespace Hyperbridge.Nethereum
         [TestMethod]
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
         {
-            var manager = new NethereumHdWalletManage();
+            var manager = new NethereumIndexedWalletManage();
             var wallet = new EthereumWallet
             {
                 Secret = Seed
@@ -44,7 +44,7 @@ namespace Hyperbridge.Nethereum
         [TestMethod]
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
         {
-            var manager = new NethereumHdWalletManage(2000);
+            var manager = new NethereumIndexedWalletManage(2000);
             var wallet = new EthereumWallet
             {
                 Secret = Seed

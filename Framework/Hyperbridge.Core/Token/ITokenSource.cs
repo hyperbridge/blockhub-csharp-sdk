@@ -1,4 +1,4 @@
-﻿namespace Hyperbridge.Wallet
+﻿namespace Blockhub.Wallet
 {
     public interface ITokenSource
     {

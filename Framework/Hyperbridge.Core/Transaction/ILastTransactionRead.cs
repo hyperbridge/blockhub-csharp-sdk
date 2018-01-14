@@ -1,9 +1,9 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Transaction
+namespace Blockhub.Transaction
 {
     public interface ILastTransactionRead<T> where T : ITransaction
     {

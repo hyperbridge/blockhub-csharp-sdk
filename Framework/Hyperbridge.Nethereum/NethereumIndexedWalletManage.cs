@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Linq;
 using NWallet = Nethereum.HdWallet;
-using Hyperbridge.Wallet;
-using Hyperbridge.Ethereum;
+using Blockhub.Wallet;
+using Blockhub.Ethereum;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     /// <summary>
     /// Nethereum wallet implementation
     /// </summary>
-    public class NethereumHdWalletManage : IIndexedWalletManage<Ethereum.Ethereum>
+    public class NethereumIndexedWalletManage : IIndexedWalletManage<Ethereum.Ethereum>
     {
-        
         private int MaxIndexSearch { get; }
 
-        public NethereumHdWalletManage() : this(20) { }
-        public NethereumHdWalletManage(int maxIndexSearch)
+        public NethereumIndexedWalletManage() : this(20) { }
+        public NethereumIndexedWalletManage(int maxIndexSearch)
         {
             if (maxIndexSearch < 1) throw new ArgumentOutOfRangeException(nameof(maxIndexSearch), $"Maximum iterations to search for address must be at least 1.");
             MaxIndexSearch = maxIndexSearch;

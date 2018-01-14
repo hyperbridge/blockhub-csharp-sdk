@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Wallet
+namespace Blockhub.Wallet
 {
     /// <summary>
     /// General blockchain wallet used to generate (or find) accounts.

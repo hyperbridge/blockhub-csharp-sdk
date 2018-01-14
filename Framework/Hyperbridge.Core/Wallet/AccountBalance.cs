@@ -1,4 +1,4 @@
-﻿namespace Hyperbridge.Services
+﻿namespace Blockhub.Services
 {
     public class AccountBalance
     {

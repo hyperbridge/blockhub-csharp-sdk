@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Numerics;
-using Hyperbridge.Ethereum;
-using Hyperbridge.Transaction;
-using Hyperbridge.Wallet;
+using Blockhub.Ethereum;
+using Blockhub.Transaction;
+using Blockhub.Wallet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     [TestClass]
     public class CoinTests

@@ -1,8 +1,8 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Hyperbridge.Services
+namespace Blockhub.Services
 {
     public class Wallet
     {

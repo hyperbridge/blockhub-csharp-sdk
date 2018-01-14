@@ -1,4 +1,4 @@
-﻿# Hyperbridge.Nethereum Library
+﻿# Blockhub.Nethereum Library
 This library contains the Nethereum implementation details.
 
 ## Library

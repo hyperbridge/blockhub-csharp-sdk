@@ -1,7 +1,7 @@
-﻿using Hyperbridge.Wallet;
-using Hyperbridge.Data;
+﻿using Blockhub.Wallet;
+using Blockhub.Data;
 
-namespace Hyperbridge.Nethereum
+namespace Blockhub.Nethereum
 {
     public class EthereumAccount : IAccount<Ethereum.Ethereum>
     {

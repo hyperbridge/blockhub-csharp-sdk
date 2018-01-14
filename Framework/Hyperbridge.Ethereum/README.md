@@ -1,4 +1,4 @@
-﻿# Hyperbridge.Ethereum Library
+﻿# Blockhub.Ethereum Library
 The Hyperbridge Ethereum library contains core Ethereum classes that
 are true regardless of the implementation of the Ethereum work. This includes
 coins and transaction information. This allows for cross-implementation

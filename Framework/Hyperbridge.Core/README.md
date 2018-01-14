@@ -1,4 +1,4 @@
-﻿# Hyperbridge.Core Library
+﻿# Blockhub.Core Library
 The Hyperbridge Core library is the core of the Hyperbridge
 ecosystem of Blockchain libraries. It is meant to have blockchain
 agnostic classes and interfaces so that implementations can be

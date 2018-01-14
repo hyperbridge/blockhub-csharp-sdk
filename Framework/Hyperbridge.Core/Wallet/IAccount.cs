@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Wallet
+namespace Blockhub.Wallet
 {
     public interface IAccount<T> where T : ITokenSource
     {

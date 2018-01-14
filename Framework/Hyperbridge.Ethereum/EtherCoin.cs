@@ -1,7 +1,7 @@
-﻿using Hyperbridge.Wallet;
+﻿using Blockhub.Wallet;
 using System.Numerics;
 
-namespace Hyperbridge.Ethereum
+namespace Blockhub.Ethereum
 {
     public class EtherCoin : IToken<Ethereum>
     {

@@ -1,11 +1,11 @@
-﻿using Hyperbridge.Transaction;
-using Hyperbridge.Wallet;
+﻿using Blockhub.Transaction;
+using Blockhub.Wallet;
 using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hyperbridge.Services.Abstract
+namespace Blockhub.Services.Abstract
 {
     public interface IWalletCreate<T> where T : ITokenSource
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Numerics;
-using Hyperbridge.Transaction;
-using Hyperbridge.Wallet;
+using Blockhub.Transaction;
+using Blockhub.Wallet;
 
-namespace Hyperbridge.Ethereum
+namespace Blockhub.Ethereum
 {
     public class EthereumTransaction : ITransaction
     {
