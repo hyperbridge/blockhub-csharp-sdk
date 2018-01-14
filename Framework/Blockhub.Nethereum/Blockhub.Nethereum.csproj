@@ -106,8 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\Bip39SeedGenerator.cs" />
+    <Compile Include="Services\NethereumAccountCreate.cs" />
     <Compile Include="Services\NethereumBalanceRead.cs" />
-    <Compile Include="Services\NethereumIndexedWalletManage.cs" />
+    <Compile Include="Services\NethereumPrivateKeyGenerate.cs" />
     <Compile Include="Services\NethereumTransactionWrite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,18 +8,18 @@ namespace Blockhub.Transaction
         where T : ITokenSource
     {
         private ITransactionWrite<T> TransactionWriter { get; }
-        private IIndexedWalletManage<T> WalletManager { get; }
-        public LoadMissingPrivateKeyTransactionWrite(ITransactionWrite<T> transactionWriter, IIndexedWalletManage<T> walletManager)
+        private IPrivateKeyGenerate<T> PrivateKeyGenerator { get; }
+        public LoadMissingPrivateKeyTransactionWrite(ITransactionWrite<T> transactionWriter, IPrivateKeyGenerate<T> privateKeyGenerator)
         {
             TransactionWriter = transactionWriter ?? throw new ArgumentNullException(nameof(transactionWriter));
-            WalletManager = walletManager ?? throw new ArgumentNullException(nameof(walletManager));
+            PrivateKeyGenerator = privateKeyGenerator ?? throw new ArgumentNullException(nameof(privateKeyGenerator));
         }
 
         public async Task<TransactionSentResponse<T>> SendTransactionAsync(Account<T> fromAccount, string toAddress, IToken<T> amount)
         {
             if (string.IsNullOrWhiteSpace(fromAccount.GetPrivateKey()))
             {
-                fromAccount.SetPrivateKey(await WalletManager.GetPrivateKey(fromAccount.Wallet, fromAccount.Address));
+                fromAccount.SetPrivateKey(await PrivateKeyGenerator.GetPrivateKey(fromAccount.Wallet, fromAccount.Address));
             }
 
             return await TransactionWriter.SendTransactionAsync(fromAccount, toAddress, amount);

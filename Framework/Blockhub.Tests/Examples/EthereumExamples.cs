@@ -41,9 +41,9 @@ namespace Blockhub.Services
             return new Ethereum.EthereumWalletCreate(new Bip39SeedGenerator(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve));
         }
 
-        private NethereumIndexedWalletManage WalletManager()
+        private NethereumAccountCreate WalletManager()
         {
-            return new NethereumIndexedWalletManage();
+            return new NethereumAccountCreate();
         }
 
         private FileSystemProfileSaver ProfileSaver()
@@ -84,7 +84,7 @@ namespace Blockhub.Services
         public async Task SavingProfileToDiskExample()
         {
             var wallet = await WalletCreator().CreateWallet("candy maple cake bread pudding cream honey grace smooth crumble sweet blanket", "Test Wallet", "");
-            var account = await WalletManager().GetAccount(wallet, 0);
+            var account = await WalletManager().CreateAccount(wallet, 0);
             wallet.Accounts.Add(account);
 
             var notification = new Notification
@@ -154,7 +154,7 @@ namespace Blockhub.Services
         public async Task GetBalanceExample()
         {
             Wallet<Ethereum.Ethereum> wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = await WalletManager().GetAccount(wallet, 0);
+            var account = await WalletManager().CreateAccount(wallet, 0);
             var balance = await AccountBalance().GetBalance(account);
 
             Console.WriteLine($"Balance: {balance}");
@@ -164,15 +164,15 @@ namespace Blockhub.Services
         public async Task SendTransactionExample()
         {
             var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account1 = await WalletManager().GetAccount(wallet, 0);
-            var account2 = await WalletManager().GetAccount(wallet, 1);
+            var account1 = await WalletManager().CreateAccount(wallet, 0);
+            var account2 = await WalletManager().CreateAccount(wallet, 1);
 
             // To test the private key loader
             account1.SetPrivateKey(null);
 
             Assert.AreNotEqual(account1.Address, account2.Address, true);
 
-            var writer = new LoadMissingPrivateKeyTransactionWrite<Ethereum.Ethereum>(TransactionWrite(), WalletManager());
+            var writer = new LoadMissingPrivateKeyTransactionWrite<Ethereum.Ethereum>(TransactionWrite(), new NethereumPrivateKeyGenerate());
             var response = await writer.SendTransactionAsync(account1, account2.Address, new WeiCoin(100));
 
             Console.WriteLine($"From Address: {account1.Address}");
@@ -184,7 +184,7 @@ namespace Blockhub.Services
         public async Task ReadLast25TransactionsExample()
         {
             var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = await WalletManager().GetAccount(wallet, 0);
+            var account = await WalletManager().CreateAccount(wallet, 0);
 
             var transactions = await TransactionRead().GetLastTransactions(account.Address, 1, 25);
 
@@ -199,7 +199,7 @@ namespace Blockhub.Services
         public async Task ReadLast25Transactions_Page2_Example()
         {
             var wallet = await WalletCreator().CreateWallet(WALLET_SECRET, "Test Wallet", "");
-            var account = await WalletManager().GetAccount(wallet, 0);
+            var account = await WalletManager().CreateAccount(wallet, 0);
 
             var transactions = await TransactionRead().GetLastTransactions(account.Address, 2, 25);
 

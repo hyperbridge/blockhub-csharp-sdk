@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Wallet
 {
-    /// <summary>
-    /// General blockchain wallet used to generate (or find) accounts.
-    /// </summary>
-    /// <typeparam name="T">Blockchain account type</typeparam>
-    public interface IIndexedWalletManage<T> where T : ITokenSource
+    public interface IAccountCreate<T> where T : ITokenSource
     {
         /// <summary>
         /// Get an account by the address provided. An WalletAddressNotFoundException is thrown when it was not found.
         /// </summary>
         /// <param name="address">The address to find in the wallet.</param>
         /// <returns>The found account</returns>
-        Task<Account<T>> GetAccount(Wallet<T> wallet, string address);
+        Task<Account<T>> CreateAccount(Wallet<T> wallet, string address);
+        Task<Account<T>> CreateAccount(Wallet<T> wallet, string address, string name);
 
         /// <summary>
         /// Get an account based on the index in the HD Wallet.
         /// </summary>
         /// <param name="index">The index of the account.</param>
         /// <returns>The found account</returns>
-        Task<Account<T>> GetAccount(Wallet<T> wallet, int index);
+        Task<Account<T>> CreateAccount(Wallet<T> wallet, int index);
+        Task<Account<T>> CreateAccount(Wallet<T> wallet, int index, string name);
 
         /// <summary>
         /// Generate a number of accounts for the wallet and optionally at a start index.
@@ -32,8 +30,6 @@ namespace Blockhub.Wallet
         /// <param name="count">The number of accounts to generate.</param>
         /// <param name="startIndex">The starting index for generating accounts.</param>
         /// <returns></returns>
-        Task<Account<T>[]> GenerateAccounts(Wallet<T> wallet, int count, int startIndex = 0);
-
-        Task<string> GetPrivateKey(Wallet<T> wallet, string address);
+        Task<Account<T>[]> CreateAccounts(Wallet<T> wallet, int count, int startIndex = 0);
     }
 }

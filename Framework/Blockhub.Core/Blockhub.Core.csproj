@@ -47,9 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Application\IProfileContextAccessor.cs" />
+    <Compile Include="Abstract\Wallet\IAccountCreate.cs" />
+    <Compile Include="Abstract\Wallet\IPrivateKeyGenerate.cs" />
+    <Compile Include="Exceptions\AccountAddressAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\AccountNameTakenException.cs" />
     <Compile Include="Exceptions\InvalidPrivateKeyException.cs" />
     <Compile Include="Exceptions\InvalidUriSchemeException.cs" />
+    <Compile Include="Exceptions\ProfileNotSetException.cs" />
+    <Compile Include="Exceptions\WalletAlreadyExistsInProfileException.cs" />
     <Compile Include="Models\Application\ProfileObject.cs" />
+    <Compile Include="Services\Application\ProfileContextAccessor.cs" />
     <Compile Include="Services\Data\FileSystemJsonLoader.cs" />
     <Compile Include="Abstract\Data\ILoader.cs" />
     <Compile Include="Abstract\Data\ISaver.cs" />
@@ -60,6 +68,9 @@
     <Compile Include="Models\Application\Notification.cs" />
     <Compile Include="Models\Application\Profile.cs" />
     <Compile Include="Models\Transaction\Transaction.cs" />
+    <Compile Include="Services\Wallet\AutoAddToProfileWalletCreate.cs" />
+    <Compile Include="Services\Wallet\AutoSaveProfileAccountCreate.cs" />
+    <Compile Include="Services\Wallet\AutoSaveProfileWalletCreate.cs" />
     <Compile Include="Services\Wallet\SearchForAccountsByBalanceWalletCreator.cs" />
     <Compile Include="Models\Wallet\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +83,6 @@
     <Compile Include="Abstract\Token\IToken.cs" />
     <Compile Include="Abstract\Token\ITokenSource.cs" />
     <Compile Include="Abstract\Generator\ISeedGenerator.cs" />
-    <Compile Include="Abstract\Wallet\IIndexedWalletManage.cs" />
     <Compile Include="Exceptions\WalletAddressNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>

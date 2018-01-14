@@ -9,6 +9,12 @@ namespace Blockhub
     public class Profile : ProfileObject
     {
         /// <summary>
+        /// Current Uri to the profile
+        /// </summary>
+        [JsonIgnore]
+        public string ProfileUri { get; set; }
+
+        /// <summary>
         /// Uri to the profile image to be shown in the UI
         /// </summary>
         public string ImageUri { get; set;  }

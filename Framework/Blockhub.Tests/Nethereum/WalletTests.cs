@@ -15,27 +15,27 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public async Task WalletsFirstAddressIsConsistent()
         {
-            var manager = new NethereumIndexedWalletManage();
+            var manager = new NethereumAccountCreate();
             var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
 
-            var firstAccount = await manager.GetAccount(wallet, 0);
+            var firstAccount = await manager.CreateAccount(wallet, 0);
             Assert.AreEqual("0x0ae2415d3a45ea9b009a75643f99a7f88a40b2a3", firstAccount.Address, true);
         }
 
         [TestMethod]
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
         {
-            var manager = new NethereumIndexedWalletManage();
+            var manager = new NethereumAccountCreate();
             var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
 
-            var account = await manager.GetAccount(wallet, 15);
-            var foundAccount = await manager.GetAccount(wallet, account.Address);
+            var account = await manager.CreateAccount(wallet, 15);
+            var foundAccount = await manager.CreateAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
             Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);
@@ -46,14 +46,14 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
         {
-            var manager = new NethereumIndexedWalletManage(2000);
+            var manager = new NethereumAccountCreate(2000);
             var wallet = new Wallet<Ethereum.Ethereum>
             {
                 Secret = Seed
             };
 
-            var account = await manager.GetAccount(wallet, 1500);
-            var foundAccount = await manager.GetAccount(wallet, account.Address);
+            var account = await manager.CreateAccount(wallet, 1500);
+            var foundAccount = await manager.CreateAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
             Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);

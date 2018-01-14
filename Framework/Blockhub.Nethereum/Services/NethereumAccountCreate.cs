@@ -5,18 +5,19 @@ using Blockhub.Wallet;
 using Blockhub.Ethereum;
 using System.Threading.Tasks;
 using Blockhub.Services;
+using N = Nethereum.Web3;
 
 namespace Blockhub.Nethereum
 {
     /// <summary>
     /// Nethereum wallet implementation
     /// </summary>
-    public class NethereumIndexedWalletManage : IIndexedWalletManage<Ethereum.Ethereum>
+    public class NethereumAccountCreate : IAccountCreate<Ethereum.Ethereum>
     {
         private int MaxIndexSearch { get; }
 
-        public NethereumIndexedWalletManage() : this(20) { }
-        public NethereumIndexedWalletManage(int maxIndexSearch)
+        public NethereumAccountCreate() : this(20) { }
+        public NethereumAccountCreate(int maxIndexSearch)
         {
             if (maxIndexSearch < 1) throw new ArgumentOutOfRangeException(nameof(maxIndexSearch), $"Maximum iterations to search for address must be at least 1.");
             MaxIndexSearch = maxIndexSearch;
@@ -27,29 +28,21 @@ namespace Blockhub.Nethereum
             return new NWallet.Wallet(wallet.Secret, null);
         }
 
-        public async Task<Account<Ethereum.Ethereum>[]> GenerateAccounts(Wallet<Ethereum.Ethereum> wallet, int count, int startIndex = 0)
+        public async Task<Account<Ethereum.Ethereum>[]> CreateAccounts(Wallet<Ethereum.Ethereum> wallet, int count, int startIndex = 0)
         {
             if (startIndex < 0) throw new ArgumentOutOfRangeException(nameof(startIndex), "Index must be 0 or greater to generate an account based on index.");
 
             var nethereumWallet = CreateNetherumWallet(wallet);
             var indices = Enumerable.Range(startIndex, count);
-            return indices.Select(x =>
-            {
-                var nAccount = nethereumWallet.GetAccount(x);
-                var account = new Account<Ethereum.Ethereum>
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "",
-                    Address = nAccount.Address,
-                    Wallet = wallet
-                };
-                account.SetPrivateKey(nAccount.PrivateKey);
-
-                return account;
-            }).ToArray();
+            return indices.Select(x => ConvertAccount(wallet, nethereumWallet.GetAccount(x), "")).ToArray();
         }
 
-        public async Task<Account<Ethereum.Ethereum>> GetAccount(Wallet<Ethereum.Ethereum> wallet, string address)
+        public Task<Account<Ethereum.Ethereum>> CreateAccount(Wallet<Ethereum.Ethereum> wallet, string address)
+        {
+            return CreateAccount(wallet, address, "");
+        }
+
+        public async Task<Account<Ethereum.Ethereum>> CreateAccount(Wallet<Ethereum.Ethereum> wallet, string address, string name)
         {
             // TODO: The need to specify the maximum index search may need to be refactored one day
             //       into a separate search class in the event we discover people creating hundreds or thousands of 
@@ -60,40 +53,51 @@ namespace Blockhub.Nethereum
             //       should be allowed (if a limit should be enforced)
             var foundAccount = CreateNetherumWallet(wallet).GetAccount(address, MaxIndexSearch);
             if (foundAccount == null) throw new WalletAddressNotFoundException<Ethereum.Ethereum>(this, address);
-
-            var account = new Account<Ethereum.Ethereum>
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "",
-                Address = foundAccount.Address,
-                Wallet = wallet
-            };
-            account.SetPrivateKey(foundAccount.PrivateKey);
-
-            return account;
+            return ConvertAccount(wallet, foundAccount, name);
         }
 
-        public async Task<Account<Ethereum.Ethereum>> GetAccount(Wallet<Ethereum.Ethereum> wallet, int index)
+        public Task<Account<Ethereum.Ethereum>> CreateAccount(Wallet<Ethereum.Ethereum> wallet, int index)
+        {
+            return CreateAccount(wallet, index, "");
+        }
+
+        public async Task<Account<Ethereum.Ethereum>> CreateAccount(Wallet<Ethereum.Ethereum> wallet, int index, string name)
         {
             if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Index must be 0 or greater to generate an account based on index.");
             var nAccount = CreateNetherumWallet(wallet).GetAccount(index);
+            return ConvertAccount(wallet, nAccount, name);
+        }
 
+        private Account<Ethereum.Ethereum> ConvertAccount(Wallet<Ethereum.Ethereum> wallet, N.Accounts.Account nAccount, string name)
+        {
             var account = new Account<Ethereum.Ethereum>
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = "",
+                Name = name,
                 Address = nAccount.Address,
                 Wallet = wallet
             };
             account.SetPrivateKey(nAccount.PrivateKey);
 
+            AddAccountToWallet(wallet, account);
+
             return account;
         }
 
-        public async Task<string> GetPrivateKey(Wallet<Ethereum.Ethereum> wallet, string address)
+        private void AddAccountToWallet(Wallet<Ethereum.Ethereum> wallet, Account<Ethereum.Ethereum> account)
         {
-            var nAccount = CreateNetherumWallet(wallet).GetAccount(address);
-            return nAccount.PrivateKey;
+            if (string.IsNullOrEmpty(account.Name))
+            {
+                var foundAccount = wallet.Accounts
+                    .FirstOrDefault(x => x.Name.Equals(account.Name, StringComparison.OrdinalIgnoreCase));
+                if (foundAccount != null) throw new AccountNameTakenException(wallet.Id, wallet.Name, account.Id, account.Name);
+            }
+
+            var addressFoundAccount = wallet.Accounts
+                .FirstOrDefault(x => x.Address.Equals(account.Address, StringComparison.OrdinalIgnoreCase));
+            if (addressFoundAccount != null) throw new AccountAddressAlreadyExistsException(wallet.Id, wallet.Name, account.Id, account.Address);
+
+            wallet.Accounts.Add(account);
         }
     }
 }

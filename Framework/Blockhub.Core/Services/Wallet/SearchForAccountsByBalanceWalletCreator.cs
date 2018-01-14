@@ -11,15 +11,15 @@ namespace Blockhub.Wallet
     public class SearchForAccountsByBalanceWalletCreator<T> : IWalletCreate<T> where T : ITokenSource
     {
         private IWalletCreate<T> WalletCreator { get; }
-        private IIndexedWalletManage<T> WalletManager { get; }
+        private IAccountCreate<T> WalletManager { get; }
         private IBalanceRead<T> BalanceReader { get; }
         private int SearchCount { get; }
 
-        public SearchForAccountsByBalanceWalletCreator(IWalletCreate<T> walletCreator, IIndexedWalletManage<T> walletManager, IBalanceRead<T> balanceReader) :
+        public SearchForAccountsByBalanceWalletCreator(IWalletCreate<T> walletCreator, IAccountCreate<T> walletManager, IBalanceRead<T> balanceReader) :
             this(walletCreator, walletManager, balanceReader, 100)
         { }
 
-        public SearchForAccountsByBalanceWalletCreator(IWalletCreate<T> walletCreator, IIndexedWalletManage<T> walletManager, IBalanceRead<T> balanceReader, int searchCount)
+        public SearchForAccountsByBalanceWalletCreator(IWalletCreate<T> walletCreator, IAccountCreate<T> walletManager, IBalanceRead<T> balanceReader, int searchCount)
         {
             WalletCreator = walletCreator ?? throw new ArgumentNullException(nameof(walletCreator));
             WalletManager = walletManager ?? throw new ArgumentNullException(nameof(walletManager));
@@ -41,7 +41,7 @@ namespace Blockhub.Wallet
 
         private async Task<Wallet<T>> SearchAndFillInAccounts(Wallet<T> wallet)
         {
-            var accountsToSearch = await WalletManager.GenerateAccounts(wallet, SearchCount);
+            var accountsToSearch = await WalletManager.CreateAccounts(wallet, SearchCount);
 
             int foundCount = 0;
             for(int i = 0; i < accountsToSearch.Length; i++)

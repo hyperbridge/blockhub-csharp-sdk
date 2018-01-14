@@ -34,7 +34,7 @@ namespace Blockhub.Data
 
             File.WriteAllText(filePath, json);
 
-            return FilePathToFileUri(filePath);
+            return model.ProfileUri = FilePathToFileUri(filePath);
         }
 
         // Reference: https://stackoverflow.com/questions/1546419/convert-file-path-to-a-file-uri
