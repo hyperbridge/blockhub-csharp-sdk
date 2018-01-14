@@ -46,14 +46,14 @@ namespace Blockhub.Services
             return new NethereumAccountCreate();
         }
 
-        private FileSystemProfileSaver ProfileSaver()
+        private FileSystemProfileSave ProfileSaver()
         {
-            return new FileSystemProfileSaver(ProfileDirectory);
+            return new FileSystemProfileSave(ProfileDirectory);
         }
 
-        private FileSystemJsonLoader<T> Loader<T>()
+        private FileSystemJsonLoad<T> Loader<T>()
         {
-            return new FileSystemJsonLoader<T>();
+            return new FileSystemJsonLoad<T>();
         }
 
         private NethereumBalanceRead AccountBalance()

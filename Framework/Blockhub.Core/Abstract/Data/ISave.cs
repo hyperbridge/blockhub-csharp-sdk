@@ -2,7 +2,7 @@
 
 namespace Blockhub.Data
 {
-    public interface ISaver<T>
+    public interface ISave<T>
     {
         /// <summary>
         /// Persists the model to storage

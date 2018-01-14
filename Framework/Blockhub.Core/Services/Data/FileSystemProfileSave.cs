@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Data
 {
-    public class FileSystemProfileSaver : ISaver<Profile>
+    public class FileSystemProfileSave : ISave<Profile>
     {
         private string RootDirectory { get; }
 
-        public FileSystemProfileSaver(string rootDirectory)
+        public FileSystemProfileSave(string rootDirectory)
         {
             if (string.IsNullOrWhiteSpace(rootDirectory)) throw new ArgumentNullException(nameof(rootDirectory));
             RootDirectory = rootDirectory;

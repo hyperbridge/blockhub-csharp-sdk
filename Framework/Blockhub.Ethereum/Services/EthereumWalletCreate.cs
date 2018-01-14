@@ -9,8 +9,8 @@ namespace Blockhub.Ethereum
 {
     public class EthereumWalletCreate : IWalletCreate<Ethereum>
     {
-        private ISeedGenerator<string> SeedGenerator { get; }
-        public EthereumWalletCreate(ISeedGenerator<string> seedGenerator)
+        private ISeedGenerate<string> SeedGenerator { get; }
+        public EthereumWalletCreate(ISeedGenerate<string> seedGenerator)
         {
             SeedGenerator = seedGenerator ?? throw new ArgumentNullException(nameof(seedGenerator));
         }

@@ -7,10 +7,10 @@ namespace Blockhub.Wallet
     public class AutoSaveProfileAccountCreate<T> : IAccountCreate<T> where T : ITokenSource
     {
         private IAccountCreate<T> InnerCreate { get; }
-        private IProfileContextAccessor ProfileAccessor { get; }
-        private ISaver<Profile> ProfileSaver { get; }
+        private IProfileContextAccess ProfileAccessor { get; }
+        private ISave<Profile> ProfileSaver { get; }
 
-        public AutoSaveProfileAccountCreate(IAccountCreate<T> innerCreate, IProfileContextAccessor profileAccessor, ISaver<Profile> profileSaver)
+        public AutoSaveProfileAccountCreate(IAccountCreate<T> innerCreate, IProfileContextAccess profileAccessor, ISave<Profile> profileSaver)
         {
             InnerCreate = innerCreate ?? throw new ArgumentNullException(nameof(innerCreate));
             ProfileAccessor = profileAccessor ?? throw new ArgumentNullException(nameof(profileAccessor));

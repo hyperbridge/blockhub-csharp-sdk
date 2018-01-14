@@ -1,6 +1,6 @@
 ﻿namespace Blockhub
 {
-    public interface IProfileContextAccessor
+    public interface IProfileContextAccess
     {
         Profile Profile { get; set; }
     }

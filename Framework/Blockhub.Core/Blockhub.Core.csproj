@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\Application\IProfileContextAccessor.cs" />
+    <Compile Include="Abstract\Application\IProfileContextAccess.cs" />
     <Compile Include="Abstract\Wallet\IAccountCreate.cs" />
     <Compile Include="Abstract\Wallet\IPrivateKeyGenerate.cs" />
     <Compile Include="Exceptions\AccountAddressAlreadyExistsException.cs" />
@@ -57,11 +57,12 @@
     <Compile Include="Exceptions\ProfileNotSetException.cs" />
     <Compile Include="Exceptions\WalletAlreadyExistsInProfileException.cs" />
     <Compile Include="Models\Application\ProfileObject.cs" />
-    <Compile Include="Services\Application\ProfileContextAccessor.cs" />
-    <Compile Include="Services\Data\FileSystemJsonLoader.cs" />
-    <Compile Include="Abstract\Data\ILoader.cs" />
-    <Compile Include="Abstract\Data\ISaver.cs" />
-    <Compile Include="Services\Data\FileSystemProfileSaver.cs" />
+    <Compile Include="Services\Application\LoadProfileContextLoad.cs" />
+    <Compile Include="Services\Application\ProfileContextAccess.cs" />
+    <Compile Include="Services\Data\FileSystemJsonLoad.cs" />
+    <Compile Include="Abstract\Data\ILoad.cs" />
+    <Compile Include="Abstract\Data\ISave.cs" />
+    <Compile Include="Services\Data\FileSystemProfileSave.cs" />
     <Compile Include="Services\Transaction\LoadMissingPrivateKeyTransactionWrite.cs" />
     <Compile Include="Models\Wallet\Account.cs" />
     <Compile Include="Models\Wallet\AccountBalance.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Services\Wallet\AutoAddToProfileWalletCreate.cs" />
     <Compile Include="Services\Wallet\AutoSaveProfileAccountCreate.cs" />
     <Compile Include="Services\Wallet\AutoSaveProfileWalletCreate.cs" />
-    <Compile Include="Services\Wallet\SearchForAccountsByBalanceWalletCreator.cs" />
+    <Compile Include="Services\Wallet\SearchForAccountsByBalanceWalletCreate.cs" />
     <Compile Include="Models\Wallet\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Abstract\Wallet\IWalletCreate.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Abstract\Wallet\IBalanceRead.cs" />
     <Compile Include="Abstract\Token\IToken.cs" />
     <Compile Include="Abstract\Token\ITokenSource.cs" />
-    <Compile Include="Abstract\Generator\ISeedGenerator.cs" />
+    <Compile Include="Abstract\Generator\ISeedGenerate.cs" />
     <Compile Include="Exceptions\WalletAddressNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace Blockhub.Data
 {
-    public interface ILoader<T>
+    public interface ILoad<T>
     {
         /// <summary>
         /// Loads a model from storage

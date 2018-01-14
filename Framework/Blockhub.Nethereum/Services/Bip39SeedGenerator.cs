@@ -10,7 +10,7 @@ namespace Blockhub.Nethereum
     /// <summary>
     /// Generates a Mnemonic Phrase indepedently of the wallet implementation.
     /// </summary>
-    public class Bip39SeedGenerator : ISeedGenerator<string>
+    public class Bip39SeedGenerator : ISeedGenerate<string>
     {
         private Wordlist WordList { get; }
         private WordCount WordCount { get; }

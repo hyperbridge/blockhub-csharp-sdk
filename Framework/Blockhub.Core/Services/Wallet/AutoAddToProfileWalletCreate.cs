@@ -7,9 +7,9 @@ namespace Blockhub.Wallet
     public class AutoAddToProfileWalletCreate<T> : IWalletCreate<T> where T : ITokenSource
     {
         private IWalletCreate<T> InnerCreate { get; }
-        private IProfileContextAccessor ProfileAccessor { get; }
+        private IProfileContextAccess ProfileAccessor { get; }
 
-        public AutoAddToProfileWalletCreate(IWalletCreate<T> innerCreate, IProfileContextAccessor profileAccessor)
+        public AutoAddToProfileWalletCreate(IWalletCreate<T> innerCreate, IProfileContextAccess profileAccessor)
         {
             InnerCreate = innerCreate ?? throw new ArgumentNullException(nameof(innerCreate));
             ProfileAccessor = profileAccessor ?? throw new ArgumentNullException(nameof(profileAccessor));

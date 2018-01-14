@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Data
 {
-    public class FileSystemJsonLoader<T> : ILoader<T>
+    public class FileSystemJsonLoad<T> : ILoad<T>
     {
         public async Task<T> Load(string uri)
         {
