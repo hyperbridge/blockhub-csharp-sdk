@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidPrivateKeyException.cs" />
+    <Compile Include="Exceptions\InvalidUriSchemeException.cs" />
     <Compile Include="Models\Application\ProfileObject.cs" />
     <Compile Include="Services\Data\FileSystemJsonLoader.cs" />
     <Compile Include="Abstract\Data\ILoader.cs" />

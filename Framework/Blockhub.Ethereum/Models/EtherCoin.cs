@@ -1,5 +1,4 @@
-﻿using Blockhub.Wallet;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Blockhub.Ethereum
 {
@@ -34,8 +33,7 @@ namespace Blockhub.Ethereum
             return new BigInteger(Amount * TO_WEI_MULTIPLIER);
         }
 
-
-
+        #region Operators
         public static implicit operator WeiCoin(EtherCoin ether)
         {
             return new WeiCoin((BigInteger) (ether.Amount * TO_WEI_MULTIPLIER));
@@ -75,5 +73,6 @@ namespace Blockhub.Ethereum
         {
             return new WeiCoin((BigInteger) (left.Amount - (right.Amount * TO_WEI_MULTIPLIER)));
         }
+        #endregion
     }
 }

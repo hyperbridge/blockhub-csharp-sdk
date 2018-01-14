@@ -14,7 +14,7 @@ namespace Blockhub.Data
         {
             var parsedUri = new Uri(uri);
             if (!parsedUri.Scheme.Equals("file", StringComparison.OrdinalIgnoreCase))
-                throw new InvalidOperationException("Cannot load this scheme type.");
+                throw new InvalidUriSchemeException(parsedUri.Scheme);
 
             var filePath = parsedUri.LocalPath;
             if (!File.Exists(filePath)) throw new FileNotFoundException("File not found.");

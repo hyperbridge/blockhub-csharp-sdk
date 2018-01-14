@@ -32,8 +32,6 @@ namespace Blockhub.Data
                 TypeNameHandling = TypeNameHandling.All
             });
 
-            Console.WriteLine(json);
-
             File.WriteAllText(filePath, json);
 
             return FilePathToFileUri(filePath);

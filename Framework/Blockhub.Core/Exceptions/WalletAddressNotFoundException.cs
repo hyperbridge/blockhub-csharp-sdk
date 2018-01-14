@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Blockhub.Wallet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blockhub.Wallet
+namespace Blockhub
 {
     public class WalletAddressNotFoundException : Exception
     {

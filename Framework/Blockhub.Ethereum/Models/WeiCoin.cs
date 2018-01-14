@@ -34,6 +34,7 @@ namespace Blockhub.Ethereum
             return $"{Amount} {Unit}";
         }
 
+        #region Operators
         public static WeiCoin operator +(WeiCoin left, WeiCoin right)
         {
             return new WeiCoin(left._InternalAmount + right._InternalAmount);
@@ -43,5 +44,6 @@ namespace Blockhub.Ethereum
         {
             return new WeiCoin(left._InternalAmount - right._InternalAmount);
         }
+        #endregion
     }
 }
