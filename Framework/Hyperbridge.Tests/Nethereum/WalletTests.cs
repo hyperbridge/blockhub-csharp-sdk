@@ -38,7 +38,7 @@ namespace Blockhub.Nethereum
             var foundAccount = await manager.GetAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
-            Assert.AreEqual(account.PrivateKey, foundAccount.PrivateKey, true);
+            Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);
         }
 
         // NOTE: This test takes longer than 10 seconds to run due to the large number of accounts to search.
@@ -56,7 +56,7 @@ namespace Blockhub.Nethereum
             var foundAccount = await manager.GetAccount(wallet, account.Address);
 
             Assert.AreEqual(account.Address, foundAccount.Address, true);
-            Assert.AreEqual(account.PrivateKey, foundAccount.PrivateKey, true);
+            Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);
         }
 
         [TestMethod]

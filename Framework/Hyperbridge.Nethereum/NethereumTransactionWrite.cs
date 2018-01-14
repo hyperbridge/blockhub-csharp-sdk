@@ -32,7 +32,10 @@ namespace Blockhub.Nethereum
 
         private N.Web3 GetClient(Account<Ethereum.Ethereum> fromAccount)
         {
-            var account = new N.Accounts.Account(fromAccount.PrivateKey);
+            var privateKey = fromAccount.GetPrivateKey();
+            if (string.IsNullOrWhiteSpace(privateKey)) throw new InvalidOperationException("Private Key not set.");
+
+            var account = new N.Accounts.Account(privateKey);
             return new N.Web3(account, Url);
         }
     }

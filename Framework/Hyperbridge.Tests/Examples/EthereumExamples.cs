@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blockhub.Data;
 using Blockhub.Ethereum;
 using Blockhub.Nethereum;
+using Blockhub.Transaction;
 using Blockhub.Wallet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -79,7 +80,7 @@ namespace Blockhub.Services
             Console.WriteLine($"Generator Seed: {wallet.Secret}");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task SavingProfileToDiskExample()
         {
             var wallet = await WalletCreator().CreateWallet("candy maple cake bread pudding cream honey grace smooth crumble sweet blanket", "Test Wallet", "");
@@ -122,7 +123,7 @@ namespace Blockhub.Services
             Assert.AreEqual(profile.Notifications.Count, loadedProfile.Notifications.Count);
 
             var expectedWallets = profile.GetWallets<Ethereum.Ethereum>().ToArray();
-            var loadedWallets = profile.GetWallets<Ethereum.Ethereum>().ToArray();
+            var loadedWallets = loadedProfile.GetWallets<Ethereum.Ethereum>().ToArray();
             Assert.AreEqual(expectedWallets.Count(), loadedWallets.Count());
             Assert.IsTrue(expectedWallets.Count() > 0);
             Assert.IsTrue(loadedWallets.Count() > 0);
@@ -139,11 +140,14 @@ namespace Blockhub.Services
 
             var expectedAccounts = expectedWallets[0].Accounts.ToArray();
             var loadedAccounts = loadedWallets[0].Accounts.ToArray();
+
             Assert.AreEqual(expectedAccounts.Count(), loadedAccounts.Count());
+            Assert.IsTrue(expectedAccounts.Count() > 0);
+
             Assert.AreEqual(expectedAccounts[0].Address, loadedAccounts[0].Address);
             Assert.AreEqual(expectedAccounts[0].Id, loadedAccounts[0].Id);
             Assert.AreEqual(expectedAccounts[0].Name, loadedAccounts[0].Name);
-            Assert.AreEqual(expectedAccounts[0].PrivateKey, loadedAccounts[0].PrivateKey);
+            Assert.IsNull(loadedAccounts[0].GetPrivateKey());
         }
 
         [TestMethod, Ignore]
@@ -163,9 +167,13 @@ namespace Blockhub.Services
             var account1 = await WalletManager().GetAccount(wallet, 0);
             var account2 = await WalletManager().GetAccount(wallet, 1);
 
+            // To test the private key loader
+            account1.SetPrivateKey(null);
+
             Assert.AreNotEqual(account1.Address, account2.Address, true);
 
-            var response = await TransactionWrite().SendTransactionAsync(account1, account2.Address, new WeiCoin(100));
+            var writer = new LoadMissingPrivateKeyTransactionWrite<Ethereum.Ethereum>(TransactionWrite(), WalletManager());
+            var response = await writer.SendTransactionAsync(account1, account2.Address, new WeiCoin(100));
 
             Console.WriteLine($"From Address: {account1.Address}");
             Console.WriteLine($"To Address: {account2.Address}");

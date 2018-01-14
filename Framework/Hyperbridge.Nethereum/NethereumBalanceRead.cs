@@ -30,8 +30,7 @@ namespace Blockhub.Nethereum
 
         private N.Web3 GetClient(Account<Ethereum.Ethereum> account)
         {
-            var nethereumAccount = new N.Accounts.Account(account.PrivateKey);
-            return new N.Web3(nethereumAccount, Url);
+            return new N.Web3(Url);
         }
     }
 }

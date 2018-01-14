@@ -33,5 +33,7 @@ namespace Blockhub.Wallet
         /// <param name="startIndex">The starting index for generating accounts.</param>
         /// <returns></returns>
         Task<Account<T>[]> GenerateAccounts(Wallet<T> wallet, int count, int startIndex = 0);
+
+        Task<string> GetPrivateKey(Wallet<T> wallet, string address);
     }
 }

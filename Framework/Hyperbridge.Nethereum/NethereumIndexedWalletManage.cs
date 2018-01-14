@@ -35,14 +35,17 @@ namespace Blockhub.Nethereum
             var indices = Enumerable.Range(startIndex, count);
             return indices.Select(x =>
             {
-                var account = nethereumWallet.GetAccount(x);
-                return new Account<Ethereum.Ethereum>
+                var nAccount = nethereumWallet.GetAccount(x);
+                var account = new Account<Ethereum.Ethereum>
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "",
-                    Address = account.Address,
-                    PrivateKey = account.PrivateKey
+                    Address = nAccount.Address,
+                    Wallet = wallet
                 };
+                account.SetPrivateKey(nAccount.PrivateKey);
+
+                return account;
             }).ToArray();
         }
 
@@ -58,26 +61,39 @@ namespace Blockhub.Nethereum
             var foundAccount = CreateNetherumWallet(wallet).GetAccount(address, MaxIndexSearch);
             if (foundAccount == null) throw new WalletAddressNotFoundException<Ethereum.Ethereum>(this, address);
 
-            return new Account<Ethereum.Ethereum>
+            var account = new Account<Ethereum.Ethereum>
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "",
                 Address = foundAccount.Address,
-                PrivateKey = foundAccount.PrivateKey
+                Wallet = wallet
             };
+            account.SetPrivateKey(foundAccount.PrivateKey);
+
+            return account;
         }
 
         public async Task<Account<Ethereum.Ethereum>> GetAccount(Wallet<Ethereum.Ethereum> wallet, int index)
         {
             if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Index must be 0 or greater to generate an account based on index.");
-            var account = CreateNetherumWallet(wallet).GetAccount(index);
-            return new Account<Ethereum.Ethereum>
+            var nAccount = CreateNetherumWallet(wallet).GetAccount(index);
+
+            var account = new Account<Ethereum.Ethereum>
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "",
-                Address = account.Address,
-                PrivateKey = account.PrivateKey
+                Address = nAccount.Address,
+                Wallet = wallet
             };
+            account.SetPrivateKey(nAccount.PrivateKey);
+
+            return account;
+        }
+
+        public async Task<string> GetPrivateKey(Wallet<Ethereum.Ethereum> wallet, string address)
+        {
+            var nAccount = CreateNetherumWallet(wallet).GetAccount(address);
+            return nAccount.PrivateKey;
         }
     }
 }
