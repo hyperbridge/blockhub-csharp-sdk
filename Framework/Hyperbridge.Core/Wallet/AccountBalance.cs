@@ -1,4 +1,4 @@
-﻿namespace Blockhub.Services
+﻿namespace Blockhub.Wallet
 {
     public class AccountBalance
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blockhub.Services
+namespace Blockhub
 {
     public class Notification
     {

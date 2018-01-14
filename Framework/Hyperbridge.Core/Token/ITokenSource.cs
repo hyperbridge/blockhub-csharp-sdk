@@ -1,4 +1,4 @@
-﻿namespace Blockhub.Wallet
+﻿namespace Blockhub
 {
     public interface ITokenSource
     {

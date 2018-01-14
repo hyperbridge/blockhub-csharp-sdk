@@ -1,4 +1,4 @@
-﻿namespace Blockhub.Wallet
+﻿namespace Blockhub
 {
     /// <summary>
     /// Generates a new seed based on an algorithm.

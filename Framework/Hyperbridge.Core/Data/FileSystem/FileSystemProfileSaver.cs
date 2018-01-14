@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blockhub.Services
+namespace Blockhub.Data
 {
     public class FileSystemProfileSaver : ISaver<Profile>
     {

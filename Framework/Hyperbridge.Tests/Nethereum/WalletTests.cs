@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Blockhub.Services;
+using Blockhub.Wallet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NBitcoin;
 

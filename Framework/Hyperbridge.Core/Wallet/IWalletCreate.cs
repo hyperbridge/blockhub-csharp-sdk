@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blockhub.Services.Abstract
+namespace Blockhub.Wallet
 {
     public interface IWalletCreate<T> where T : ITokenSource
     {

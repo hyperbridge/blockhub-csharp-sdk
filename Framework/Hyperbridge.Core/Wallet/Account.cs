@@ -1,7 +1,6 @@
-﻿using Blockhub.Wallet;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Blockhub.Services
+namespace Blockhub.Wallet
 {
     public class Account<T> : ProfileObject where T : ITokenSource
     {

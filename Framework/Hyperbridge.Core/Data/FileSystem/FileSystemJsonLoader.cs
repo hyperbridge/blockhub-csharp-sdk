@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blockhub.Data.FileSystem
+namespace Blockhub.Data
 {
     public class FileSystemJsonLoader<T> : ILoader<T>
     {

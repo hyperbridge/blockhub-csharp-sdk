@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Blockhub.Services
+namespace Blockhub
 {
     public interface IProfileManager
     {

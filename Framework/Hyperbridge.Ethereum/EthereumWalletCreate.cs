@@ -1,6 +1,5 @@
 ﻿using System;
 using Blockhub.Wallet;
-using Blockhub.Services.Abstract;
 using System.Threading.Tasks;
 using Blockhub.Ethereum;
 using System.Linq;

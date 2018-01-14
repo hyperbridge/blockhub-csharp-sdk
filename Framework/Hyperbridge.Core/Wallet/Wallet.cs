@@ -1,5 +1,4 @@
-﻿using Blockhub.Services.Abstract;
-using Blockhub.Wallet;
+﻿using Blockhub.Wallet;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -8,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blockhub.Services
+namespace Blockhub.Wallet
 {
     public abstract class Wallet : ProfileObject
     {

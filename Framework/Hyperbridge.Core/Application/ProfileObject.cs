@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Blockhub.Services
+namespace Blockhub
 {
     public class ProfileObject
     {

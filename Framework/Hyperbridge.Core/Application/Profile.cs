@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Blockhub.Services
+namespace Blockhub
 {
     public class Profile : ProfileObject
     {
