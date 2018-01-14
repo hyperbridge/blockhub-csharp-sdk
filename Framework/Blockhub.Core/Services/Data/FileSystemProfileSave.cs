@@ -32,6 +32,8 @@ namespace Blockhub.Data
                 TypeNameHandling = TypeNameHandling.All
             });
 
+            // TODO: Protect from Threading Issues
+            // TODO: Check for file protections
             File.WriteAllText(filePath, json);
 
             return model.ProfileUri = FilePathToFileUri(filePath);

@@ -105,7 +105,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\Bip39SeedGenerator.cs" />
+    <Compile Include="Services\Bip39SeedGenerate.cs" />
     <Compile Include="Services\NethereumAccountCreate.cs" />
     <Compile Include="Services\NethereumBalanceRead.cs" />
     <Compile Include="Services\NethereumPrivateKeyGenerate.cs" />

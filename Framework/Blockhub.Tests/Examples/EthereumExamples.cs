@@ -38,7 +38,7 @@ namespace Blockhub.Services
         #region Helpers
         private Ethereum.EthereumWalletCreate WalletCreator()
         {
-            return new Ethereum.EthereumWalletCreate(new Bip39SeedGenerator(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve));
+            return new Ethereum.EthereumWalletCreate(new Bip39SeedGenerate(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve));
         }
 
         private NethereumAccountCreate WalletManager()

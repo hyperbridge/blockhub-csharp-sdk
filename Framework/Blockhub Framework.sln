@@ -7,13 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Core", "Blockhub.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Nethereum", "Blockhub.Nethereum\Blockhub.Nethereum.csproj", "{7ED43DCD-3E9C-4772-82D3-D910B61112F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task01-Nethereum Integration", "..\Examples\Task01-Nethereum Integration\Task01-Nethereum Integration.csproj", "{D17607E2-084C-C0D0-11F0-2C01B2B275B7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Tests", "Blockhub.Tests\Blockhub.Tests.csproj", "{20D78BC7-FFDD-4E9D-AC9D-52AAAA7837B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Ethereum", "Blockhub.Ethereum\Blockhub.Ethereum.csproj", "{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.EtherScan", "Blockhub.EtherScan\Blockhub.EtherScan.csproj", "{A661B2F8-7E5C-4214-9DE6-493117B069FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity Examples", "Unity Examples", "{FAABE244-5066-468D-BB4E-CC8C7A92F2AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic Nethereum Integration", "..\Examples\Basic Nethereum Integration\Basic Nethereum Integration.csproj", "{D17607E2-084C-C0D0-11F0-2C01B2B275B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum Services", "..\Examples\Nethereum Services\Nethereum Services.csproj", "{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum Services.Editor.Plugins", "..\Examples\Nethereum Services\Nethereum Services.Editor.Plugins.csproj", "{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum Services.Plugins", "..\Examples\Nethereum Services\Nethereum Services.Plugins.csproj", "{3A5C3C07-29CB-829C-4667-3A8D98B45E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +37,6 @@ Global
 		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ED43DCD-3E9C-4772-82D3-D910B61112F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{20D78BC7-FFDD-4E9D-AC9D-52AAAA7837B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{20D78BC7-FFDD-4E9D-AC9D-52AAAA7837B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20D78BC7-FFDD-4E9D-AC9D-52AAAA7837B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,9 +49,31 @@ Global
 		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A661B2F8-7E5C-4214-9DE6-493117B069FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5C3C07-29CB-829C-4667-3A8D98B45E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5C3C07-29CB-829C-4667-3A8D98B45E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5C3C07-29CB-829C-4667-3A8D98B45E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5C3C07-29CB-829C-4667-3A8D98B45E44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D17607E2-084C-C0D0-11F0-2C01B2B275B7} = {FAABE244-5066-468D-BB4E-CC8C7A92F2AD}
+		{28A5C213-8F3F-D5DB-70C9-437FEED6A6D1} = {FAABE244-5066-468D-BB4E-CC8C7A92F2AD}
+		{739EBBE6-CC6F-E0EB-0680-78A7655F7DE7} = {FAABE244-5066-468D-BB4E-CC8C7A92F2AD}
+		{3A5C3C07-29CB-829C-4667-3A8D98B45E44} = {FAABE244-5066-468D-BB4E-CC8C7A92F2AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0CB8B96F-A5DD-497E-9787-C45897B1AB54}

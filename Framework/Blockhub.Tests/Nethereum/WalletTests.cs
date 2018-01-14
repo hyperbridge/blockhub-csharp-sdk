@@ -62,7 +62,7 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public void Generate12WordMnemonicPhrase()
         {
-            var generator = new Bip39SeedGenerator(NBitcoin.Wordlist.English, WordCount.Twelve);
+            var generator = new Bip39SeedGenerate(NBitcoin.Wordlist.English, WordCount.Twelve);
             var phrase = generator.Generate();
 
             var words = phrase.Split(' ');
