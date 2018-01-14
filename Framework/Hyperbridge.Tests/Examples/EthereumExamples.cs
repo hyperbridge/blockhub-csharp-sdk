@@ -79,11 +79,13 @@ namespace Blockhub.Services
             Console.WriteLine($"Generator Seed: {wallet.Secret}");
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public async Task SavingProfileToDiskExample()
         {
-            var wallet = await WalletCreator().CreateWallet("SecretTest", "Test Wallet", "");
-            
+            var wallet = await WalletCreator().CreateWallet("candy maple cake bread pudding cream honey grace smooth crumble sweet blanket", "Test Wallet", "");
+            var account = await WalletManager().GetAccount(wallet, 0);
+            wallet.Accounts.Add(account);
+
             var notification = new Notification
             {
                 HasBeenShown = false,
@@ -134,7 +136,14 @@ namespace Blockhub.Services
             Assert.AreEqual(expectedWallets[0].Id, loadedWallets[0].Id);
             Assert.AreEqual(expectedWallets[0].Name, loadedWallets[0].Name);
             Assert.AreEqual(expectedWallets[0].Secret, loadedWallets[0].Secret);
-            Assert.AreEqual(expectedWallets[0].Accounts.Count, loadedWallets[0].Accounts.Count);
+
+            var expectedAccounts = expectedWallets[0].Accounts.ToArray();
+            var loadedAccounts = loadedWallets[0].Accounts.ToArray();
+            Assert.AreEqual(expectedAccounts.Count(), loadedAccounts.Count());
+            Assert.AreEqual(expectedAccounts[0].Address, loadedAccounts[0].Address);
+            Assert.AreEqual(expectedAccounts[0].Id, loadedAccounts[0].Id);
+            Assert.AreEqual(expectedAccounts[0].Name, loadedAccounts[0].Name);
+            Assert.AreEqual(expectedAccounts[0].PrivateKey, loadedAccounts[0].PrivateKey);
         }
 
         [TestMethod, Ignore]

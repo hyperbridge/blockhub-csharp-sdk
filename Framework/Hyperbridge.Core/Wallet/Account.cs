@@ -6,7 +6,7 @@ namespace Blockhub.Wallet
     {
         public string Address { get; set; }
 
-        [JsonIgnore]
+        // TODO: Do we need to hide this?
         public string PrivateKey { get; set; }
     }
 }
