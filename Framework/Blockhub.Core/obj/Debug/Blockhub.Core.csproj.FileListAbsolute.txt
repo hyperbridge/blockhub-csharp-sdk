@@ -1,0 +1,16 @@
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Blockhub.Core.csprojResolveAssemblyReference.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Blockhub.Core.csproj.CoreCompileInputs.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Blockhub.Core.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Blockhub.Core.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Blockhub.Core.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Hyperbridge.Core\obj\Debug\Blockhub.Core.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\bin\Debug\Blockhub.Core.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\bin\Debug\Blockhub.Core.pdb
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\obj\Debug\Blockhub.Core.csprojResolveAssemblyReference.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\obj\Debug\Blockhub.Core.csproj.CoreCompileInputs.cache
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\obj\Debug\Blockhub.Core.dll
+C:\Users\Justin.spectre\Source\Repos\app\Framework\Blockhub.Core\obj\Debug\Blockhub.Core.pdb
