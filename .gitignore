@@ -68,3 +68,5 @@ orleans.codegen.cs
 *.user
 *.userosscache
 *.sln.docstates
+
+!*.dll
