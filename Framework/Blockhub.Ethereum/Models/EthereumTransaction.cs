@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Numerics;
 using Blockhub.Transaction;
 using Blockhub.Wallet;
+using NBitcoin.BouncyCastle.Math;
+using Newtonsoft.Json;
 
 namespace Blockhub.Ethereum
 {
@@ -11,7 +12,11 @@ namespace Blockhub.Ethereum
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
         public WeiCoin Coin { get; set; }
-        public BigInteger Amount => Coin.ToTransactionAmount();
+
+        public BigInteger GetAmount()
+        {
+            return Coin.ToTransactionAmount();
+        }
 
         public ulong BlockNumber { get; set; }
         public string BlockHash { get; set; }

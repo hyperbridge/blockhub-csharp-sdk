@@ -1,5 +1,5 @@
-﻿using System;
-using System.Numerics;
+﻿using NBitcoin.BouncyCastle.Math;
+using System;
 
 namespace Blockhub.Transaction
 {
@@ -8,6 +8,6 @@ namespace Blockhub.Transaction
         DateTime TransactionTime { get; }
         string FromAddress { get; }
         string ToAddress { get; }
-        BigInteger Amount { get; }
+        BigInteger GetAmount();
     }
 }

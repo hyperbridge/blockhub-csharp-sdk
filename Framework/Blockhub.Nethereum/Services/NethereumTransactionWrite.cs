@@ -24,7 +24,7 @@ namespace Blockhub.Nethereum
             var wei = amount.ToTransactionAmount();
 
             var client = GetClient(fromAccount);
-            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAddress, new H.HexBigInteger(wei));
+            var hash = await client.TransactionManager.SendTransactionAsync(fromAccount.Address, toAddress, new H.HexBigInteger(wei.ToString()));
 
             // TODO: Can we ask ask for the Transaction Receipt immediately or do we have to wait? Do we even need it?
             return new TransactionSentResponse<Ethereum.Ethereum>(fromAccount, toAddress, amount, hash);

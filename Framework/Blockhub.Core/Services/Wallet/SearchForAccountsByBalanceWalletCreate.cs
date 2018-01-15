@@ -48,7 +48,7 @@ namespace Blockhub.Wallet
             {
                 var account = accountsToSearch[i];
                 var balance = await BalanceReader.GetBalance(account);
-                if (balance.ToTransactionAmount() > 0)
+                if (balance.ToTransactionAmount().LongValue > 0)
                 {
                     // Let's make sure this account doesn't exist for any reason in the wallet already
                     if (!wallet.Accounts.Any(x => x.Address.Equals(account.Address, StringComparison.OrdinalIgnoreCase)))

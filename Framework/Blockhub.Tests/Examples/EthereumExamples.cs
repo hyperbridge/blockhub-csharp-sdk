@@ -173,7 +173,7 @@ namespace Blockhub.Services
             Assert.AreNotEqual(account1.Address, account2.Address, true);
 
             var writer = new LoadMissingPrivateKeyTransactionWrite<Ethereum.Ethereum>(TransactionWrite(), new NethereumPrivateKeyGenerate());
-            var response = await writer.SendTransactionAsync(account1, account2.Address, new WeiCoin(100));
+            var response = await writer.SendTransactionAsync(account1, account2.Address, new WeiCoin(new NBitcoin.BouncyCastle.Math.BigInteger("100")));
 
             Console.WriteLine($"From Address: {account1.Address}");
             Console.WriteLine($"To Address: {account2.Address}");
@@ -191,7 +191,7 @@ namespace Blockhub.Services
             Console.WriteLine($"Total Transactions: {transactions.Count()}");
             foreach(var t in transactions)
             {
-                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.Amount} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
+                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.GetAmount()} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
             }
         }
 
@@ -206,7 +206,7 @@ namespace Blockhub.Services
             Console.WriteLine($"Total Transactions: {transactions.Count()}");
             foreach (var t in transactions)
             {
-                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.Amount} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
+                Console.WriteLine($"TimeStamp: {t.TransactionTime}, Amount: {t.GetAmount()} WEI, From: {t.FromAddress}, To: {t.ToAddress}");
             }
         }
     }

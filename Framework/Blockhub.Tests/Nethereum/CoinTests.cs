@@ -22,7 +22,7 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public void SingleWeiToEther()
         {
-            var weiCoin = new WeiCoin((BigInteger)1M);
+            var weiCoin = new WeiCoin(new NBitcoin.BouncyCastle.Math.BigInteger("1"));
             var etherCoin = (EtherCoin)weiCoin;
 
             Assert.AreEqual(1E-18M, etherCoin.Amount);

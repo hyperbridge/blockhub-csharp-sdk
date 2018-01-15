@@ -30,9 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NBitcoin">
+      <HintPath>..\..\Examples\Nethereum Services\Assets\Assemblies\3rd Party\NBitcoin.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Examples\Nethereum Services\Assets\Assemblies\3rd Party\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Models\Ethereum.cs" />
     <Compile Include="Models\EtherCoin.cs" />
-    <Compile Include="Services\EthereumTransaction.cs" />
+    <Compile Include="Models\EthereumTransaction.cs" />
     <Compile Include="Services\EthereumWalletCreate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\WeiCoin.cs" />

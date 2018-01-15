@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using NBitcoin.BouncyCastle.Math;
 
 namespace Blockhub.Ethereum
 {
@@ -30,13 +30,14 @@ namespace Blockhub.Ethereum
 
         public BigInteger ToTransactionAmount()
         {
-            return new BigInteger(Amount * TO_WEI_MULTIPLIER);
+            var converted = Amount * TO_WEI_MULTIPLIER;
+            return new BigInteger(converted.ToString("0"));
         }
 
         #region Operators
         public static implicit operator WeiCoin(EtherCoin ether)
         {
-            return new WeiCoin((BigInteger) (ether.Amount * TO_WEI_MULTIPLIER));
+            return new WeiCoin(new BigInteger((ether.Amount * TO_WEI_MULTIPLIER).ToString()));
         }
 
         public static EtherCoin operator +(EtherCoin left, EtherCoin right)
@@ -66,12 +67,12 @@ namespace Blockhub.Ethereum
 
         public static WeiCoin operator +(WeiCoin left, EtherCoin right)
         {
-            return new WeiCoin((BigInteger) (left.Amount + (right.Amount * TO_WEI_MULTIPLIER)));
+            return new WeiCoin(new BigInteger((left.Amount + (right.Amount * TO_WEI_MULTIPLIER)).ToString()));
         }
 
         public static WeiCoin operator -(WeiCoin left, EtherCoin right)
         {
-            return new WeiCoin((BigInteger) (left.Amount - (right.Amount * TO_WEI_MULTIPLIER)));
+            return new WeiCoin(new BigInteger((left.Amount - (right.Amount * TO_WEI_MULTIPLIER)).ToString()));
         }
         #endregion
     }

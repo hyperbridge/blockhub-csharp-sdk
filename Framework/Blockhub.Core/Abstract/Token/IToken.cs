@@ -1,5 +1,5 @@
-﻿using System;
-using System.Numerics;
+﻿using NBitcoin.BouncyCastle.Math;
+using System;
 
 namespace Blockhub
 {

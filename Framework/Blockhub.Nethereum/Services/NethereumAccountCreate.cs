@@ -86,7 +86,7 @@ namespace Blockhub.Nethereum
 
         private void AddAccountToWallet(Wallet<Ethereum.Ethereum> wallet, Account<Ethereum.Ethereum> account)
         {
-            if (string.IsNullOrEmpty(account.Name))
+            if (!string.IsNullOrEmpty(account.Name))
             {
                 var foundAccount = wallet.Accounts
                     .FirstOrDefault(x => x.Name.Equals(account.Name, StringComparison.OrdinalIgnoreCase));

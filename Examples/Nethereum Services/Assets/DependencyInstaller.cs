@@ -7,15 +7,35 @@ using Blockhub.Ethereum;
 using Blockhub.Transaction;
 using Blockhub.EtherScan;
 using Blockhub.Wallet;
+using System.Net;
+using System;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 public class DependencyInstaller : MonoInstaller<DependencyInstaller>
 {
+    public DependencyInstaller() : base()
+    {
+        ServicePointManager.ServerCertificateValidationCallback = CertificationCallback;
+    }
+
+    private bool CertificationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+    {
+        // NOTE: We need to figure out the best way to handle the certificate store.
+        // Mono has its own store and doesn't utilize the system's natural store
+        // reference: http://www.mono-project.com/docs/faq/security/
+        return true;
+    }
+
     public override void InstallBindings()
     {
-        const string PROFILE_DIRECTORY = "";
-        const string ETHERSCAN_API_KEY = "";
-        const string ETHEREUM_CLIENT_URI = "";
+        // These constants should be a dependency as well and loaded to easily
+        // be extracted
+        string PROFILE_DIRECTORY = System.IO.Path.GetFullPath("Profiles\\");
+        const string ETHERSCAN_API_KEY = "VYY443VRI78CT32DFB1TJVMR1KZPZK5B92";
+        const string ETHEREUM_CLIENT_URI = "https://ropsten.infura.io/ixskS1fXylG7pA5lOOAK";
         const int MAX_ACCOUNT_SEARCH_COUNT = 20;
+        const int MAX_ACCOUNT_BALANCE_CHECK = 10;
 
         Container.Bind<IProfileContextAccess>()
             .To<ProfileContextAccess>()
@@ -23,11 +43,11 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
 
         Container.Bind<ISave<Profile>>()
             .To<FileSystemProfileSave>()
-            .AsSingle();
-
-        Container.Bind<FileSystemJsonLoad<Profile>>()
             .AsSingle()
             .WithArguments(PROFILE_DIRECTORY);
+
+        Container.Bind<FileSystemJsonLoad<Profile>>()
+            .AsSingle();
             
         Container.Bind<ILoad<Profile>>()
             .FromMethod(c =>
@@ -40,7 +60,8 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
 
         Container.Bind<ISeedGenerate<string>>()
             .To<Bip39SeedGenerate>()
-            .AsSingle();
+            .AsSingle()
+            .WithArguments(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve);
 
         // Token Sources
         Container.Bind<ITokenSource>()
@@ -93,7 +114,7 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
                 var accountCreator = c.Container.Resolve<IAccountCreate<Ethereum>>();
                 var balanceReader = c.Container.Resolve<IBalanceRead<Ethereum>>();
 
-                var search = new SearchForAccountsByBalanceWalletCreate<Ethereum>(creator, accountCreator, balanceReader);
+                var search = new SearchForAccountsByBalanceWalletCreate<Ethereum>(creator, accountCreator, balanceReader, MAX_ACCOUNT_BALANCE_CHECK);
 
                 var pca = c.Container.Resolve<IProfileContextAccess>();
                 var autoAdd = new AutoAddToProfileWalletCreate<Ethereum>(search, pca);
@@ -102,5 +123,10 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
                 return new AutoSaveProfileWalletCreate<Ethereum>(autoAdd, pca, saver);
             })
             .AsSingle();
+
+        Container.Bind<IBalanceRead<Ethereum>>()
+            .To<NethereumBalanceRead>()
+            .AsSingle()
+            .WithArguments(ETHEREUM_CLIENT_URI);
     }
 }

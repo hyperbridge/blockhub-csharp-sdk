@@ -1,5 +1,6 @@
 ﻿using Blockhub.Ethereum;
 using Blockhub.Transaction;
+using NBitcoin.BouncyCastle.Math;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
-using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -108,7 +108,7 @@ namespace Blockhub.EtherScan
             public ulong TransactionIndex { get; set; }
             public string From { get; set; }
             public string To { get; set; }
-            public BigInteger Value { get; set; }
+            public string Value { get; set; }
             public ulong Gas { get; set; }
             public ulong GasPrice { get; set; }
             public ulong IsError { get; set; }
