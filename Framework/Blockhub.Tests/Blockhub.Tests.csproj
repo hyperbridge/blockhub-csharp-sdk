@@ -110,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\EthereumExamples.cs" />
-    <Compile Include="Nethereum\CoinTests.cs" />
+    <Compile Include="Nethereum\CurrencyTests.cs" />
     <Compile Include="Nethereum\WalletTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -26,40 +26,6 @@ namespace Blockhub.Nethereum
         }
 
         [TestMethod]
-        public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex()
-        {
-            var manager = new NethereumAccountCreate();
-            var wallet = new Wallet<Ethereum.Ethereum>
-            {
-                Secret = Seed
-            };
-
-            var account = await manager.CreateAccount(wallet, 15);
-            var foundAccount = await manager.CreateAccount(wallet, account.Address);
-
-            Assert.AreEqual(account.Address, foundAccount.Address, true);
-            Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);
-        }
-
-        // NOTE: This test takes longer than 10 seconds to run due to the large number of accounts to search.
-        //       Can reduce the number as necessary.
-        [TestMethod]
-        public async Task GetAccountByAddressReturnsIdenticalInformationBasedOnIndex_LargeIndexValue()
-        {
-            var manager = new NethereumAccountCreate(2000);
-            var wallet = new Wallet<Ethereum.Ethereum>
-            {
-                Secret = Seed
-            };
-
-            var account = await manager.CreateAccount(wallet, 1500);
-            var foundAccount = await manager.CreateAccount(wallet, account.Address);
-
-            Assert.AreEqual(account.Address, foundAccount.Address, true);
-            Assert.AreEqual(account.GetPrivateKey(), foundAccount.GetPrivateKey(), true);
-        }
-
-        [TestMethod]
         public void Generate12WordMnemonicPhrase()
         {
             var generator = new Bip39SeedGenerate(NBitcoin.Wordlist.English, WordCount.Twelve);

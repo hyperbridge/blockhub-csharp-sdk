@@ -31,7 +31,7 @@ namespace Blockhub.Ethereum
 
         public BigInteger ToTransactionAmount()
         {
-            return new BigInteger(Amount.ToString());
+            return _InternalAmount;
         }
 
         public string ToDisplayAmount()
