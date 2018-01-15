@@ -12,7 +12,7 @@ namespace Blockhub
         }
     }
 
-    public class InvalidPrivateKeyException<T> : InvalidPrivateKeyException where T : ITokenSource
+    public class InvalidPrivateKeyException<T> : InvalidPrivateKeyException where T : IBlockchainType
     {
         public Account<T> Account { get; }
         public InvalidPrivateKeyException(Account<T> account) : base(account?.Address)

@@ -27,7 +27,7 @@ namespace Blockhub
         [JsonProperty]
         public ICollection<ProfileObject> ProfileObjects { get; } = new Collection<ProfileObject>();
 
-        public IEnumerable<Wallet<T>> GetWallets<T>() where T : ITokenSource
+        public IEnumerable<Wallet<T>> GetWallets<T>() where T : IBlockchainType
         {
             return GetObjects<Wallet<T>>();
         }

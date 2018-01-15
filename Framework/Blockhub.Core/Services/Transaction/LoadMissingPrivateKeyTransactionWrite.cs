@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Blockhub.Transaction
 {
     public class LoadMissingPrivateKeyTransactionWrite<T> : ITransactionWrite<T>
-        where T : ITokenSource
+        where T : IBlockchainType
     {
         private ITransactionWrite<T> TransactionWriter { get; }
         private IPrivateKeyGenerate<T> PrivateKeyGenerator { get; }
@@ -15,7 +15,7 @@ namespace Blockhub.Transaction
             PrivateKeyGenerator = privateKeyGenerator ?? throw new ArgumentNullException(nameof(privateKeyGenerator));
         }
 
-        public async Task<TransactionSentResponse<T>> SendTransactionAsync(Account<T> fromAccount, string toAddress, IToken<T> amount)
+        public async Task<TransactionSentResponse<T>> SendTransactionAsync(Account<T> fromAccount, string toAddress, ICurrency<T> amount)
         {
             if (string.IsNullOrWhiteSpace(fromAccount.GetPrivateKey()))
             {

@@ -13,8 +13,8 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public void SingleEtherToWei()
         {
-            var etherCoin = new EtherCoin(1M);
-            var weiCoin = (WeiCoin)etherCoin;
+            var etherCoin = new Ether(1M);
+            var weiCoin = (Wei)etherCoin;
 
             Assert.AreEqual(1E18M, weiCoin.Amount);
         }
@@ -22,8 +22,8 @@ namespace Blockhub.Nethereum
         [TestMethod]
         public void SingleWeiToEther()
         {
-            var weiCoin = new WeiCoin(new NBitcoin.BouncyCastle.Math.BigInteger("1"));
-            var etherCoin = (EtherCoin)weiCoin;
+            var weiCoin = new Wei(new NBitcoin.BouncyCastle.Math.BigInteger("1"));
+            var etherCoin = (Ether)weiCoin;
 
             Assert.AreEqual(1E-18M, etherCoin.Amount);
         }

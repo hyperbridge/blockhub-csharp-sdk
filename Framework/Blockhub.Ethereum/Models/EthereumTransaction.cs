@@ -11,7 +11,7 @@ namespace Blockhub.Ethereum
         public DateTime TransactionTime { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
-        public WeiCoin Coin { get; set; }
+        public Wei Coin { get; set; }
 
         public BigInteger GetAmount()
         {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Wallet
 {
-    public class AutoSaveProfileAccountCreate<T> : IAccountCreate<T> where T : ITokenSource
+    public class AutoSaveProfileAccountCreate<T> : IAccountCreate<T> where T : IBlockchainType
     {
         private IAccountCreate<T> InnerCreate { get; }
         private IProfileContextAccess ProfileAccessor { get; }

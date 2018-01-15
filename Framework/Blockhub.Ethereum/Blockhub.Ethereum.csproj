@@ -47,12 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Ether.cs" />
     <Compile Include="Models\Ethereum.cs" />
-    <Compile Include="Models\EtherCoin.cs" />
     <Compile Include="Models\EthereumTransaction.cs" />
+    <Compile Include="Models\Wei.cs" />
     <Compile Include="Services\EthereumWalletCreate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\WeiCoin.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blockhub.Core\Blockhub.Core.csproj">

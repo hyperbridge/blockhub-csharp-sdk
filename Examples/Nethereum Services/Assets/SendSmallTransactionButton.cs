@@ -53,7 +53,7 @@ public class SendSmallTransactionButton : BaseButton {
                 toAccount = wallet.Accounts.ElementAt(1);
             }
 
-            var response = await TransactionWriter.SendTransactionAsync(account, toAccount.Address, new WeiCoin(new NBitcoin.BouncyCastle.Math.BigInteger("100")));
+            var response = await TransactionWriter.SendTransactionAsync(account, toAccount.Address, new Wei(new NBitcoin.BouncyCastle.Math.BigInteger("100")));
             Message($"Transaction Successful! Transaction Hash = {response.TransactionHash}");
         }
         catch (Exception ex)

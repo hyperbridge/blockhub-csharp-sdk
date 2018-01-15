@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Wallet
 {
-    public interface IBalanceRead<T> where T : ITokenSource
+    public interface IBalanceRead<T> where T : IBlockchainType
     {
-        Task<IToken<T>> GetBalance(Account<T> account);
+        Task<ICurrency<T>> GetBalance(Account<T> account);
     }
 }

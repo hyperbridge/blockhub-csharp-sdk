@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Transaction
 {
-    public interface ITransactionWrite<T> where T : ITokenSource
+    public interface ITransactionWrite<T> where T : IBlockchainType
     {
-        Task<TransactionSentResponse<T>> SendTransactionAsync(Account<T> fromAccount, string toAddress, IToken<T> amount);
+        Task<TransactionSentResponse<T>> SendTransactionAsync(Account<T> fromAccount, string toAddress, ICurrency<T> amount);
     }
 }

@@ -16,7 +16,7 @@ namespace Blockhub.Wallet
     }
 
     public class Wallet<T> : Wallet 
-        where T : ITokenSource
+        where T : IBlockchainType
     {
         [JsonProperty]
         public ICollection<Account<T>> Accounts { get; } = new Collection<Account<T>>();

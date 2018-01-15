@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Wallet
 {
-    public class SearchForAccountsByBalanceWalletCreate<T> : IWalletCreate<T> where T : ITokenSource
+    public class SearchForAccountsByBalanceWalletCreate<T> : IWalletCreate<T> where T : IBlockchainType
     {
         private IWalletCreate<T> WalletCreator { get; }
         private IAccountCreate<T> WalletManager { get; }

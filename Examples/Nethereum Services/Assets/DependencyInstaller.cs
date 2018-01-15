@@ -64,7 +64,7 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
             .WithArguments(NBitcoin.Wordlist.English, NBitcoin.WordCount.Twelve);
 
         // Token Sources
-        Container.Bind<ITokenSource>()
+        Container.Bind<IBlockchainType>()
             .FromInstance(Ethereum.Instance)
             .AsSingle();
 

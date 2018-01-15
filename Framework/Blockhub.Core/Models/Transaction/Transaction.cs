@@ -10,13 +10,13 @@ namespace Blockhub.Services
         public virtual string FromAddress { get; }
         public virtual string ToAddress { get; }
 
-        public abstract IToken Amount { get; }
+        public abstract ICurrency Amount { get; }
     }
 
     public class Transaction<T> : Transaction
-        where T : ITokenSource
+        where T : IBlockchainType
     {
-        public Transaction(DateTime timestamp, Account<T> account, string toAddress, IToken<T> amount) : base()
+        public Transaction(DateTime timestamp, Account<T> account, string toAddress, ICurrency<T> amount) : base()
         {
             TimeStamp = DateTime.UtcNow;
             Account = account ?? throw new ArgumentNullException(nameof(account));
@@ -28,8 +28,8 @@ namespace Blockhub.Services
         public override string FromAddress => Account.Address;
         public override string ToAddress { get; }
 
-        public override IToken Amount => TokenAmount;
-        public IToken<T> TokenAmount { get; }
+        public override ICurrency Amount => TokenAmount;
+        public ICurrency<T> TokenAmount { get; }
         public Account<T> Account { get; }
     }
 }

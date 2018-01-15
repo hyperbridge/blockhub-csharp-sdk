@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Ethereum
 {
-    public class Ethereum : ITokenSource
+    public class Ethereum : IBlockchainType
     {
         protected Ethereum() { }
 

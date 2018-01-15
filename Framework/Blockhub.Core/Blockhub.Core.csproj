@@ -83,8 +83,8 @@
     <Compile Include="Abstract\Transaction\ITransactionWrite.cs" />
     <Compile Include="Models\Transaction\TransactionSentResponse.cs" />
     <Compile Include="Abstract\Wallet\IBalanceRead.cs" />
-    <Compile Include="Abstract\Token\IToken.cs" />
-    <Compile Include="Abstract\Token\ITokenSource.cs" />
+    <Compile Include="Abstract\Token\ICurrency.cs" />
+    <Compile Include="Abstract\Token\IBlockchainType.cs" />
     <Compile Include="Abstract\Generator\ISeedGenerate.cs" />
     <Compile Include="Exceptions\WalletAddressNotFoundException.cs" />
   </ItemGroup>

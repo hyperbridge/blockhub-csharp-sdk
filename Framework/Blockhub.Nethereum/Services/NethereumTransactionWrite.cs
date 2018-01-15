@@ -19,7 +19,7 @@ namespace Blockhub.Nethereum
             Url = url;
         }
 
-        public async Task<TransactionSentResponse<Ethereum.Ethereum>> SendTransactionAsync(Account<Ethereum.Ethereum> fromAccount, string toAddress, IToken<Ethereum.Ethereum> amount)
+        public async Task<TransactionSentResponse<Ethereum.Ethereum>> SendTransactionAsync(Account<Ethereum.Ethereum> fromAccount, string toAddress, ICurrency<Ethereum.Ethereum> amount)
         {
             var wei = amount.ToTransactionAmount();
 

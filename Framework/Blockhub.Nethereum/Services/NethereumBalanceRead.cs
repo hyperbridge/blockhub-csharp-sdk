@@ -17,7 +17,7 @@ namespace Blockhub.Nethereum
             Url = url;
         }
 
-        public async Task<IToken<Ethereum.Ethereum>> GetBalance(Account<Ethereum.Ethereum> account)
+        public async Task<ICurrency<Ethereum.Ethereum>> GetBalance(Account<Ethereum.Ethereum> account)
         {
             if (account == null) throw new ArgumentNullException(nameof(account));
 
@@ -25,7 +25,7 @@ namespace Blockhub.Nethereum
             var balance = await client.Eth.GetBalance.SendRequestAsync(account.Address);
             decimal ether = N.Web3.Convert.FromWei(balance);
 
-            return new EtherCoin(ether);
+            return new Ether(ether);
         }
 
         private N.Web3 GetClient(Account<Ethereum.Ethereum> account)

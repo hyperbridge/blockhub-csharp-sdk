@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blockhub.Wallet
 {
-    public interface IAccountCreate<T> where T : ITokenSource
+    public interface IAccountCreate<T> where T : IBlockchainType
     {
         /// <summary>
         /// Get an account by the address provided. An WalletAddressNotFoundException is thrown when it was not found.

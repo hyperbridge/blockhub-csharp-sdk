@@ -63,7 +63,7 @@ namespace Blockhub.EtherScan
             {
                 BlockHash = x.BlockHash,
                 BlockNumber = x.BlockNumber,
-                Coin = new WeiCoin(x.Value),
+                Coin = new Wei(x.Value),
                 ContractAddress = x.ContractAddress,
                 CumulativeGasUsed = x.CumulativeGasUsed,
                 FromAddress = x.From,

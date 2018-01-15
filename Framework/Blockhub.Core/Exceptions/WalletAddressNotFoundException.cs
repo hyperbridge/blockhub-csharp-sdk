@@ -22,7 +22,7 @@ namespace Blockhub
         }
     }
 
-    public class WalletAddressNotFoundException<T> : WalletAddressNotFoundException where T : ITokenSource
+    public class WalletAddressNotFoundException<T> : WalletAddressNotFoundException where T : IBlockchainType
     {
         public IAccountCreate<T> Wallet { get; }
 

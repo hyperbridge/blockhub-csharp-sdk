@@ -2,7 +2,7 @@
 
 namespace Blockhub.Wallet
 {
-    public class Account<T> : ProfileObject where T : ITokenSource
+    public class Account<T> : ProfileObject where T : IBlockchainType
     {
         public Wallet<T> Wallet { get; set; }
         public string Address { get; set; }
