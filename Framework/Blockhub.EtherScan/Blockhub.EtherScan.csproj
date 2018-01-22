@@ -7,8 +7,8 @@
     <ProjectGuid>{A661B2F8-7E5C-4214-9DE6-493117B069FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blockhub.EtherScan</RootNamespace>
-    <AssemblyName>Blockhub.EtherScan</AssemblyName>
+    <RootNamespace>Blockhub.Etherscan</RootNamespace>
+    <AssemblyName>Blockhub.Etherscan</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blockhub.Core\Blockhub.Core.csproj">
+    <ProjectReference Include="..\Blockhub\Blockhub.csproj">
       <Project>{2716e6e6-4f4a-47e6-95c5-af099af0022b}</Project>
-      <Name>Blockhub.Core</Name>
+      <Name>Blockhub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blockhub.Ethereum\Blockhub.Ethereum.csproj">
       <Project>{acb9edc7-e691-4cb2-8193-58d7ebd92fd8}</Project>

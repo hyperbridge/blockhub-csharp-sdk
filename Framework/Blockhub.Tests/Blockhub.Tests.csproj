@@ -109,8 +109,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmulateAccountCreate.cs" />
+    <Compile Include="EmulateLoad.cs" />
+    <Compile Include="EmulatePrivateKeyGenerator.cs" />
+    <Compile Include="EmulateSave.cs" />
+    <Compile Include="EmulateTransactionWrite.cs" />
+    <Compile Include="EmulateWalletCreate.cs" />
     <Compile Include="Examples\EthereumExamples.cs" />
     <Compile Include="Nethereum\CurrencyTests.cs" />
+    <Compile Include="Nethereum\GeneratorTests.cs" />
+    <Compile Include="Nethereum\ProfileTests.cs" />
     <Compile Include="Nethereum\WalletTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -120,17 +128,17 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blockhub.Core\Blockhub.Core.csproj">
+    <ProjectReference Include="..\Blockhub\Blockhub.csproj">
       <Project>{2716e6e6-4f4a-47e6-95c5-af099af0022b}</Project>
-      <Name>Blockhub.Core</Name>
+      <Name>Blockhub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blockhub.Ethereum\Blockhub.Ethereum.csproj">
       <Project>{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}</Project>
       <Name>Blockhub.Ethereum</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Blockhub.EtherScan\Blockhub.EtherScan.csproj">
+    <ProjectReference Include="..\Blockhub.EtherScan\Blockhub.Etherscan.csproj">
       <Project>{a661b2f8-7e5c-4214-9de6-493117b069fe}</Project>
-      <Name>Blockhub.EtherScan</Name>
+      <Name>Blockhub.Etherscan</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blockhub.Nethereum\Blockhub.Nethereum.csproj">
       <Project>{7ed43dcd-3e9c-4772-82d3-d910b61112f1}</Project>

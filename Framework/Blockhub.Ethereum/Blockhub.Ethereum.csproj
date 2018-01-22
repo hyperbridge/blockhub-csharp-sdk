@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blockhub.Core\Blockhub.Core.csproj">
+    <ProjectReference Include="..\Blockhub\Blockhub.csproj">
       <Project>{2716e6e6-4f4a-47e6-95c5-af099af0022b}</Project>
-      <Name>Blockhub.Core</Name>
+      <Name>Blockhub</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -271,8 +271,8 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="Blockhub.Core">
-      <HintPath>Assets/Assemblies/Blockhub.Core.dll</HintPath>
+    <Reference Include="Blockhub">
+      <HintPath>Assets/Assemblies/Blockhub.dll</HintPath>
     </Reference>
     <Reference Include="Blockhub.Ethereum">
       <HintPath>Assets/Assemblies/Blockhub.Ethereum.dll</HintPath>

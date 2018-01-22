@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Core", "Blockhub.Core\Blockhub.Core.csproj", "{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub", "Blockhub\Blockhub.csproj", "{2716E6E6-4F4A-47E6-95C5-AF099AF0022B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Nethereum", "Blockhub.Nethereum\Blockhub.Nethereum.csproj", "{7ED43DCD-3E9C-4772-82D3-D910B61112F1}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Tests", "Blockhub.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Ethereum", "Blockhub.Ethereum\Blockhub.Ethereum.csproj", "{ACB9EDC7-E691-4CB2-8193-58D7EBD92FD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.EtherScan", "Blockhub.EtherScan\Blockhub.EtherScan.csproj", "{A661B2F8-7E5C-4214-9DE6-493117B069FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockhub.Etherscan", "Blockhub.EtherScan\Blockhub.Etherscan.csproj", "{A661B2F8-7E5C-4214-9DE6-493117B069FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity Examples", "Unity Examples", "{FAABE244-5066-468D-BB4E-CC8C7A92F2AD}"
 EndProject

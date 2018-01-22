@@ -79,7 +79,7 @@ namespace Blockhub.Nethereum
             };
             account.SetPrivateKey(nAccount.PrivateKey);
 
-            AddAccountToWallet(wallet, account);
+            //AddAccountToWallet(wallet, account);
 
             return account;
         }

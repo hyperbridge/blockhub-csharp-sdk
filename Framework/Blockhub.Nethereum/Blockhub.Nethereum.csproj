@@ -105,7 +105,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\Bip39SeedGenerate.cs" />
     <Compile Include="Services\NethereumAccountCreate.cs" />
     <Compile Include="Services\NethereumBalanceRead.cs" />
     <Compile Include="Services\NethereumPrivateKeyGenerate.cs" />
@@ -118,9 +117,9 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blockhub.Core\Blockhub.Core.csproj">
+    <ProjectReference Include="..\Blockhub\Blockhub.csproj">
       <Project>{2716e6e6-4f4a-47e6-95c5-af099af0022b}</Project>
-      <Name>Blockhub.Core</Name>
+      <Name>Blockhub</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blockhub.Ethereum\Blockhub.Ethereum.csproj">
       <Project>{acb9edc7-e691-4cb2-8193-58d7ebd92fd8}</Project>

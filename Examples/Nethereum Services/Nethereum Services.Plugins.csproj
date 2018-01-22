@@ -229,8 +229,8 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Blockhub.Core">
-      <HintPath>Assets/Assemblies/Blockhub.Core.dll</HintPath>
+    <Reference Include="Blockhub">
+      <HintPath>Assets/Assemblies/Blockhub.dll</HintPath>
     </Reference>
     <Reference Include="Blockhub.Ethereum">
       <HintPath>Assets/Assemblies/Blockhub.Ethereum.dll</HintPath>

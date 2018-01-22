@@ -35,7 +35,6 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
         const string ETHERSCAN_API_KEY = "VYY443VRI78CT32DFB1TJVMR1KZPZK5B92";
         const string ETHEREUM_CLIENT_URI = "https://ropsten.infura.io/ixskS1fXylG7pA5lOOAK";
         const int MAX_ACCOUNT_SEARCH_COUNT = 20;
-        const int MAX_ACCOUNT_BALANCE_CHECK = 10;
 
         Container.Bind<IProfileContextAccess>()
             .To<ProfileContextAccess>()
@@ -98,26 +97,25 @@ public class DependencyInstaller : MonoInstaller<DependencyInstaller>
             .FromMethod(c =>
             {
                 var creator = c.Container.Resolve<NethereumAccountCreate>();
-                var pca = c.Container.Resolve<IProfileContextAccess>();
-                var saver = c.Container.Resolve<ISave<Profile>>();
-                return new AutoSaveProfileAccountCreate<Ethereum>(creator, pca, saver);
+                return creator;
+
             })
             .AsSingle();
 
         Container.Bind<EthereumWalletCreate>()
             .AsSingle();
 
+        Container.Bind<IAccountSearcher<Ethereum>>()
+            .To<StandardAccountSearcher<Ethereum>>()
+            .AsSingle();
+
         Container.Bind<IWalletCreate<Ethereum>>()
             .FromMethod(c =>
             {
                 var creator = c.Container.Resolve<EthereumWalletCreate>();
-                var accountCreator = c.Container.Resolve<IAccountCreate<Ethereum>>();
-                var balanceReader = c.Container.Resolve<IBalanceRead<Ethereum>>();
-
-                var search = new SearchForAccountsByBalanceWalletCreate<Ethereum>(creator, accountCreator, balanceReader, MAX_ACCOUNT_BALANCE_CHECK);
 
                 var pca = c.Container.Resolve<IProfileContextAccess>();
-                var autoAdd = new AutoAddToProfileWalletCreate<Ethereum>(search, pca);
+                var autoAdd = new AutoAddToProfileWalletCreate<Ethereum>(creator, pca);
 
                 var saver = c.Container.Resolve<ISave<Profile>>();
                 return new AutoSaveProfileWalletCreate<Ethereum>(autoAdd, pca, saver);

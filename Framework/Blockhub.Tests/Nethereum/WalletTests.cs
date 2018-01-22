@@ -7,6 +7,7 @@ using NBitcoin;
 
 namespace Blockhub.Nethereum
 {
+
     [TestClass]
     public class WalletTests
     {
